@@ -1,0 +1,10 @@
+<html>
+<?php
+	if($c = OCILogon("ora_w1d8", "a35861111", "ug")) {
+		echo "Sucessfully connected to Oracle. \n";
+		OCILogoff($c);
+	} else {
+		$err = OCIError();
+		echo "Oracle Connect error" . $err['message'];
+?>
+</html>
