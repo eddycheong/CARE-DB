@@ -1,5 +1,22 @@
 <?php
 include "db.php"; // Oracle login information
+ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
+session_start();
+
+
+
+//session_save_path("~/public_html/sessions");
+//echo session_save_path(), "<br>";
+//echo $_SESSION['user'], "<br>";
+
+//ini_set('session.gc_probability', 1);
+// If the user is already logged in, redirect them their default page
+
+if (isset($_SESSION['login'])) {
+	//header("Location: redirect.php");
+	echo $_SESSION['login'], "<br>";
+}
+
 
 // Server Code Implementation goes here
 // eg. Oracle login
@@ -49,7 +66,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($check == 1) {
 		// A match in the database. Valid login
 		// TODO: Save the session
+		$_SESSION['login'] = "$uname";
+		//echo isset($_SESSION['login']);
 		header ("Location: template.php");
+		//exit;
 			
 	} else {
 		// No match found from the database
@@ -69,7 +89,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<?php
 		echo $errmsg, "<br>";
 	?>
-	<form name = "" method = "post" action = "<?php echo $_SERVER['PHP_SELF']; ?>" >
+	<form name = "" method = "post">
 		<input type = "text" name ="usr" value"">
 		<br>
 		<input type = "password" name = "pwd" value "" maxlength="16">

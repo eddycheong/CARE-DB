@@ -1,11 +1,15 @@
 <?php
 include 'db.php';
-ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
-session_start();
 
-if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
-	header("Location: login.php");
-}
+session_start();
+echo "session login below <br>";
+echo $_SESSION['login'], "<br>";
+echo "session login above <br>";
+
+
+//if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+//	header("Location: login.php");
+//}
 /* 
 PHP code can be inserted anywhere, it is my practice to
 write most of PHP code on top.
