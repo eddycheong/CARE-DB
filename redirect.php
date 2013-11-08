@@ -1,48 +1,52 @@
 <?php
 include 'db.php';
-
+ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
 session_start();
-echo "session login below <br>";
-echo $_SESSION['login'], "<br>";
-echo "session login above <br>";
 
-
-//if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
-//	header("Location: login.php");
-//}
-/* 
-PHP code can be inserted anywhere, it is my practice to
-write most of PHP code on top.
-
-replace "TEMPLATE" with the specification for the page.
-
-*/
-
-////////////////////////////////
-// MUST DO FOR EVERY NEW FILE //
-////////////////////////////////
-
-// Each new file you create (eg. newpage.php), execute this command
-// in console: chmod 755 newpage.php
+// If no one is logged in, redirect them to the login page
+if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+	header("Location: login.php");
+}
 
 //===================
 // CONNECT TO ORACLE
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-	echo "Connected to Oracle\n";
 
-	// TEMPLATE
+	$query = "select *
+		  from doctor
+		  where loginid = '". $_SESSION['login'] ."'"; 
 	
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+	oci_fetch_all($s, $res);
+
+	if(oci_num_rows($s) == 1)
+		$_SESSION['doctor'] = true;
+
+	oci_free_statement($s);
+
 	oci_close($c);
 } else {
 	$err = oci_error();
 	echo "Oracle Connect Error " . $err['message'];
 }
 
-?>
 
-<html>
-<title>TEMPLATE</title>
-<body>
-</body>
-</html>
+//TODO: Decide if each page will change view depending on user,
+// or each page will be user-specific
+
+// Redirect user depending on their status (or occupation)
+if(isset($_SESSION['doctor'])) {
+	// The user is a doctor
+	header("Location: dashboard.php");
+} elseif($_SESSION['login'] == 'admin') {
+	// The user is an admin
+	//header("Location: admindashboard");
+} else {
+	// The user is a receptionist
+	header("Location: template.php");
+}
+
+
+?>

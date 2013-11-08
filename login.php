@@ -3,20 +3,14 @@ include "db.php"; // Oracle login information
 ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
 session_start();
 
-
-
-//session_save_path("~/public_html/sessions");
-//echo session_save_path(), "<br>";
 //echo $_SESSION['user'], "<br>";
 
 //ini_set('session.gc_probability', 1);
 // If the user is already logged in, redirect them their default page
 
 if (isset($_SESSION['login'])) {
-	//header("Location: redirect.php");
-	echo $_SESSION['login'], "<br>";
+	header("Location: redirect.php");
 }
-
 
 // Server Code Implementation goes here
 // eg. Oracle login
@@ -68,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// TODO: Save the session
 		$_SESSION['login'] = "$uname";
 		//echo isset($_SESSION['login']);
-		header ("Location: template.php");
+		header ("Location: redirect.php");
 		//exit;
 			
 	} else {
