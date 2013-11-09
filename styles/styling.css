@@ -1,0 +1,68 @@
+body
+{
+	background-color: #E4EEE7;
+}
+
+#header
+{
+	position: absolute;
+	left: 0;	
+	background-color: #A8D8FF;
+	text-align: center;
+	width: 100%;
+}
+
+#side-panel
+{
+	margin-top: 4.5%;
+	position: absolute;
+	left: 0;
+	background-color: red;
+	height: 100%;
+	width: 10%;
+}
+
+#side-link
+{
+	border: 3px ridge blue;
+	text-align: center;
+	background-color: white;
+	height: 30px;
+	width: 100%;
+	line-height: 30px;
+}
+
+#leftMargin
+{
+	position: absolute;
+	right: 0px;
+	background-color: #A8D8FF;
+	height: 100%;
+	width: 2%;
+}
+
+#footer {
+	position: relative;
+	bottom: 0;
+	background-color: #A8D8FF;
+	height: 2%;
+	width: 100%;
+}
+
+#content
+{
+	margin-top: 4.5%;
+	margin-left: 9.5%;
+	background-color: white;
+	height: 100%;
+	width: 100%;
+}
+
+a.fill-link
+{
+	display: block;
+	color: black;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+}

@@ -1,6 +1,6 @@
 <?php
-include "global.php";
-include "links.php";
+include 'db.php';
+include 'links.php';
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -37,37 +37,7 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 <!--Design the page below-->
 <html>
-<head>
-	<title>template</title>
-	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
-</head>
+<title>TEMPLATE</title>
 <body>
-	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Template </h1>
-	</div>
-
-	<div id = "side-panel">
-	<?php
-		// assign arr based on user type
-		$arr = $rArr;
-
-		foreach ($arr as $key => $value) {
-			echo '<div id = "side-link">';
-			echo '<a href = "'. $value .'" class = "fill-link">'. $key .'</a>';
-			echo '</div>';
-		}
-	?>
-	</div>
-
-	<div id = "content">
-		Content appears here
-	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
-
-	<div id = "footer">
-	</div>
--->
 </body>
 </html>

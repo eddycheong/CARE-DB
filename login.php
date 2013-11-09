@@ -1,5 +1,5 @@
 <?php
-include "db.php"; // Oracle login information
+include "global.php"; // Oracle login information
 ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
 session_start();
 
