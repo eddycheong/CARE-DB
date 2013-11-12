@@ -13,9 +13,6 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -23,63 +20,44 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+//===================
+// CONNECT TO ORACLE
+//===================
+if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	// Obtain the search statement
-	$search = $_POST['search'];
-	//echo $search;
+	// TEMPLATE
+	// Implement any sql queries you desire to obtain from oracle
 
-	// TODO: break down the search into substrings
-	// needed?
-
-	//===================
-	// CONNECT TO ORACLE
-	//===================
-	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-
-		// Template search query, replace table and attribute
-		$query = "select *
-			 from table
-			 where attribute = '". $search ."'";
-		$s = oci_parse($c, $query);
-		oci_execute($s);
-		
-		//Oracle Fetches
-
-		oci_close($c);
-	} else {
-		$err = oci_error();
-		echo "Oracle Connect Error " . $err['message'];
-	}
+	oci_close($c);
+} else {
+	$err = oci_error();
+	echo "Oracle Connect Error " . $err['message'];
 }
+
 ?>
 
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Appointment</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body>
 	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Template </h1>
+		<h1 style = "margin-bottom: 0;"> Appointment </h1>
 	</div>
-	<!--
+
 	<div id = "side-panel">
 	<?php
 		// assign arr based on user type
 		$arr = $rArr;
 		
-		//buildSideLink($arr);
+		buildSideLink($arr);
 	?>
 	</div>
-	-->
 
 	<div id = "content">
 		Content appears here
-		<form id = "search" name "" method= "post">
-			<input type = text name = "search" value "">
-		</form>
 	</div>
 <!-- Need to learn divs, work on UI later-->
 <!--	<div id = "leftMargin">
