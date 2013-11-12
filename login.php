@@ -9,7 +9,7 @@ session_start();
 // If the user is already logged in, redirect them their default page
 
 if (isset($_SESSION['login'])) {
-	header("Location: redirect.php");
+	header("Location: dashboard.php");
 }
 
 // Server Code Implementation goes here
@@ -50,6 +50,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$check = oci_num_rows($s);
 		oci_free_statement($s);
 
+		// Check if the valid user is a doctor
+		if($check == 1)	{
+			$query = "select *
+				  from doctor
+				  where loginid = '". $uname ."'";
+	
+			$s = oci_parse($c, $query);
+			oci_execute($s);
+			oci_fetch_all($s, $res);
+
+			if(oci_num_rows($s) == 1)
+				$_SESSION['doctor'] = true;
+			oci_free_statement($s);
+		}
+
 		oci_close($c);
 	} else {
 		$err = oci_error();
@@ -59,11 +74,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// Check if username and password matched with anything from oracle
 	if ($check == 1) {
 		// A match in the database. Valid login
-		// TODO: Save the session
 		$_SESSION['login'] = "$uname";
-		//echo isset($_SESSION['login']);
-		header ("Location: redirect.php");
-		//exit;
+		header ("Location: dashboard.php");
 			
 	} else {
 		// No match found from the database

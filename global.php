@@ -9,11 +9,25 @@
 
 	// Receptionist List
 	$rArr = array(
-		"Appointment" => "dashboard.php",
-		"Test" => "setappointment.php"
+		"Dashboard" => "dashboard.php",
+		"Appointment" => "appointment.php",
+		"Patients" => "template.php",
+		"Set Appointment" => "setappointment.php"
 	);	
 
 	// Doctor List
+	$dArr = array(
+		"Dashboard" => "dashboard.php",
+		"Appointment" => "appointment.php",
+		"Patients" => "template.php"
+	);
 
 	// Admin List
+	$aArr = array(
+		"Dashboard" => "dashboard.php",
+		"Appointment" => "appointment.php",
+		"Employees" => "template.php",
+		"Patients" => "template.php",
+		"Activity Logs" => "log.php"
+	);
 ?>
