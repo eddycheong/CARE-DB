@@ -1,6 +1,13 @@
 body
 {
 	background-color: #E4EEE7;
+	/*text-align: center;*/
+}
+
+#format
+{
+	text-align: center;
+	border: 1px;
 }
 
 #header
@@ -52,7 +59,7 @@ body
 #content
 {
 	margin-top: 4.5%;
-	margin-left: 9.5%;
+	/*margin-left: 9.5%;*/
 	background-color: white;
 	height: 100%;
 	width: 100%;
