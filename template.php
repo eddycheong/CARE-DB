@@ -29,8 +29,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$search = $_POST['search'];
 	//echo $search;
 
-	// TODO: break down the search into substrings
-	// needed?
+	// Break down the string into pieces
+	$pieces = explode(" ", $search);
+	$n_pieces = sizeof($pieces);
 
 	//===================
 	// CONNECT TO ORACLE
@@ -38,14 +39,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		$query = "select *
-			 from table
-			 where attribute = '". $search ."'";
+		$query = searchByParts($n_pieces, $pieces);
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		
 		//Oracle Fetches
-
+		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 		oci_close($c);
 	} else {
 		$err = oci_error();
@@ -60,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<title>Template</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
-<body>
+<body style = "text-align: center;">
 	<div id = "header">
 		<h1 style = "margin-bottom: 0;"> Template </h1>
 	</div>
@@ -68,7 +67,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<div id = "side-panel">
 	<?php
 		// assign arr based on user type
-		$arr = $rArr;
 		
 		//buildSideLink($arr);
 	?>
@@ -80,6 +78,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<form id = "search" name "" method= "post">
 			<input type = text name = "search" value "">
 		</form>
+
+		<?php
+		// sample code to use result from search
+			echo '<center>';
+			echo '<table border="1">';
+			echo '<tr>';
+			echo '<th>EID</th>';
+			echo '<th>Employee Name</th>';
+			echo '</tr>';
+			for($i = 0; $i < $n_rows; $i++) {
+				echo '<tr>';
+				echo '<th>'. $res[$i]['EID'] .'</th>';
+				echo '<th>'. $res[$i]['ENAME'] .'</th>';
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '</center>';
+		?>
+
 	</div>
 <!-- Need to learn divs, work on UI later-->
 <!--	<div id = "leftMargin">

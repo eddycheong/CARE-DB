@@ -22,4 +22,20 @@ function buildSideLink($array) {
 	}
 }
 
+function searchByParts($num, $arr) {
+	$ret = "select *
+		from employee
+		where ";
+		
+	for($i = 0; $i < $num; $i++) {
+		$ret .= "ename like '%". $arr[$i] ."%'";
+
+		// Prevent the last OR
+		if(($i != ($num-1)))
+			$ret .= " or ";
+	}
+
+	return $ret;
+}
+
 ?>
