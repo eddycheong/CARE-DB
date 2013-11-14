@@ -39,8 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		//$query = searchByParts($n_pieces, $pieces);
-		$query = searchPartialName($search);
+		$query = searchByParts($n_pieces, $pieces);
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		
