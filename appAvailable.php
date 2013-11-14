@@ -1,7 +1,5 @@
 <?php
-include "global.php";
-include "globalhelper.php";
-include "links.php";
+include "appointment.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -13,6 +11,9 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header("Location: login.php");
 }
 
+// usertype test
+$utype = getUserType();
+echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -20,20 +21,34 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-//===================
-// CONNECT TO ORACLE
-//===================
-if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	// TEMPLATE
-	// Implement any sql queries you desire to obtain from oracle
+	// Obtain the search statement
+	$search = $_POST['search'];
+	//echo $search;
 
-	oci_close($c);
-} else {
-	$err = oci_error();
-	echo "Oracle Connect Error " . $err['message'];
+	// Break down the string into pieces
+	$pieces = explode(" ", $search);
+	$n_pieces = sizeof($pieces);
+
+	//===================
+	// CONNECT TO ORACLE
+	//===================
+	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+		// Template search query, replace table and attribute
+		$query = searchByParts($n_pieces, $pieces);
+		$s = oci_parse($c, $query);
+		oci_execute($s);
+		
+		//Oracle Fetches
+		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		oci_close($c);
+	} else {
+		$err = oci_error();
+		echo "Oracle Connect Error " . $err['message'];
+	}
 }
-
 ?>
 
 <!--Design the page below-->
@@ -42,22 +57,25 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	<title>Appointment</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
-<body>
+<body style = "text-align: center;">
 	<div id = "header">
 		<h1 style = "margin-bottom: 0;"> Appointment </h1>
 	</div>
-
+	<!--
 	<div id = "side-panel">
 	<?php
 		// assign arr based on user type
-		$arr = $rArr;
 		
-		buildSideLink($arr);
+		//buildSideLink($arr);
 	?>
 	</div>
+	-->
 
 	<div id = "content">
-		Content appears here
+		<?php
+			//echo $currentDay. ' '. $monthNames[$currentMonth-1].' '.$currentYear;
+		?>
+
 	</div>
 <!-- Need to learn divs, work on UI later-->
 <!--	<div id = "leftMargin">
