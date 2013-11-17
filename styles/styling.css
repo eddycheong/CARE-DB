@@ -58,7 +58,7 @@ body
 
 #content
 {
-	margin-top: 4.5%;
+	margin-top: 6.5%;
 	/*margin-left: 9.5%;*/
 	background-color: white;
 	height: 100%;
@@ -77,3 +77,18 @@ a.fill-link
 	width: 100%;
 	text-decoration: none;
 }
+
+a.calendar_days
+{
+	display: block;
+	color: black;
+	font: bold 20px/30px Georgia,serif;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+}
+
+#currentViewingMonth
+{	display:inline-block;
+}
+

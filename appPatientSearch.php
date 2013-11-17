@@ -9,7 +9,7 @@ ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../
 session_start();
 
 // If no one is logged in, redirect them to the login page
-if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+if(!(isset($_SESSION['login']) == $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 

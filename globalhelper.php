@@ -4,13 +4,13 @@ function getUserType() {
 	//TODO: Get the usertype admin, doctor, or receptionist
 	if($_SESSION['login'] == "admin")
 		return "admin";
-	elseif($_SESSION['doctor'])
+	elseif(isset($_SESSION['doctor']))
 		return "doctor";
 	elseif(isset($_SESSION['login']))
 		return "receptionist";
 
 	//Not a valid user type
-	return "null";
+	return null;
 
 }
 
@@ -22,13 +22,13 @@ function buildSideLink($array) {
 	}
 }
 
-function searchByParts($num, $arr, $attr) {
+function searchByParts($num, $arr) {
 	$ret = "select *
 		from employee
 		where ";
 		
 	for($i = 0; $i < $num; $i++) {
-		$ret .= "regexp_like(". $attr .",'". $arr[$i] ."', 'i')";
+		$ret .= "ename like '%". $arr[$i] ."%'";
 
 		// Prevent the last OR
 		if(($i != ($num-1)))
@@ -36,16 +36,6 @@ function searchByParts($num, $arr, $attr) {
 	}
 
 	return $ret;
-}
-
-function searchPartialName($search) {
-
-	$split = " ";
-	$arr = explode($split, $search);
-	$num = sizeof($search);
-	$attr = "ename";
-
-	return searchByParts($num, $arr, $attr);
 }
 
 ?>

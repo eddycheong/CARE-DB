@@ -9,7 +9,7 @@ ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../
 session_start();
 
 // If no one is logged in, redirect them to the login page
-if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 
@@ -39,8 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		//$query = searchByParts($n_pieces, $pieces);
-		$query = searchPartialName($search);
+		$query = searchByParts($n_pieces, $pieces);
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		
@@ -52,7 +51,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		echo "Oracle Connect Error " . $err['message'];
 	}
 }
-
 ?>
 
 <!--Design the page below-->
@@ -77,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	<div id = "content">
 		Content appears here
-		<form id = "search" name "" method= "post">
+		<form id = "search" name ="" method= "post">
 			<input type = text name = "search" value "">
 		</form>
 
