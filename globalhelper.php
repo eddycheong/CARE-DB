@@ -28,7 +28,7 @@ function searchByParts($num, $arr, $table, $attr) {
 		where ";
 		
 	for($i = 0; $i < $num; $i++) {
-		$ret .= "ename like '%". $arr[$i] ."%'";
+		$ret .= "regexp_like(". $attr .",'" .$arr[$i] ."', 'i')";
 
 		// Prevent the last OR
 		if(($i != ($num-1)))

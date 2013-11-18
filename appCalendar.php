@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -13,9 +12,6 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -72,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	$days=array('1'=>"S",'2'=>"M",'3'=>"T",'4'=>"W",'5'=>"T",'6'=>"F",'7'=>"S");
 
-	$calendar = '<table width="1000" style="padding:80px;">';
+	$calendar = '<table width="1000" style="padding:80px; margin-left:auto; margin-right:auto;">';
 	$calendar .='<tr align="center">';
 	$calendar .='<td bgcolor="#7DC3E3" style="color:#FFFFFF">';
 	$calendar .='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
@@ -137,19 +133,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	</script>
 </head>
 <body>
-	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Appointment </h1>
-	</div>
-	<!--
-	<div id = "side-panel">
-	<?php
-		// assign arr based on user type
-		$arr = $rArr;
-		
-		//buildSideLink($arr);
-	?>
-	</div>
-	-->
+	<div id = "header"></div>
+
+	<div id = "menu-nav"></div>
+
 	<div id = "content">
 		<form name="frm" method="post" action='template.php'>
    			<input type='hidden' name='currentViewingDay'/>
@@ -160,12 +147,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			echo $calendar;
 		?>
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
 
-	<div id = "footer">
-	</div>
--->
+	<div id = "footer"></div>
 </body>
 </html>

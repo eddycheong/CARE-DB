@@ -7,8 +7,9 @@ include "globalhelper.php";
 ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session'));
 session_start();
 
+
 // If no one is logged in, redirect them to the login page
-if(!(isset($_SESSION['login']) == $_SESSION['login'] == '')) {
+if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header("Location: login.php");
 }
 
@@ -18,6 +19,7 @@ if(!(isset($_SESSION['login']) == $_SESSION['login'] == '')) {
 
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
+
 
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
@@ -32,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$query = searchPartialName($search, "patient", "pname");
 		$s = oci_parse($c, $query);
 		oci_execute($s);
-		
+
 		//Oracle Fetches
 		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 		oci_close($c);
@@ -45,7 +47,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 function buildPatientList($num, $arr) {
 
 	if($num > 0) {
-		echo '<br><br>';
 		echo '<table class = "center">';
 		echo '<tr>';
 		echo '<th>Patient Name</th>';
@@ -65,7 +66,7 @@ function buildPatientList($num, $arr) {
 				echo '</td>';
 			} else {
 				echo '<td>';
-				echo '<form method = "post" action = appMedicalRecords.php>';
+				echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
 				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">View Medical Record</button>';
 				echo '</form>';
 				echo '</td>';
@@ -99,10 +100,6 @@ function buildPatientList($num, $arr) {
 
 		<?php buildPatientList($n_rows, $res); ?>
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
--->
 	<div id = "footer"></div>
 </body>
 </html>

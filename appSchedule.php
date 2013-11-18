@@ -59,7 +59,7 @@ function buildSchedule($num, $arr) {
 		echo '<th>Doctor Name</th>';
 	echo '<th>Patient Name</th>';
 	echo '<th>Phone</th>';
-	echo '<th>Time</th>';
+	echo '<th>Scheduled Time</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
@@ -67,7 +67,14 @@ function buildSchedule($num, $arr) {
 			echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
-		echo '<td>'. date("G:i a",strtotime($arr[$i]['TIME'])) .'</td>';
+		
+		$timestamp = strtotime($arr[$i]['TIME']);
+		echo '<td>'. date("G:i a", $timestamp);
+
+		$endtimestamp = mktime(date("G", $timestamp)+1, date("i", $timestamp), 0);
+		
+		echo ' - '. date("G:i a", $endtimestamp);
+		echo '</td>';	
 		echo '</tr>';
 	}
 	echo '</table>';

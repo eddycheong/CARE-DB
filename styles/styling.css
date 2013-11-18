@@ -8,13 +8,13 @@ html, body
 
 th, td
 {
-	background-color: #F0F0FF;
-	text-align: left;
+	/*background-color: #F0F0FF;
+	text-align: left;*/
 }
 
 th
 {
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 }
 
 form
@@ -28,6 +28,16 @@ table.center
 	margin-left: auto;
 	margin-right: auto;
 	width: 55%;
+}
+
+.center th
+{
+	border: 1px solid black;
+}
+
+.center td, th
+{
+	background-color: #F0F0FF;
 }
 
 #format
@@ -111,7 +121,7 @@ table.center
 
 #content
 {
-	margin-top: 4.5%;
+	/*margin-top: 4.5%;
 	margin-left: 9.5%;*/
 	background-color: white;
 	height: 100%;
