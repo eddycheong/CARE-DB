@@ -91,10 +91,14 @@ function buildSchedule($num, $arr) {
 	<div id = "header"></div>
 
 	<div id = "menu-nav">
-		<div class = "menu-item"><p>Schedule</p></div>
-		<div class = "menu-item"><p>Patient</p></div>
-	</div>
-
+		<div class = "menu-item">
+			<p>Schedule</p>
+			<a href = "appSchedule.php" class = "fill-link"></a>
+		</div>
+		<div class = "menu-item">
+			<p>Patient</p>
+			<a href = "appPatientSearch.php" class = "fill-link"></a>
+		</div></div>
 	<div id = "content">
 
 		<?php buildSchedule($n_rows, $schedule); ?>
