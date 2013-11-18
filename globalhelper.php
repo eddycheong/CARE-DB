@@ -22,9 +22,9 @@ function buildSideLink($array) {
 	}
 }
 
-function searchByParts($num, $arr, $attr) {
+function searchByParts($num, $arr, $table, $attr) {
 	$ret = "select *
-		from employee
+		from ". $table ."
 		where ";
 		
 	for($i = 0; $i < $num; $i++) {
@@ -38,14 +38,13 @@ function searchByParts($num, $arr, $attr) {
 	return $ret;
 }
 
-function searchPartialName($search) {
+function searchPartialName($search, $table, $attr) {
 
 	$split = " ";
 	$arr = explode($split, $search);
 	$num = sizeof($search);
-	$attr = "ename";
 
-	return searchByParts($num, $arr, $attr);
+	return searchByParts($num, $arr, $table,$attr);
 }
 
 ?>

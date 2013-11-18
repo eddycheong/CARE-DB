@@ -25,6 +25,9 @@ echo $utype;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+	echo "Pass";
+	$info = $_POST['addpatient'];
+	echo $info;
 	// Obtain the search statement
 	$search = $_POST['search'];
 	//echo $search;
