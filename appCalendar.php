@@ -9,7 +9,7 @@ ini_set('session.save_path', realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../
 session_start();
 
 // If no one is logged in, redirect them to the login page
-if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 
@@ -52,71 +52,67 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 }
 
-$monthNames = Array("January", "February", "March", "April", "May", "June", "July",
-		"August", "September", "October", "November", "December");
+	$currentMonth = isset($_REQUEST['m']) ? $_REQUEST['m'] : date("n");
+	$currentYear = isset($_REQUEST['y']) ? $_REQUEST['y'] : date("Y");
+	$currentDay = isset($_REQUEST['d']) ? $_REQUEST['d'] : date("d");
 
-		if (!isset($_REQUEST["m"])) $_REQUEST["m"] = date("n");
-		if (!isset($_REQUEST["y"])) $_REQUEST["y"] = date("Y");
+	$p_year = $currentYear;
+	$n_year = $currentYear;
+	$p_month = $currentMonth-1;
+	$n_month = $currentMonth+1;
+	 
+	if ($p_month == 0 ) {
+	    $p_month = 12;
+	    $p_year = $currentYear - 1;
+	}
 
-		$currentMonth = $_REQUEST["m"];
-		$currentYear = $_REQUEST["y"];
-		$currentDay = $_REQUEST["d"];
-		 
-		$p_year = $currentYear;
-		$n_year = $currentYear;
-		$p_month = $currentMonth-1;
-		$n_month = $currentMonth+1;
-		 
-		if ($p_month == 0 ) {
-		    $p_month = 12;
-		    $p_year = $currentYear - 1;
-		}
+	if ($n_month == 13 ) {
+	    $n_month = 1;
+	    $n_year = $currentYear + 1;
+	}
+	$days=array('1'=>"S",'2'=>"M",'3'=>"T",'4'=>"W",'5'=>"T",'6'=>"F",'7'=>"S");
 
-		if ($n_month == 13 ) {
-		    $n_month = 1;
-		    $n_year = $currentYear + 1;
-		}
-		$days=array('1'=>"S",'2'=>"M",'3'=>"T",'4'=>"W",'5'=>"T",'6'=>"F",'7'=>"S");
+	$calendar = '<table width="1000" style="padding:80px;">';
+	$calendar .='<tr align="center">';
+	$calendar .='<td bgcolor="#7DC3E3" style="color:#FFFFFF">';
+	$calendar .='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
+	$calendar .='<tr>';
+	$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF">Prev</a></td>';
+	$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF">Next</a></td>';
+	$calendar .='</tr>';
+	$calendar .='</table>';
+	$calendar .='</td>';
+	$calendar .='</tr>';
+	$calendar .='<tr>';
+	$calendar .='<td align="center">';
+	$calendar .='<table width="100%"  border="1" cellpadding="2" cellspacing="2">';
+	$calendar .='<tr align="center">';
+	$calendar .='<td colspan="7" bgcolor="#7DC3E3" style="color:#FFFFFF"><div id="currentViewingMonth">'. $monthNames[$currentMonth-1].'</div> <div id="currentViewingYear">'.$currentYear.'</div></td>';
+	$calendar .='</tr>';
+	$calendar .='<tr >';
 
-		$calendar = '<table width="1000" style="padding:80px;">';
-		$calendar .='<tr align="center">';
-		$calendar .='<td bgcolor="#7DC3E3" style="color:#FFFFFF">';
-		$calendar .='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
-		$calendar .='<tr>';
-		$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF">Prev</a></td>';
-		$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF">Next</a></td>';
-		$calendar .='</tr>';
-		$calendar .='</table>';
-		$calendar .='</td>';
-		$calendar .='</tr>';
-		$calendar .='<tr>';
-		$calendar .='<td align="center">';
-		$calendar .='<table width="100%"  border="1" cellpadding="2" cellspacing="2">';
-		$calendar .='<tr align="center">';
-		$calendar .='<td colspan="7" bgcolor="#7DC3E3" style="color:#FFFFFF"><B>'. $monthNames[$currentMonth-1].' '.$currentYear.'</B></td>';
-		$calendar .='</tr>';
-		$calendar .='<tr >';
+	for($i=1;$i<=7;$i++){
+		$calendar .='<td align="center" height="100" bgcolor="#7DC3E3" style="color:#FFFFFF"><B>'. $days[$i]. '</B></td>';
+	}
 
-		for($i=1;$i<=7;$i++){
-			$calendar .='<td align="center" height="100" bgcolor="#7DC3E3" style="color:#FFFFFF"><B>'. $days[$i]. '</B></td>';
-		}
-
-		$calendar .= '</tr>';
-
-		$timestamp = mktime(0,0,0,$currentMonth,1,$currentYear);
-		$maxday = date("t",$timestamp);
-		$thismonth = getdate ($timestamp);
-		$startday = $thismonth['wday'];
-		for ($i=0; $i<($maxday+$startday); $i++) {
-		    if(($i % 7) == 0 ) $calendar .= "<tr>";
-		    if($i < $startday) $calendar .= "<td ></td>";
-		    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#AED5E4' height='20px'><a href='booking.php' class='calendar_days'>". ($i - $startday + 1) ."</a></td>";
-		    if(($i % 7) == 6 ) $calendar .= "</tr>";
-		}
-		$calendar .='</table>';
-		$calendar .='</td>';
-		$calendar .='</tr>';
-		$calendar .='</table>';
+	$calendar .= '</tr>';
+	$timestamp = mktime(0,0,0,$currentMonth,1,$currentYear);
+	$maxday = date("t",$timestamp);
+	$thismonth = getdate ($timestamp);
+	$startday = $thismonth['wday'];
+	for ($i=0; $i<($maxday+$startday); $i++) {
+		$theDay = $i - $startday + 1;
+	    if(($i % 7) == 0 ) $calendar .= "<tr>";
+	    if($i < $startday) $calendar .= "<td ></td>";
+	    else if(($theDay == $currentDay) && (date("n") == $currentMonth) && (date("Y") == $currentYear))
+	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#E5AAAA' height='20px'><a onclick='clickDate(this)' href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
+	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#AED5E4' height='20px'><a onclick='clickDate(this)' href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
+	    if(($i % 7) == 6 ) $calendar .= "</tr>";
+	}
+	$calendar .='</table>';
+	$calendar .='</td>';
+	$calendar .='</tr>';
+	$calendar .='</table>';
 ?>
 
 <!--Design the page below-->
@@ -124,6 +120,21 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 <head>
 	<title>Appointment</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
+	<script type="text/javascript">
+		function clickDate(obj){
+			window.document.frm.currentViewingDay.value = obj.innerHTML;
+			window.document.frm.currentViewingMonth.value = document.getElementById('currentViewingMonth').innerHTML;
+			window.document.frm.currentViewingYear.value = document.getElementById('currentViewingYear').innerHTML;
+			window.document.frm.submit()
+
+			<?php
+				//pass variable to the next page
+				// $_SESSION['currentViewingDay'] = $_GET['currentViewingDay'];
+				// $_SESSION['currentViewingMonth'] = $_GET['currentViewingMonth'];
+				// $_SESSION['currentViewingYear'] = $_GET['currentViewingYear'];
+			?>
+		}
+	</script>
 </head>
 <body>
 	<div id = "header">
@@ -140,6 +151,11 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 	</div>
 	-->
 	<div id = "content">
+		<form name="frm" method="post" action='template.php'>
+   			<input type='hidden' name='currentViewingDay'/>
+   			<input type='hidden' name='currentViewingMonth'/>
+   			<input type='hidden' name='currentViewingYear'/>
+		</form>
 		<?php
 			echo $calendar;
 		?>

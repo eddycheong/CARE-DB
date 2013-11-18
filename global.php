@@ -30,4 +30,8 @@
 		"Patients" => "template.php",
 		"Activity Logs" => "log.php"
 	);
+
+	// Month Names
+	$monthNames = Array("January", "February", "March", "April", "May", "June", "July",
+	"August", "September", "October", "November", "December");
 ?>
