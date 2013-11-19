@@ -110,7 +110,6 @@ function buildDoctorList($arr, $rows) {
 	<?php
 		// assign arr based on user type
 		$arr = $aArr;
-		
 		buildSideLink($arr);
 	?>
 	</div>
