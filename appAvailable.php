@@ -35,11 +35,11 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	$d_rows = oci_fetch_all($s, $doctor, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
 	$query = "select *
-		 from schedule";
+		 from appointment";
 	$s = oci_parse($c, $query);
 	oci_execute($s);
 	
-	$s_rows = oci_fetch_all($s, $schedule, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+	$a_rows = oci_fetch_all($s, $appointment, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
 	oci_close($c);
 } else {
@@ -47,8 +47,13 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	echo "Oracle Connect Error " . $err['message'];
 }
 
-$viewingMonth = $_REQUEST['m'];
+//get previously clicked y,m,d 
 $viewingYear = $_REQUEST['y'];
+//change format from yyyy to yy
+$old_year_timestamp = strtotime($viewingYear);
+$new_viewingYear = date('y', $old_year_timestamp);
+
+$viewingMonth = $_REQUEST['m'];
 $viewingDay = $_REQUEST['d'];
 
 $tableAvailable = '<table width="800" style="text-align:center; padding:80px; border="0" cellspacing="0" cellpadding="0">';
@@ -67,19 +72,34 @@ for($i=0; $i<11;$i++){
 	for($j=0; $j<$d_rows;$j++){
 		$tableCreated = false;
 		$doctorName = $doctor[$j]['ENAME'];
-		for($k=0; $k<$s_rows;$k++){	
-			$date = DateTime::createFromFormat('y-m-d g:i:s.u', $schedule[$k]['TIME']);
+		for($k=0; $k<$a_rows;$k++){	
+			$doctorID = $doctor[$j]['EID'];
+			$appDoctorID = $appointment[$k]['EID'];
+			$appTime = $appointment[$k]['TIME'];
+			$date = DateTime::createFromFormat('y-m-d g:i:s.u', $appTime);
+			$y = $date->format('y');
+			$m = $date->format('m');
+			$d = $date->format('d');
 			$hr = $date->format('g');
 			$min = $date->format('i');
-			$doctorID = $doctor[$j]['EID'];
-			$scheduleDoctorID = $schedule[$k]['E_EID'];
-			if(($doctorID==$scheduleDoctorID) && ($hr==$time) && ($min=='00') && ($tableCreated == false)){
+			if(($doctorID==$appDoctorID) 
+				&& ($hr==$time) 
+				&& ($min=='00') 
+				&& ($y == $new_viewingYear)
+				&& ($m == $viewingMonth)
+				&& ($d == $viewingDay)
+				&& ($tableCreated == false)){
 				$tableCreated = true;
 				$tableAvailable .= '<td width="50" bgcolor="#7DC3E3">'. $doctorName. '</td>';
 			}
 		}
 		if($tableCreated == false){
-			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php?eid='. $doctorID. '&h='. $hr. '">'. $doctorName. '</a></td>';
+			//Session needs to be cleard later after confirming making appointment
+			//unset ($_SESSION['varname']);.
+			$_SESSION['AppDoctorID']=$doctorID;
+			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00.000000';
+
+			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appPatientSearch.php">'. $doctorName. '</a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	
