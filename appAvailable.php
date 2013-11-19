@@ -66,17 +66,20 @@ for($i=0; $i<11;$i++){
 	$tableAvailable .= '<tr align="center">';
 	for($j=0; $j<$d_rows;$j++){
 		$tableCreated = false;
+		$doctorName = $doctor[$j]['ENAME'];
 		for($k=0; $k<$s_rows;$k++){	
 			$date = DateTime::createFromFormat('y-m-d g:i:s.u', $schedule[$k]['TIME']);
 			$hr = $date->format('g');
 			$min = $date->format('i');
-			if(($doctor[$j]['EID']==$schedule[$k]['E_EID']) && ($hr==$time) && ($min=='00') && ($tableCreated == false)){
+			$doctorID = $doctor[$j]['EID'];
+			$scheduleDoctorID = $schedule[$k]['E_EID'];
+			if(($doctorID==$scheduleDoctorID) && ($hr==$time) && ($min=='00') && ($tableCreated == false)){
 				$tableCreated = true;
-				$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctor[$j]['ENAME']. '</a></td>';
+				$tableAvailable .= '<td width="50" bgcolor="#7DC3E3">'. $doctorName. '</td>';
 			}
 		}
 		if($tableCreated == false){
-			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3">'. $doctor[$j]['ENAME']. '</td>';
+			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php?eid='. $doctorID. '&h='. $hr. '">'. $doctorName. '</a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	
