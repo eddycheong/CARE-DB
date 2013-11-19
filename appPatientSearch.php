@@ -67,7 +67,7 @@ function buildPatientList($num, $arr) {
 			} else {
 				echo '<td>';
 				echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">View Medical Record</button>';
+				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
 				echo '</form>';
 				echo '</td>';
 	
@@ -98,7 +98,7 @@ function buildPatientList($num, $arr) {
 			Search: <input type = text name = "search">
 		</form>
 
-		<?php buildPatientList($n_rows, $res); ?>
+		<?php buildPatientList($rn_rows, $res); ?>
 	</div>
 	<div id = "footer"></div>
 </body>

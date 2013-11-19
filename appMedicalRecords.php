@@ -31,13 +31,50 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		// Template search query, replace table and attribute
 		//$query = searchPartialName($search, "employee", "ename");
+		/*
 		$query = "select *
 				from has_medicalrecords
 				where pname = '". $patient ."'";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
+		
+		
 		//Oracle Fetches
 		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		*/
+		$patientID = $_POST["addpatient"];
+		//Queries for has_medicalrecord, has_fHistory, contains_pHistory
+		// based on pID
+		
+		$queryMedRec = "select *
+						from has_medicalrecords
+						where pid = $patientID";
+		$sMedRec = oci_parse($c, $queryMedRec);
+		oci_execute($sMedRec);
+		
+		$rowsMedRec = oci_fetch_all($sMedRec, $resultMedRec, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		$patient = $resultMedRec[0]['PNAME'];
+		
+		$queryFHistory = "select *
+						from has_fhistory
+						where pid = $patientID";
+		$sFHistory = oci_parse($c, $queryFHistory);
+		oci_execute($sFHistory);
+		
+		$rowsFHistory = oci_fetch_all($sFHistory, $resultFHistory, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		
+		
+		$queryPHistory = "select *
+						from contains_phistory
+						where pid = $patientID";
+		$sPHistory = oci_parse($c, $queryPHistory);
+		oci_execute($sPHistory);
+		$rowsPHistory = oci_fetch_all($sPHistory, $resultPHistory, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		
+		
+		
+		
+		
 		oci_close($c);
 	} else {
 		$err = oci_error();
@@ -46,12 +83,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildList($num, $arr, $patient) {
-if($num == 0)
-echo "Medical Record for " . $patient . " is not Available";
-else{
-echo "Medical Record for " . $patient . "";
+function buildMedRecList($num, $arr, $patient) {
+if($num == 0){
+echo '<table class = "center">';
+echo '<tr>';
+echo '<td>Mecical Record is not Avaliable</td>';
+echo '</tr>';
+echo '</table>';
+}else{
+
 	echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Medical Record for ' . $patient . '</td>';
+	echo '</tr>';
 	echo '<tr>';
 	echo '<th>Allergies</th>';
 	echo '<th>Emergency Contacts</th>';
@@ -65,6 +109,29 @@ echo "Medical Record for " . $patient . "";
 	echo '</table>';
 	}
 }
+
+function buildFHistoryList($num, $arr, $patient){
+if ($num == 0){
+}else{
+	echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Family History for ' . $patient . '</td>';
+	echo '</tr>';
+	echo '<tr>';
+	echo '<th>Family Member</th>';
+	echo '<th>Relation to Patient</th>';
+	echo '<th>Condition</th>';
+	echo '</tr>';
+	for($i = 0; $i < $num; $i++) {
+		echo '<tr>';
+		echo '<td>'. $arr[$i]['FNAME'] .'</td>';
+		echo '<td>'. $arr[$i]['RELATION'] .'</td>';
+		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
+		echo '</tr>';
+	}
+	echo '</table>';
+}
+}
 ?>
 
 <!--Design the page below-->
@@ -76,13 +143,24 @@ echo "Medical Record for " . $patient . "";
 <body style = "text-align: center;">
 	<div id = "header"></div>
 	<div id = "content">
-
+	<div id = "Medical Record">
 		<?php 
-		buildList($n_rows, $res, $patient); 
-		?>
+		buildMedRecList($rowsMedRec, $resultMedRec, $patient);
+		?>	
 
 	</div>
-
+	<div id = "Family History">
+	
+	<?php 
+		buildFHistoryList($rowsFHistory, $resultFHistory, $patient);
+		//echo $queryFHistory;
+		?>	
+		
+	
+	</div>
+	
+	
+</div>
 	<div id = "footer"></div>
 </body>
 </html>
