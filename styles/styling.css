@@ -1,7 +1,43 @@
-body
+html, body
 {
-	background-color: #E4EEE7;
-	/*text-align: center;*/
+	padding: 0;
+	margin: 0;
+	/*background-color: #E4EEE7;
+	text-align: center;*/
+}
+
+th, td
+{
+	/*background-color: #F0F0FF;
+	text-align: left;*/
+}
+
+th
+{
+	/*border: 1px solid black;*/
+}
+
+form
+{
+	margin-bottom: 0px;
+}
+
+table.center
+{
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 55%;
+}
+
+.center th
+{
+	border: 1px solid black;
+}
+
+.center td, th
+{
+	background-color: #F0F0FF;
 }
 
 #format
@@ -12,11 +48,40 @@ body
 
 #header
 {
-	position: absolute;
-	left: 0;	
-	background-color: #A8D8FF;
-	text-align: center;
+	height: 125px;
+	background-color: #0033CC;
 	width: 100%;
+}
+
+#menu-nav
+{
+	margin-top: 20px;
+	height: 40px;
+	background-color : #0033CC;
+	width: 100%
+}
+
+.menu-item
+{
+	position: relative;
+	float: left;
+	border: 1px solid #0033CC;
+	height: 95%;
+	background-color: #0066CC;
+	width: 10%;
+	display: table;
+}
+
+.menu-item p
+{
+	vertical-align: middle;
+	text-align: center;
+	display: table-cell;
+}
+
+#search
+{
+	margin-top: 5%;
 }
 
 #side-panel
@@ -49,32 +114,35 @@ body
 }
 
 #footer {
-	position: relative;
 	bottom: 0;
-	background-color: #A8D8FF;
-	height: 2%;
+	background-color: #0033FF;
+	height: 20px;
 	width: 100%;
 }
 
 #content
 {
-	margin-top: 6.5%;
-	/*margin-left: 9.5%;*/
+	/*margin-top: 4.5%;
+	margin-left: 9.5%;*/
 	background-color: white;
 	height: 100%;
 	width: 100%;
 }
 
-#search
+#addSubmit
 {
+	margin-bottom: 0px;
 }
 
 a.fill-link
 {
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: block;
-	color: black;
-	height: 100%;
+	height: 100%;	
 	width: 100%;
+	color: black;
 	text-decoration: none;
 }
 

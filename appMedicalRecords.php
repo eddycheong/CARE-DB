@@ -19,10 +19,10 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'GET') {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	// Obtain the search statement
-	$search = $_GET['search'];
+	// Obtain the patient name
+	$patient = trim($_POST['addpatient']);
 
 	//===================
 	// CONNECT TO ORACLE
@@ -30,7 +30,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		$query = searchPartialName($search, "employee", "ename");
+		//$query = searchPartialName($search, "employee", "ename");
+		$query = "select *
+				from has_medicalrecords
+				where pname = '". $patient ."'";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		//Oracle Fetches
@@ -43,19 +46,24 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 
 // Helper Functions
-function buildList($num, $arr) {
+function buildList($num, $arr, $patient) {
+if($num == 0)
+echo "Medical Record for " . $patient . " is not Available";
+else{
+echo "Medical Record for " . $patient . "";
 	echo '<table class = "center">';
 	echo '<tr>';
-	echo '<th>EID</th>';
-	echo '<th>Employee Name</th>';
+	echo '<th>Allergies</th>';
+	echo '<th>Emergency Contacts</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
-		echo '<th>'. $arr[$i]['EID'] .'</th>';
-		echo '<th>'. $arr[$i]['ENAME'] .'</th>';
+		echo '<td>'. $arr[$i]['ALLERGIES'] .'</td>';
+		echo '<td>'. $arr[$i]['EMERCONTACTS'] .'</td>';
 		echo '</tr>';
 	}
 	echo '</table>';
+	}
 }
 ?>
 
@@ -67,13 +75,11 @@ function buildList($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header"></div>
-
 	<div id = "content">
-		<form id = "search" method= "get">
-			<input type = text name = "search">
-		</form>
 
-		<?php buildList($n_rows, $res); ?>
+		<?php 
+		buildList($n_rows, $res, $patient); 
+		?>
 
 	</div>
 

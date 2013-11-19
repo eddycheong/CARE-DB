@@ -9,7 +9,7 @@ session_start();
 // If the user is already logged in, redirect them their default page
 
 if (isset($_SESSION['login'])) {
-	header("Location: dashboard.php");
+	header("Location: appSchedule.php");
 }
 
 // Server Code Implementation goes here
@@ -58,10 +58,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
 			$s = oci_parse($c, $query);
 			oci_execute($s);
-			oci_fetch_all($s, $res);
+			$res = oci_fetch_array($s, OCI_BOTH);
 
 			if(oci_num_rows($s) == 1)
-				$_SESSION['doctor'] = true;
+				$_SESSION['doctor'] = $res['EID'];
 			oci_free_statement($s);
 		}
 
@@ -75,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($check == 1) {
 		// A match in the database. Valid login
 		$_SESSION['login'] = "$uname";
-		header ("Location: dashboard.php");
+		header ("Location: appSchedule.php");
 			
 	} else {
 		// No match found from the database
@@ -86,11 +86,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <html>
 <head>
-<title>Login</title>
+	<title>Login</title>
+	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 
 <body>
 
+<div id = "header"></div>
+
+<div id = "content">
 <center>
 	<?php
 		echo $errmsg, "<br>";
@@ -103,6 +107,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<input type = "submit" name = "slogin" value = "Login">
 	</form>
 </center>
+</div>
+
+<div id = "footer"></div>
 
 </body>
 	

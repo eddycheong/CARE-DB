@@ -22,13 +22,13 @@ function buildSideLink($array) {
 	}
 }
 
-function searchByParts($num, $arr) {
+function searchByParts($num, $arr, $table, $attr) {
 	$ret = "select *
-		from employee
+		from ". $table ."
 		where ";
 		
 	for($i = 0; $i < $num; $i++) {
-		$ret .= "ename like '%". $arr[$i] ."%'";
+		$ret .= "regexp_like(". $attr .",'" .$arr[$i] ."', 'i')";
 
 		// Prevent the last OR
 		if(($i != ($num-1)))
@@ -38,4 +38,12 @@ function searchByParts($num, $arr) {
 	return $ret;
 }
 
+function searchPartialName($search, $table, $attr) {
+
+	$split = " ";
+	$arr = explode($split, $search);
+	$num = sizeof($search);
+
+	return searchByParts($num, $arr, $table,$attr);
+}
 ?>
