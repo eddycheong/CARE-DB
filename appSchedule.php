@@ -25,18 +25,25 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	$id = 20; // testing purposes
-
 	// Schedule Query
+	/*$query = "select d.ename, ppname, pphone, stime
+		  from doctor d,
+			(select p.pname as ppname, p.phone as pphone, s.time as stime, s.eid as seid
+			 from patient p
+			 inner join schedule s
+			 on p.pid = s.pid)";
+	*/
 	$query = "select d.ename, p.pname, p.phone, s.time
-		  from doctor d, patient p, schedule s
-		  where p.pid = s.pid";
+		  from doctor d, patient p
+		  inner join schedule s
+		  on p.pid = s.pid";
 	if(getUserType() == "doctor")	
-		$query .= " and d.eid = s.a_eid
-			    and s.a_eid = ". $_SESSION['doctor'];
+		$query .= " where d.eid = s.eid and s.eid = ". $_SESSION['doctor'];
 	else
-		$query .= " and d.eid = s.a_eid";
+		$query .= " where d.eid = s.eid";
 	$query .= " order by s.time";	
+
+	echo $query;
 	
 	$s = oci_parse($c, $query);
 	oci_execute($s);
@@ -64,7 +71,7 @@ function buildSchedule($num, $arr) {
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
 		if(!(getUserType() == "doctor"))
-			echo '<td>'. $arr[$i]['ENAME'] .'</td>';
+		echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 		

@@ -55,23 +55,15 @@ function buildPatientList($num, $arr) {
 		echo '</tr>';
 		for($i = 0; $i < $num; $i++) {
 			echo '<tr>';
-			echo '<td>'. $arr[$i]['PNAME'] .'</td>';
+			echo '<td>'; 
+			echo '<a href = "appConfirm.php">';
+			$_SESSION['aPID'] = $arr[$i]['PID'];
+			echo $arr[$i]['PNAME'];
+			
+			echo '</a>';
+			echo '</td>';
 			echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
 			echo '<td>'. $arr[$i]['PHONE'] .'</td>';
-			if(!(getUserType() == "doctor")) {
-				echo '<td>';
-				echo '<form method = "post" action = appSchedule.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">View Appointment</button>';
-				echo '</form>';
-				echo '</td>';
-			} else {
-				echo '<td>';
-				echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">View Medical Record</button>';
-				echo '</form>';
-				echo '</td>';
-	
-			}
 			echo '</tr>';
 		}
 		echo '</table>';
@@ -94,10 +86,15 @@ function buildPatientList($num, $arr) {
 	</div>
 
 	<div id = "content">
-		<form id = "search" method= "get">
-			Search: <input type = text name = "search">
-		</form>
 
+		<div class = "form-container"> 	
+			<form id = "search" method= "get">
+				Search: <input type = text name = "search">
+			</form>
+			<form  method = "post" action = "appAddPatient.php">
+				<button type = "submit">Add Patient</button>
+			</form>
+		</div>
 		<?php buildPatientList($n_rows, $res); ?>
 	</div>
 	<div id = "footer"></div>

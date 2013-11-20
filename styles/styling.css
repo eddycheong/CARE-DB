@@ -22,6 +22,21 @@ form
 	margin-bottom: 0px;
 }
 
+.form-container
+{
+	margin-top: 5%;
+}
+
+.form-container form,
+.form-container form div {
+	display: inline;
+}
+
+.form-container button {
+	display: inline;
+	vertical-align: middle;
+}
+
 table.center
 {
 	margin-top: 5%;
