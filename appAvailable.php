@@ -23,55 +23,84 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+//===================
+// CONNECT TO ORACLE
+//===================
+if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+	$query = "select *
+		 from doctor";
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+	
+	$d_rows = oci_fetch_all($s, $doctor, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
-	// Obtain the search statement
-	$search = $_POST['search'];
-	//echo $search;
+	$query = "select *
+		 from appointment";
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+	
+	$a_rows = oci_fetch_all($s, $appointment, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
-	// Break down the string into pieces
-	$pieces = explode(" ", $search);
-	$n_pieces = sizeof($pieces);
-
-	//===================
-	// CONNECT TO ORACLE
-	//===================
-	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-		$query = "select *
-			 from doctor";
-		$s = oci_parse($c, $query);
-		oci_execute($s);
-		
-		$d_rows = oci_fetch_all($s, $doctor, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		oci_close($c);
-	} else {
-		$err = oci_error();
-		echo "Oracle Connect Error " . $err['message'];
-	}
+	oci_close($c);
+} else {
+	$err = oci_error();
+	echo "Oracle Connect Error " . $err['message'];
 }
-echo $s;
-echo $d_rows;
-$viewingMonth = $_REQUEST['m'];
+
+//get previously clicked y,m,d 
 $viewingYear = $_REQUEST['y'];
+//change format from yyyy to yy
+$old_year_timestamp = strtotime($viewingYear);
+$new_viewingYear = date('y', $old_year_timestamp);
+
+$viewingMonth = $_REQUEST['m'];
 $viewingDay = $_REQUEST['d'];
 
 $tableAvailable = '<table width="800" style="text-align:center; padding:80px; border="0" cellspacing="0" cellpadding="0">';
 $tableAvailable .= '<tr align="center">';
-$tableAvailable .= '<th width="50%" align="left">Time</th>';
-$tableAvailable .= '<th width="50%" align="right">Select Available Time</th>';
+$tableAvailable .= '<th width="50%" align="center">Time</th>';
+$tableAvailable .= '<th width="50%" align="center">Select Available Time</th>';
 $tableAvailable .= '</tr>';
+
 for($i=0; $i<11;$i++){
-	$timeSlot = ($i<4)? 9+$i: $i-3;
+	$time = ($i<4)? 9+$i: $i-3;
 	$tableAvailable .= '<tr align="center">';
-	$tableAvailable .= '<td width="50%" align="left">'. $timeSlot. ':00</td>';
-	$tableAvailable .= '<td width="50%" align="right">';
+	$tableAvailable .= '<td width="20%" align="center">'. $time. ':00</td>';
+	$tableAvailable .= '<td align="center">';
 	$tableAvailable .= '<table border="1" width="100%">';
 	$tableAvailable .= '<tr align="center">';
-	$tableAvailable .= 'Hello World'. $d_rows;
 	for($j=0; $j<$d_rows;$j++){
-		
-		//availability check (booked? not booked yet?)
-		$tableAvailable .= '<td> Available'. $j. '</td>';
+		$tableCreated = false;
+		$doctorName = $doctor[$j]['ENAME'];
+		for($k=0; $k<$a_rows;$k++){	
+			$doctorID = $doctor[$j]['EID'];
+			$appDoctorID = $appointment[$k]['EID'];
+			$appTime = $appointment[$k]['TIME'];
+			$date = DateTime::createFromFormat('y-m-d g:i:s.u', $appTime);
+			$y = $date->format('y');
+			$m = $date->format('m');
+			$d = $date->format('d');
+			$hr = $date->format('g');
+			$min = $date->format('i');
+			if(($doctorID==$appDoctorID) 
+				&& ($hr==$time) 
+				&& ($min=='00') 
+				&& ($y == $new_viewingYear)
+				&& ($m == $viewingMonth)
+				&& ($d == $viewingDay)
+				&& ($tableCreated == false)){
+				$tableCreated = true;
+				$tableAvailable .= '<td width="50" bgcolor="#7DC3E3">'. $doctorName. '</td>';
+			}
+		}
+		if($tableCreated == false){
+			//Session needs to be cleard later after confirming making appointment
+			//unset ($_SESSION['varname']);.
+			$_SESSION['AppDoctorID']=$doctorID;
+			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00.000000';
+
+			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appPatientSearch.php">'. $doctorName. '</a></td>';
+		}
 	}
 	$tableAvailable .= '</tr>';	
 	$tableAvailable .= '</table>';
