@@ -23,29 +23,43 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-	// Obtain the search statement
-	$search = $_POST['search'];
-	//echo $search;
-
-	// Break down the string into pieces
-	$pieces = explode(" ", $search);
-	$n_pieces = sizeof($pieces);
-
 	//===================
 	// CONNECT TO ORACLE
 	//===================
+
+$eid = $_SESSION['AppDoctorID'];
+$time = $_SESSION['AppTime'];
+$date = $_SESSION['AppDate'];
+$pid = $_SESSION['AppPid'];
+$pname = $_SESSION['AppPname'];
+$doctor = 'n/a';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		$query = searchByParts($n_pieces, $pieces);
+		$query = "insert into appointment values (".$eid.", '".$date."', '".$time."', null)";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
+		//if($s) echo "appointment<br>";
 		
-		//Oracle Fetches
-		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		$query2 ="insert into schedule values (".$eid.", ".$pid.", '".$time."', '".$date."')"; 		
+		$s2 = oci_parse($c, $query2);
+		oci_execute($s2);
+		//if($s2) echo "schedule<br>";
+		
+		$query3 = "select ename from doctor where eid = ".$eid;
+		$s3 = oci_parse($c, $query3);
+		oci_execute($s3);
+		if($s3) echo "find the doctor<br>";
+		
+		$n_rows = oci_fetch_all($s3, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		//$doctor = $res['ename'];
+		$doctor = $res[0]['ENAME'];
+		
 		oci_close($c);
+		//header("Location: dashboard.php");
+			
 	} else {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
@@ -57,47 +71,41 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>AppConfirm</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Template </h1>
+		<h1 style = "margin-bottom: 0;"> Review the Appointment </h1>
 	</div>
-	<!--
-	<div id = "side-panel">
-	<?php
-		// assign arr based on user type
-		
-		//buildSideLink($arr);
-	?>
-	</div>
-	-->
 
 	<div id = "content">
-		Content appears here
-		<form id = "search" name "" method= "post">
-			<input type = text name = "search" value "">
-		</form>
-
 		<?php
 		// sample code to use result from search
 			echo '<center>';
 			echo '<table border="1">';
 			echo '<tr>';
-			echo '<th>EID</th>';
-			echo '<th>Employee Name</th>';
+			echo '<td>ID</th>';
+			echo '<td>'.$pid.'</td>';
 			echo '</tr>';
-			for($i = 0; $i < $n_rows; $i++) {
-				echo '<tr>';
-				echo '<th>'. $res[$i]['EID'] .'</th>';
-				echo '<th>'. $res[$i]['ENAME'] .'</th>';
-				echo '</tr>';
-			}
+			echo '<tr>';
+			echo '<td>Name</th>';
+			echo '<td>'.$pname.'</td>';
+			echo '</tr>';
+			echo '<tr>';
+			echo '<td>Date&Time</th>';
+			echo '<td>'.$time.'</td>';
+			echo '</tr>';
+			echo '<tr>';
+			echo '<td>Doctor</th>';
+			echo '<td>'.$doctor.'</td>';
+			echo '</tr>';
 			echo '</table>';
 			echo '</center>';
 		?>
-
+		<form id = "confirm" method= "post">
+			<input type = "submit" name = "confirm" value = "Confirm">
+		</form?
 	</div>
 <!-- Need to learn divs, work on UI later-->
 <!--	<div id = "leftMargin">

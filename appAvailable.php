@@ -98,6 +98,9 @@ for($i=0; $i<11;$i++){
 			//unset ($_SESSION['varname']);.
 			$_SESSION['AppDoctorID']=$doctorID;
 			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00.000000';
+			
+			// Cindy: added new variable for "appConfrim.php"
+			$_SESSION['AppDate']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay;
 
 			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appPatientSearch.php">'. $doctorName. '</a></td>';
 		}
