@@ -23,6 +23,9 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
+$pid = 3954;
+//GLOBAL
+
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pname = $_POST["pname"];
 	$address = $_POST["address"];
@@ -30,32 +33,66 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$email = $_POST["email"];
 	$carecard = $_POST["carecard"];
 
-	$pid = rand(1000, 9999);
-	//$pid = getRandomPid();
-	
-	$compare = $pname != null && $address != null && $phone != null && $email != null;
-	if($compare && $carecard != null) {
+	$query = "update patient";
+	$i = 0;
+	if($pname != null){
+		if($i == 0){
+			$query .=" set ";
+			$i += 1;
+		}
+		$query .= "pname = '".$pname."'";
+		echo "add pname<br>";
+	}
+	if($address != null){
+		if($i == 0){
+			$query .=" set ";
+			$i += 1;
+		} else { $query .= ", ";}
+		$query .= "address = '".$address."'";
+		echo "add address<br>";
+	}
+	if($phone != null){
+		if($i == 0){
+			$query .=" set ";
+			$i += 1;
+		} else { $query .= ", ";}
+		$query .= "phone = '".$phone."'";
+		echo "add phone<br>";
+	}
+	if($email != null){
+		if($i == 0){
+			$query .=" set ";
+			$i += 1;
+		} else { $query .= ", ";}
+		$query .= "email = '".$email."'";
+		echo "add email<br>";
+	}
+	if($carecard != null){
+		if($i == 0){
+			$query .=" set ";
+		} else { $query .= ", ";}
+		$query .= "carecard = '".$carecard."'";
+		echo "add carecard<br>";
+	}
+		
+	$query .= "where pid =".$pid;
 
 	//===================
 	// CONNECT TO ORACLE
 	//===================
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		// Template search query, replace table and attribute
-			
-			$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
+		// Template search query, replace table and attribute	
+			echo $query."<br>";
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_close($c);
 			
-			$_SESSION['AppPid'] = $pid;
-			$_SESSION['AppPname'] = $pname;
-			header("Location: appConfirm.php");
+			//header("Location: appConfirm.php");
 		
 	} else {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
-	}
 	}
 }
 /* WILL WORK ON THIS LATER
@@ -81,7 +118,7 @@ function getRandomPid(){
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<h1 style = "margin-bottom: 10;"> New Patient </h1>
+		<h1 style = "margin-bottom: 10;"> Change Patient Info</h1>
 	</div>
 	<!--<div>
 	<a href="appConfirm.php"> <input type = "submit" name = "submit" value = "Submit"></a>
