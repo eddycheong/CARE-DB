@@ -60,8 +60,8 @@ function buildPatientList($num, $arr) {
 			echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 			if(!(getUserType() == "doctor")) {
 				echo '<td>';
-				echo '<form method = "post" action = appSchedule.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">View Appointment</button>';
+				echo '<form style = "text-align: center; background-color: white;" method = "post" action = appPatientAppointments.php>';
+				echo '<button type = "submit" name = "pAppointment" value ="'. $arr[$i]['PID'] .'">View Appointment</button>';
 				echo '</form>';
 				echo '</td>';
 			} else {
@@ -98,7 +98,7 @@ function buildPatientList($num, $arr) {
 			Search: <input type = text name = "search">
 		</form>
 
-		<?php buildPatientList($rn_rows, $res); ?>
+		<?php buildPatientList($n_rows, $res); ?>
 	</div>
 	<div id = "footer"></div>
 </body>
