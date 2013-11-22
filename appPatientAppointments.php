@@ -24,26 +24,35 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$pid = $_POST['pAppointment'];
+	if(isset($_POST['pAppointment']))
+		$pid = $_POST['pAppointment'];
 
-	$test = $_POST['test'];
-	echo $test;
+	if(isset($_POST['CANCEL'])) {
+		$eid = $_POST['EID'];
+		$time = $_POST['TIME'];
+	}
 
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+		// Execute if cancel is triggered
+		if(isset($_POST['CANCEL'])) {
+			$query = "delete from appointment
+				  where eid = ".$eid."
+				  and time = '".$time."'";
+			echo $query;
+
+			$s = oci_parse($c, $query);
+			oci_execute($s);
+			oci_fetch($s);
+		}
 
 		$query = "select d.ename, d.eid, p.pname, a.time, a.fee
 			  from appointment a, patient p
 			  inner join schedule s on p.pid = s.pid
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid and s.pid =".$pid;
-
 	
-		echo $query;
-		/*
-		$query = "select p.pname, s.time
-			  from patient p, schedule s
-			  where p.pid = s.pid and s.pid = ".$pid;
-		*/
+		//echo $query;
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -58,7 +67,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildSchedule($num, $arr, $pid) {
+function buildSchedule($num, $arr) {
 	echo '<table class = "center">';
 	echo '<tr>';
 	echo '<th>Doctor Name</th>';
@@ -79,8 +88,8 @@ function buildSchedule($num, $arr, $pid) {
 		echo '</td>';
 		echo '<td>'. $arr[$i]['FEE'] .'</td>';
 		echo '<td>';
-		echo '<form action = "template.php" method = "post">';
-		echo '<input type = "hidden" name = "PID" value = "'.$pid.'">';
+		echo '<form action method = "post">';
+		echo '<input type = "hidden" name = "CANCEL" value = true>';
 		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
 		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
 		echo '<button type = "submit">Cancel</button>';
@@ -113,7 +122,7 @@ function buildSchedule($num, $arr, $pid) {
 		</div></div>
 	<div id = "content">
 
-		<?php buildSchedule($n_rows, $schedule, $pid); ?>
+		<?php buildSchedule($n_rows, $schedule); ?>
 
 	</div>
 <!-- Need to learn divs, work on UI later-->
