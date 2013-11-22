@@ -99,7 +99,7 @@ for($i=0; $i<11;$i++){
 			$_SESSION['AppDoctorID']=$doctorID;
 			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00';
 
-			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appPatientSearch.php">'. $doctorName. '</a></td>';
+			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctorName. '</a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	

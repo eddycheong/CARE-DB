@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -23,31 +22,20 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 // CONNECT TO ORACLE
 //===================
-if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	// Schedule Query
-	/*$query = "select d.ename, ppname, pphone, stime
-		  from doctor d,
-			(select p.pname as ppname, p.phone as pphone, s.time as stime, s.eid as seid
-			 from patient p
-			 inner join schedule s
-			 on p.pid = s.pid)";
-	*/
-	$query = "select d.ename, p.pname, p.phone, s.time
-		  from doctor d, patient p
-		  inner join schedule s
-		  on p.pid = s.pid";
-	if(getUserType() == "doctor")	
-		$query .= " where d.eid = s.eid and s.eid = ". $_SESSION['doctor'];
-	else
-		$query .= " where d.eid = s.eid";
-	$query .= " order by s.time";	
-	
-	$s = oci_parse($c, $query);
-	oci_execute($s);
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$pid = $_POST['pAppointment'];
 
-	//Oracle Fetches
-	$n_rows = oci_fetch_all($s, $schedule, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+		$query = "select p.pname, s.time
+			  from patient p, schedule s
+			  where p.pid = s.pid and s.pid = ".$pid;
+
+		$s = oci_parse($c, $query);
+		oci_execute($s);
+
+		//Oracle Fetches
+		$n_rows = oci_fetch_all($s, $schedule, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
 	oci_close($c);
 
@@ -60,18 +48,12 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 function buildSchedule($num, $arr) {
 	echo '<table class = "center">';
 	echo '<tr>';
-	if(!(getUserType() == "doctor"))
-		echo '<th>Doctor Name</th>';
 	echo '<th>Patient Name</th>';
-	echo '<th>Phone</th>';
 	echo '<th>Scheduled Time</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
-		if(!(getUserType() == "doctor"))
-		echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
-		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 		
 		$timestamp = strtotime($arr[$i]['TIME']);
 		echo '<td>'. date("G:i a", $timestamp);
@@ -81,8 +63,9 @@ function buildSchedule($num, $arr) {
 		echo ' - '. date("G:i a", $endtimestamp);
 		echo '</td>';	
 		echo '</tr>';
-	}
+		}
 	echo '</table>';
+	}
 }
 ?>
 

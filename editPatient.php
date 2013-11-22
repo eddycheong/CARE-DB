@@ -40,39 +40,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$query .=" set ";
 			$i += 1;
 		}
-		$query .= "pname = '".$pname."'";
-		echo "add pname<br>";
+		$query .= "pname = '".$pname."' ";
+		//echo "add pname<br>";
 	}
 	if($address != null){
 		if($i == 0){
 			$query .=" set ";
 			$i += 1;
 		} else { $query .= ", ";}
-		$query .= "address = '".$address."'";
-		echo "add address<br>";
+		$query .= "address = '".$address."' ";
+		//echo "add address<br>";
 	}
 	if($phone != null){
 		if($i == 0){
 			$query .=" set ";
 			$i += 1;
 		} else { $query .= ", ";}
-		$query .= "phone = '".$phone."'";
-		echo "add phone<br>";
+		$query .= "phone = '".$phone."' ";
+		//echo "add phone<br>";
 	}
 	if($email != null){
 		if($i == 0){
 			$query .=" set ";
 			$i += 1;
 		} else { $query .= ", ";}
-		$query .= "email = '".$email."'";
-		echo "add email<br>";
+		$query .= "email = '".$email."' ";
+		//echo "add email<br>";
 	}
 	if($carecard != null){
 		if($i == 0){
 			$query .=" set ";
 		} else { $query .= ", ";}
-		$query .= "carecard = '".$carecard."'";
-		echo "add carecard<br>";
+		$query .= "carecard = '".$carecard."' ";
+		//echo "add carecard<br>";
 	}
 		
 	$query .= "where pid =".$pid;
