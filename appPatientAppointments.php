@@ -26,16 +26,19 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pid = $_POST['pAppointment'];
 
+	$test = $_POST['test'];
+	echo $test;
+
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		$query = "select d.ename, p.pname, a.time, a.fee
+		$query = "select d.ename, d.eid, p.pname, a.time, a.fee
 			  from appointment a, patient p
 			  inner join schedule s on p.pid = s.pid
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid and s.pid =".$pid;
 
 	
-		echo $pid, $query;
+		echo $query;
 		/*
 		$query = "select p.pname, s.time
 			  from patient p, schedule s
@@ -76,7 +79,12 @@ function buildSchedule($num, $arr, $pid) {
 		echo '</td>';
 		echo '<td>'. $arr[$i]['FEE'] .'</td>';
 		echo '<td>';
-		echo '<a href = "appScheduleRemove.php?PID='. $pid .'">Cancel</a>';
+		echo '<form action = "template.php" method = "post">';
+		echo '<input type = "hidden" name = "PID" value = "'.$pid.'">';
+		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
+		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
+		echo '<button type = "submit">Cancel</button>';
+		echo '</form>';
 		echo '</td>';	
 		echo '</tr>';
 		}

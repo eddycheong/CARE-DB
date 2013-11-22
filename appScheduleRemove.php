@@ -21,8 +21,8 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-	// Obtain the search statement
-	$search = $_GET['search'];
+	// Get the PID 
+	$pid = $_GET['PID'];
 
 	//===================
 	// CONNECT TO ORACLE
@@ -30,7 +30,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		$query = searchPartialName($search, "employee", "ename");
+		$query = "";
+
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		//Oracle Fetches
@@ -42,41 +43,5 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 	}
 }
 
-// Helper Functions
-function buildList($num, $arr) {
-	echo '<table class = "center">';
-	echo '<tr>';
-	echo '<th>EID</th>';
-	echo '<th>Employee Name</th>';
-	echo '</tr>';
-	for($i = 0; $i < $num; $i++) {
-		echo '<tr>';
-		echo '<th>'. $arr[$i]['EID'] .'</th>';
-		echo '<th>'. $arr[$i]['ENAME'] .'</th>';
-		echo '</tr>';
-	}
-	echo '</table>';
-}
+header("Location: appPatientAppointments.php");
 ?>
-
-<!--Design the page below-->
-<html>
-<head>
-	<title>Template</title>
-	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
-</head>
-<body style = "text-align: center;">
-	<div id = "header"></div>
-
-	<div id = "content">
-		<form id = "search" method= "get">
-			<input type = text name = "search">
-		</form>
-
-		<?php buildList($n_rows, $res); ?>
-
-	</div>
-
-	<div id = "footer"></div>
-</body>
-</html>

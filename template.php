@@ -19,6 +19,14 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	echo $_POST['PID'];
+	echo $_POST['EID'];
+	echo $_POST['TIME'];
+}
+
+
+
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 	// Obtain the search statement
