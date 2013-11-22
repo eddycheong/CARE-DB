@@ -27,10 +27,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pid = $_POST['pAppointment'];
 
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+		$query = "select d.ename, p.pname, a.time, a.fee
+			  from appointment a, patient p
+			  inner join schedule s on p.pid = s.pid
+			  inner join doctor d on d.eid = s.deid
+			  where a.eid = s.deid and s.pid =".$pid;
+
+	
+		echo $pid, $query;
+		/*
 		$query = "select p.pname, s.time
 			  from patient p, schedule s
 			  where p.pid = s.pid and s.pid = ".$pid;
-
+		*/
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -45,22 +55,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildSchedule($num, $arr) {
+function buildSchedule($num, $arr, $pid) {
 	echo '<table class = "center">';
 	echo '<tr>';
-	echo '<th>Patient Name</th>';
+	echo '<th>Doctor Name</th>';
+	echo '<th>Schedule Date</th>';
 	echo '<th>Scheduled Time</th>';
+	echo '<th>Fee</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
-		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
-		
+		echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		$timestamp = strtotime($arr[$i]['TIME']);
+		echo '<td>'. date("F j, Y", $timestamp);
 		echo '<td>'. date("G:i a", $timestamp);
 
 		$endtimestamp = mktime(date("G", $timestamp)+1, date("i", $timestamp), 0);
 		
 		echo ' - '. date("G:i a", $endtimestamp);
+		echo '</td>';
+		echo '<td>'. $arr[$i]['FEE'] .'</td>';
+		echo '<td>';
+		echo '<a href = "appScheduleRemove.php?PID='. $pid .'">Cancel</a>';
 		echo '</td>';	
 		echo '</tr>';
 		}
@@ -72,7 +88,7 @@ function buildSchedule($num, $arr) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Schedule</title>
+	<title>Patient Appointment</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
@@ -89,7 +105,7 @@ function buildSchedule($num, $arr) {
 		</div></div>
 	<div id = "content">
 
-		<?php buildSchedule($n_rows, $schedule); ?>
+		<?php buildSchedule($n_rows, $schedule, $pid); ?>
 
 	</div>
 <!-- Need to learn divs, work on UI later-->

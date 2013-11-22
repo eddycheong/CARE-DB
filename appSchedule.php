@@ -26,23 +26,25 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 	// Schedule Query
-	/*$query = "select d.ename, ppname, pphone, stime
-		  from doctor d,
-			(select p.pname as ppname, p.phone as pphone, s.time as stime, s.eid as seid
-			 from patient p
-			 inner join schedule s
-			 on p.pid = s.pid)";
+	/*
+	$query = "select d.ename, p.name, p.phone, a.time
+		  from doctor d, patient p
+		  inner join appointment a
+		  on p.pid = a.pid
+		  where d.eid = s.eid";
+	if(getUserType() == "doctor")
+		$query.= " and a.eid = ". $_SESSION['doctor'];
 	*/
 	$query = "select d.ename, p.pname, p.phone, s.time
 		  from doctor d, patient p
 		  inner join schedule s
-		  on p.pid = s.pid";
+		  on p.pid = s.pid
+		  where d.eid = s.deid";
 	if(getUserType() == "doctor")	
-		$query .= " where d.eid = s.eid and s.eid = ". $_SESSION['doctor'];
-	else
-		$query .= " where d.eid = s.eid";
-	$query .= " order by s.time";	
+		$query .= " and s.deid = ". $_SESSION['doctor'];
+	$query .= " order by s.time";
 	
+
 	$s = oci_parse($c, $query);
 	oci_execute($s);
 
