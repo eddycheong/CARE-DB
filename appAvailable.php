@@ -56,7 +56,7 @@ $new_viewingYear = date('y', $old_year_timestamp);
 $viewingMonth = $_REQUEST['m'];
 $viewingDay = $_REQUEST['d'];
 
-$tableAvailable = '<table width="800" style="text-align:center; padding:80px; border="0" cellspacing="0" cellpadding="0">';
+$tableAvailable = '<table width="800" style="text-align:center; padding:80px; margin-left:185px; border="0" cellspacing="0" cellpadding="0">';
 $tableAvailable .= '<tr align="center">';
 $tableAvailable .= '<th width="50%" align="center">Time</th>';
 $tableAvailable .= '<th width="50%" align="center">Select Available Time</th>';
@@ -76,7 +76,7 @@ for($i=0; $i<11;$i++){
 			$doctorID = $doctor[$j]['EID'];
 			$appDoctorID = $appointment[$k]['EID'];
 			$appTime = $appointment[$k]['TIME'];
-			$date = DateTime::createFromFormat('y-m-d g:i:s.u', $appTime);
+			$date = DateTime::createFromFormat('y-m-d g:i:s', $appTime);
 			$y = $date->format('y');
 			$m = $date->format('m');
 			$d = $date->format('d');
@@ -97,10 +97,7 @@ for($i=0; $i<11;$i++){
 			//Session needs to be cleard later after confirming making appointment
 			//unset ($_SESSION['varname']);.
 			$_SESSION['AppDoctorID']=$doctorID;
-			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00.000000';
-			
-			// Cindy: added new variable for "appConfrim.php"
-			$_SESSION['AppDate']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay;
+			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00';
 
 			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctorName. '</a></td>';
 		}
