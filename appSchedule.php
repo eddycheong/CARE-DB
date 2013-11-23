@@ -25,26 +25,19 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	// Schedule Query
-	/*
-	$query = "select d.ename, p.name, p.phone, a.time
-		  from doctor d, patient p
-		  inner join appointment a
-		  on p.pid = a.pid
-		  where d.eid = s.eid";
-	if(getUserType() == "doctor")
-		$query.= " and a.eid = ". $_SESSION['doctor'];
-	*/
-	$query = "select d.ename, p.pname, p.phone, s.time
-		  from doctor d, patient p
-		  inner join schedule s
-		  on p.pid = s.pid
-		  where d.eid = s.deid";
-	if(getUserType() == "doctor")	
-		$query .= " and s.deid = ". $_SESSION['doctor'];
-	$query .= " order by s.time";
-	
+	$id = 20; // testing purposes
 
+	// Schedule Query
+	$query = "select d.ename, p.pname, p.phone, s.time
+		  from doctor d, patient p, schedule s
+		  where p.pid = s.pid";
+	if(getUserType() == "doctor")	
+		$query .= " and d.eid = s.a_eid
+			    and s.a_eid = ". $_SESSION['doctor'];
+	else
+		$query .= " and d.eid = s.a_eid";
+	$query .= " order by s.time";	
+	
 	$s = oci_parse($c, $query);
 	oci_execute($s);
 
@@ -71,7 +64,7 @@ function buildSchedule($num, $arr) {
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
 		if(!(getUserType() == "doctor"))
-		echo '<td>'. $arr[$i]['ENAME'] .'</td>';
+			echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 		
@@ -91,19 +84,25 @@ function buildSchedule($num, $arr) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Schedule</title>
+	<title>CARE Clinic</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
+	<div id = "header">
+		<div id="clinic_info">
+			<span><b>Welcome to CARE Clinic System</b></span><br>
+			<span>7890 Apple St. Vancouver BC</span><br>
+			<span>604-123-4567</span>
+		</div>
+	</div>
 
 	<div id = "menu-nav">
 		<div class = "menu-item">
-			<p>Schedule</p>
+			<p>HOME</p>
 			<a href = "appSchedule.php" class = "fill-link"></a>
 		</div>
 		<div class = "menu-item">
-			<p>Patient</p>
+			<p>PATIENT</p>
 			<a href = "appPatientSearch.php" class = "fill-link"></a>
 		</div></div>
 	<div id = "content">

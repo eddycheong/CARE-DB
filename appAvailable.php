@@ -14,8 +14,8 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 }
 
 // usertype test
-$utype = getUserType();
-echo $utype;
+// $utype = getUserType();
+// echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -94,12 +94,10 @@ for($i=0; $i<11;$i++){
 			}
 		}
 		if($tableCreated == false){
-			//Session needs to be cleard later after confirming making appointment
-			//unset ($_SESSION['varname']);.
 			$_SESSION['AppDoctorID']=$doctorID;
 			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00';
 
-			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctorName. '</a></td>';
+			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appPatientSearch.php">'. $doctorName. '</a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	
@@ -118,11 +116,10 @@ $tableAvailable .= '</table>';
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> 			
-			Select Available Time
-		</h1>
-	</div>
+	<div id = "header"> </div>
+
+	<div id = "menu-nav"></div>
+
 	<div id = "content">
 		<h3 style = "margin-bottom: 0; padding-top: 40;"> 	
 			<?php 

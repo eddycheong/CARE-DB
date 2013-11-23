@@ -2,6 +2,8 @@ html, body
 {
 	padding: 0;
 	margin: 0;
+	font-family: arial, helvetica, sans-serif;
+}
 	/*background-color: #E4EEE7;
 	text-align: center;*/
 }
@@ -20,21 +22,6 @@ th
 form
 {
 	margin-bottom: 0px;
-}
-
-.form-container
-{
-	margin-top: 5%;
-}
-
-.form-container form,
-.form-container form div {
-	display: inline;
-}
-
-.form-container button {
-	display: inline;
-	vertical-align: middle;
 }
 
 table.center
@@ -63,16 +50,21 @@ table.center
 
 #header
 {
-	height: 125px;
-	background-color: #0033CC;
+	height: 120px;
+	background-color: #003366;
 	width: 100%;
 }
 
+#clinic_info{
+	color:#FFCC66;
+	padding: 20px;	font-size: 20px;
+
+}
 #menu-nav
 {
-	margin-top: 20px;
+	margin-top: 10px;
 	height: 40px;
-	background-color : #0033CC;
+	background-color : #003366;
 	width: 100%
 }
 
@@ -80,11 +72,14 @@ table.center
 {
 	position: relative;
 	float: left;
-	border: 1px solid #0033CC;
-	height: 95%;
-	background-color: #0066CC;
+	border-left: 3px solid #003366;
+	height: 100%;
+	background-color: #FFCC66;
 	width: 10%;
 	display: table;
+	font-size: 16px;
+	font-family: monospace;
+	font-weight: bold;
 }
 
 .menu-item p
@@ -92,6 +87,7 @@ table.center
 	vertical-align: middle;
 	text-align: center;
 	display: table-cell;
+	color: #003366;
 }
 
 #search

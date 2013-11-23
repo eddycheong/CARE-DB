@@ -32,15 +32,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//===================
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		// Template search query, replace table and attribute
-		// $query = "select *
-		// 	 from table
-		// 	 where attribute = '". $search ."'";
-		// $s = oci_parse($c, $query);
-		// oci_execute($s);
-		
-		//Oracle Fetches
-
 		oci_close($c);
 	} else {
 		$err = oci_error();
@@ -101,8 +92,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	    if(($i % 7) == 0 ) $calendar .= "<tr>";
 	    if($i < $startday) $calendar .= "<td ></td>";
 	    else if(($theDay == $currentDay) && (date("n") == $currentMonth) && (date("Y") == $currentYear))
-	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#E5AAAA' height='20px'><a onclick='clickDate(this)' href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
-	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#AED5E4' height='20px'><a onclick='clickDate(this)' href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
+	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#E5AAAA' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
+	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#AED5E4' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
 	    if(($i % 7) == 6 ) $calendar .= "</tr>";
 	}
 	$calendar .='</table>';
@@ -116,21 +107,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
 	<title>Appointment</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
-	<script type="text/javascript">
-		function clickDate(obj){
-			window.document.frm.currentViewingDay.value = obj.innerHTML;
-			window.document.frm.currentViewingMonth.value = document.getElementById('currentViewingMonth').innerHTML;
-			window.document.frm.currentViewingYear.value = document.getElementById('currentViewingYear').innerHTML;
-			window.document.frm.submit()
-
-			<?php
-				//pass variable to the next page
-				// $_SESSION['currentViewingDay'] = $_GET['currentViewingDay'];
-				// $_SESSION['currentViewingMonth'] = $_GET['currentViewingMonth'];
-				// $_SESSION['currentViewingYear'] = $_GET['currentViewingYear'];
-			?>
-		}
-	</script>
 </head>
 <body>
 	<div id = "header"></div>
