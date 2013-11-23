@@ -19,6 +19,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
+$currentDate = date("F j, Y");
+
 //===================
 // CONNECT TO ORACLE
 //===================
@@ -38,11 +40,12 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 		  from doctor d, patient p
 		  inner join schedule s
 		  on p.pid = s.pid
-		  where d.eid = s.deid";
+		  where trunc(s.time) = '".date("y-m-d")."' and d.eid = s.deid";
 	if(getUserType() == "doctor")	
 		$query .= " and s.deid = ". $_SESSION['doctor'];
 	$query .= " order by s.time";
-	
+
+	echo $query;	
 
 	$s = oci_parse($c, $query);
 	oci_execute($s);
@@ -100,8 +103,10 @@ function buildSchedule($num, $arr) {
 		<?php buildMenuTab(); ?>
 	</div>
 	<div id = "content">
-
 		<?php
+		
+		echo $currentDate;
+
 		if($n_rows > 0)	
 			buildSchedule($n_rows, $schedule);
 		else
