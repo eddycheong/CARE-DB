@@ -13,7 +13,14 @@ function getUserType() {
 	return null;
 
 }
-
+function attachHeader(){
+	echo'<div id="clinic_info">';
+	echo'<span><b>Welcome to CARE Clinic System</b></span><br>';
+	echo'<span>7890 Apple St. Vancouver BC</span><br>';
+	echo'<span>604-123-4567</span>';
+	echo'</div>';
+	echo'<a href="logout.php" id="logout">LogOut</a>';
+}
 function buildMenuTab() {
 
 	if(getUserType() == "receptionist") {
@@ -21,7 +28,7 @@ function buildMenuTab() {
 			"Schedule" => "appSchedule.php",
 			"Patients" => "appPatientSearch.php",
 			"Appointments" => "appCalendar.php",
-			"Payment Stats" => "placeholder.php"	
+			"Payment Stats" => "minMaxFee.php"	
 		);
 	} elseif( getUserType() == "doctor") {
 		$array = array (

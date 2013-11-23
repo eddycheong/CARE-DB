@@ -39,15 +39,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
+		
 			
 			$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_close($c);
-			
-			$_SESSION['AppPid'] = $pid;
-			$_SESSION['AppPname'] = $pname;
-			header("Location: appConfirm.php");
+			header("Location: appConfirm.php?pname=". $pname."&phone=".$phone);
 		
 	} else {
 		$err = oci_error();
@@ -77,10 +75,10 @@ function getRandomPid(){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
-	<!--<div>
-	<a href="appConfirm.php"> <input type = "submit" name = "submit" value = "Submit"></a>
-	</div>-->
+	<div id = "header">
+		<?php attachHeader(); ?>
+		<h1 style = "margin-bottom: 10;"> New Patient </h1>
+	</div>
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>

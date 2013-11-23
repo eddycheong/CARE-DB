@@ -42,6 +42,16 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	$d_rows = oci_fetch_all($s, $doctor, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 	oci_close($c);
 
+	//total # of Employees (Aggregation query)
+	$query = "select count(*) AS empcount  
+			from employee";
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+
+	$ec_rows = oci_fetch_all($s, $employee_count, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+	oci_close($c);
+
+	
 } else {
 	$err = oci_error();
 	echo "Oracle Connect Error " . $err['message'];
@@ -123,6 +133,9 @@ function buildDoctorList($arr, $rows) {
 		</form>-->
 
 		<?php
+
+		echo "EMP COUNT". $employee_count[$ec_rows];
+
 		buildEmployeeList($employee, $e_rows);
 		buildDoctorList($doctor, $d_rows);
 		?>

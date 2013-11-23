@@ -26,16 +26,9 @@ $currentDate = date("F j, Y");
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
+	$id = 20; // testing purposes
+
 	// Schedule Query
-	/*
-	$query = "select d.ename, p.name, p.phone, a.time
-		  from doctor d, patient p
-		  inner join appointment a
-		  on p.pid = a.pid
-		  where d.eid = s.eid";
-	if(getUserType() == "doctor")
-		$query.= " and a.eid = ". $_SESSION['doctor'];
-	*/
 	$query = "select d.ename, p.pname, p.phone, s.time
 		  from doctor d, patient p
 		  inner join schedule s
@@ -73,7 +66,7 @@ function buildSchedule($num, $arr) {
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
 		if(!(getUserType() == "doctor"))
-		echo '<td>'. $arr[$i]['ENAME'] .'</td>';
+			echo '<td>'. $arr[$i]['ENAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 		
@@ -93,11 +86,13 @@ function buildSchedule($num, $arr) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Schedule</title>
+	<title>CARE Clinic</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
 
 	<div id = "menu-nav">
 		<?php buildMenuTab(); ?>
