@@ -234,7 +234,15 @@ echo '<table class = "center">';
 
 function buildPHistoryList($num, $arr, $patient,$patientID, $today){
 if ($num == 0){
-
+echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Add Patient History for ' . $patient . '</td>';
+	echo '</tr>';
+		echo '<tr>';
+	echo '<th>Enter Condition</th>';
+	echo '<th>Enter Medication</th>';
+	echo '<th>Date</th>';
+	echo '</tr>';
 }else{
 	echo '<table class = "center">';
 	echo '<tr>';
@@ -257,6 +265,7 @@ if ($num == 0){
 		 echo '</form>';
 		echo '</tr>';
 	}
+	}
 	// For additions to Patient History
 	echo '<tr>';
 	
@@ -269,7 +278,7 @@ if ($num == 0){
 				
 	echo '</tr>';
 	echo '</table>';
-}
+
 }
 
 ?>
