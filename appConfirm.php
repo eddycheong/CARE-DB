@@ -37,16 +37,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$query = "insert into appointment values (".$eid.", '".$time."', ".$fee.",".$pid.")";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
-		//echo $eid;
-		if($s) echo "appointment<br>".$query."<br>";
+		//if($s) echo "appointment<br>".$query."<br>";
 		
 		$query2 ="insert into schedule values (2, ".$eid.", ".$pid.", '".$time."')"; 		
 		$s2 = oci_parse($c, $query2);
 		oci_execute($s2);
-		if($s2) echo "schedule<br>".$query2."<br>";
+		//if($s2) echo "schedule<br>".$query2."<br>";
 		
 		oci_close($c);
-		//header("Location: dashboard.php");
+		unset($_SESSION['AppDoctorID']);
+		unset($_SESSION['AppTime']);
+		unset($_SESSION['dname']);
+		header("Location: appSchedule.php");
 			
 	} else {
 		$err = oci_error();
