@@ -31,6 +31,11 @@ $pid = $_SESSION['AppPid'];
 $pname = $_SESSION['AppPname'];
 $doctor = 'n/a';
 
+if(isset($_GET['pid']) && isset($_GET['pname'])) {
+	$pid = $_GET['pid'];
+	$pname = $_GET['pname'];
+}
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 

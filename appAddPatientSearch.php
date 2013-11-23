@@ -60,8 +60,7 @@ function buildPatientList($num, $arr) {
 		for($i = 0; $i < $num; $i++) {
 			echo '<tr>';
 			echo '<td>'; 
-			echo '<a href = "appConfirm.php">';
-			$_SESSION['aPID'] = $arr[$i]['PID'];
+			echo '<a href = "appConfirm.php?pid='.$arr[$i]['PID'].'&pname='.$arr[$i]['PNAME'].'">';
 			echo $arr[$i]['PNAME'];
 			
 			echo '</a>';

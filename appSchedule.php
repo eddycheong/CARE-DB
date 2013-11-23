@@ -101,13 +101,14 @@ function buildSchedule($num, $arr) {
 	</div>
 	<div id = "content">
 
-		<?php buildSchedule($n_rows, $schedule); ?>
+		<?php
+		if($n_rows > 0)	
+			buildSchedule($n_rows, $schedule);
+		else
+			echo 'Currently No Schedule';
+		?>
 
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
--->
 	<div id = "footer"></div>
 </body>
 </html>
