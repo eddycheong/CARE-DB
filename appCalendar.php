@@ -135,7 +135,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 	<div id = "header"></div>
 
-	<div id = "menu-nav"></div>
+	<div id = "menu-nav">
+                <?php buildMenuTab(); ?>
+	</div>
 
 	<div id = "content">
 		<form name="frm" method="post" action='template.php'>

@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -98,14 +97,8 @@ function buildSchedule($num, $arr) {
 	<div id = "header"></div>
 
 	<div id = "menu-nav">
-		<div class = "menu-item">
-			<p>Schedule</p>
-			<a href = "appSchedule.php" class = "fill-link"></a>
-		</div>
-		<div class = "menu-item">
-			<p>Patient</p>
-			<a href = "appPatientSearch.php" class = "fill-link"></a>
-		</div></div>
+		<?php buildMenuTab(); ?>
+	</div>
 	<div id = "content">
 
 		<?php buildSchedule($n_rows, $schedule); ?>

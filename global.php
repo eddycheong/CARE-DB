@@ -15,6 +15,12 @@
 		"Set Appointment" => "setappointment.php"
 	);	
 
+	// Receptionist List
+	$rArr = array(
+		"Schedule" => "appSchedule.php",
+		"Patients" => "appPatientSearch.php"
+	);
+
 	// Doctor List
 	$dArr = array(
 		"Dashboard" => "dashboard.php",

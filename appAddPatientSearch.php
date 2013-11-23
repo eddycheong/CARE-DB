@@ -82,7 +82,7 @@ function buildPatientList($num, $arr) {
 	<div id = "header"></div>
 
 	<div id = "menu-nav">
-
+                <?php buildMenuTab(); ?>
 	</div>
 
 	<div id = "content">

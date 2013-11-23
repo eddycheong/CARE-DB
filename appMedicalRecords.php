@@ -142,6 +142,11 @@ if ($num == 0){
 </head>
 <body style = "text-align: center;">
 	<div id = "header"></div>
+	
+	<div id = "menu-nav">
+                <?php buildMenuTab(); ?>
+	</div>
+
 	<div id = "content">
 	<div id = "Medical Record">
 		<?php 

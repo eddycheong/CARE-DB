@@ -13,9 +13,6 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -75,10 +72,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Review the Appointment </h1>
+	<div id = "header"></div>
+
+	<div id = "menu-nav">
+                <?php buildMenuTab(); ?>
 	</div>
 
+	<!--Make this a header of the file Cindy-->
+	Review The Appointment
 	<div id = "content">
 		<?php
 		// sample code to use result from search
@@ -105,14 +106,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		?>
 		<form id = "confirm" method= "post">
 			<input type = "submit" name = "confirm" value = "Confirm">
-		</form?
+		</form>
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
-
-	<div id = "footer">
-	</div>
--->
+	<div id = "footer"></div>
 </body>
 </html>

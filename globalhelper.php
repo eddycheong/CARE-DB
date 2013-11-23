@@ -14,10 +14,26 @@ function getUserType() {
 
 }
 
-function buildSideLink($array) {
-	foreach ($array as $key => $value) {
-		echo '<div id = "side-link">';
-		echo '<a href = "'. $value .'" class = "fill-link">'. $key .'</a>';
+function buildMenuTab() {
+
+	if(getUserType() == "receptionist") {
+		$array = array (
+			"Schedule" => "appSchedule.php",
+			"Patients" => "appPatientSearch.php",
+			"Appointments" => "appCalendar.php",
+			"Payment Stats" => "placeholder.php"	
+		);
+	} elseif( getUserType() == "doctor") {
+		$array = array (
+			"Schedule" => "appSchedule.php",
+			"Patients" => "appPatientSearch.php"
+		);
+	}
+
+	foreach($array as $key => $value) {
+		echo '<div class = "menu-item">';
+		echo '<p>'. $key .'</p>';
+		echo '<a href = "'. $value .'" class = "fill-link"></a>';
 		echo '</div>';
 	}
 }
