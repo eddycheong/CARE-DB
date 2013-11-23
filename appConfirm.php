@@ -13,9 +13,6 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -36,6 +33,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//===================
 	// CONNECT TO ORACLE
 	//===================
+$eid = $_SESSION['AppDoctorID'];
+$time = $_SESSION['AppTime'];
+$date = $_SESSION['AppDate'];
+$pid = $_SESSION['AppPid'];
+$pname = $_SESSION['AppPname'];
+$doctor = 'n/a';
+
+if(isset($_GET['pid']) && isset($_GET['pname'])) {
+	$pid = $_GET['pid'];
+	$pname = $_GET['pname'];
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
@@ -61,20 +71,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header">
-		<h1 style = "margin-bottom: 0;"> Template </h1>
-	</div>
-	<div id = "menu-nav"></div>
-	<!--
-	<div id = "side-panel">
-	<?php
-		// assign arr based on user type
-		
-		//buildSideLink($arr);
-	?>
+	<div id = "header"></div>
+
+	<div id = "menu-nav">
+                <?php buildMenuTab(); ?>
 	</div>
 	-->
 
+	<!--Make this a header of the file Cindy-->
+	Review The Appointment
 	<div id = "content">
 		Content appears here
 		<form id = "search" name "" method= "post">
@@ -98,14 +103,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			echo '</table>';
 			echo '</center>';
 		?>
-
+		<form id = "confirm" method= "post">
+			<input type = "submit" name = "confirm" value = "Confirm">
+		</form>
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
-
-	<div id = "footer">
-	</div>
--->
+	<div id = "footer"></div>
 </body>
 </html>

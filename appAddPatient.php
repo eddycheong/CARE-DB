@@ -13,9 +13,6 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] != '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -78,13 +75,22 @@ function getRandomPid(){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
+<<<<<<< HEAD
 	<div id = "header">
 		<h1 style = "margin-bottom: 10;"> New Patient </h1>
 	</div>
 	<div id = "menu-nav"></div>
+=======
+	<div id = "header"></div>
+>>>>>>> 4d61ae62853a2fe6dcac8b3121325c571071b68e
 	<!--<div>
 	<a href="appConfirm.php"> <input type = "submit" name = "submit" value = "Submit"></a>
 	</div>-->
+	<div id = "menu-nav">
+                <?php buildMenuTab(); ?>
+	</div>
+
+	New Patient
 	<div id = "content">
 		<form id = "insert" method= "post">
 			<label for="name">Name:</label>   <input type="text" name="pname" value "" /><br/>
@@ -97,13 +103,6 @@ function getRandomPid(){
 		</form>
 		
 	</div>
-	
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
-
-	<div id = "footer">
-	</div>
--->
+	<div id = "footer"></div>
 </body>
 </html>
