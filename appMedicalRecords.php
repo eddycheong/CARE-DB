@@ -20,32 +20,41 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // chmod 755 newpage.php
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-	// Obtain the patient name
-	$patient = trim($_POST['addpatient']);
-
+	
+	// Obtaining Info
+	$condition = $_POST["condition"];
+	$medication = $_POST["medication"];
+	$pname = $_POST["pname"];
+	$today = date('y-m-d');
+	
+	$delete =$_POST["delete"];
+	$cond =$_POST["cond"];
+	
+	$patientID = $_POST["addpatient"];
 	//===================
 	// CONNECT TO ORACLE
 	//===================
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		// Template search query, replace table and attribute
-		//$query = searchPartialName($search, "employee", "ename");
-		/*
-		$query = "select *
-				from has_medicalrecords
-				where pname = '". $patient ."'";
-		$s = oci_parse($c, $query);
-		oci_execute($s);
+		//Handles Additions to contains_pHistory
+		if($condition != null && $medication != null && $pname != null){
+			$queryInsert = "insert into contains_pHistory values
+				($patientID, '$pname','$today','$condition','$medication')";
+			$sInsert = oci_parse($c, $queryInsert);
+			oci_execute($sInsert);
+		}
+		
+		//Handles Deletions to containt_pHistory
+		if($delete != null && $cond!=null){
+		$queryDelete = "delete from contains_pHistory 
+						where pid = '$patientID' and condition ='$cond' and pdate ='$delete'";
+		$sDelete = oci_parse($c, $queryDelete);
+		oci_execute($sDelete);
+		}
 		
 		
-		//Oracle Fetches
-		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		*/
-		$patientID = $_POST["addpatient"];
 		//Queries for has_medicalrecord, has_fHistory, contains_pHistory
 		// based on pID
-		
 		$queryMedRec = "select *
 						from has_medicalrecords
 						where pid = $patientID";
@@ -110,7 +119,7 @@ echo '</table>';
 	}
 }
 
-function buildFHistoryList($num, $arr, $patient){
+function buildFHistoryList($num, $arr, $patient, $patientID){
 if ($num == 0){
 }else{
 	echo '<table class = "center">';
@@ -127,13 +136,14 @@ if ($num == 0){
 		echo '<td>'. $arr[$i]['FNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['RELATION'] .'</td>';
 		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
+		 
 		echo '</tr>';
 	}
 	echo '</table>';
 }
 }
 
-function buildPHistoryList($num, $arr, $patient){
+function buildPHistoryList($num, $arr, $patient,$patientID){
 if ($num == 0){
 
 }else{
@@ -151,11 +161,39 @@ if ($num == 0){
 		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
 		echo '<td>'. $arr[$i]['MEDICATION'] .'</td>';
 		echo '<td>'. $arr[$i]['PDATE'] .'</td>';
-		
+		 echo '<form method = "post" action = appMedicalRecords.php>';
+		 echo '<INPUT TYPE = "hidden" NAME = "addpatient" VALUE ="'. $patientID .'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "cond" VALUE = "' .$arr[$i]['CONDITION'] . '">';
+		 echo '<td><button type = "submit" name = "delete" value = "'.$arr[$i]['PDATE'].'">X</button></td>';
+		 echo '</form>';
 		echo '</tr>';
 	}
 	echo '</table>';
 }
+}
+
+function enterNewHistory($patientID, $patient){
+	echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Enter new patient history for ' . $patient . '</td>';
+	echo '</tr>';
+	echo '<tr>';
+	echo '<th>Enter Condition</th>';
+	echo '<th>Enter Medication</th>';
+	echo '<td></td>';
+	echo '</tr>';
+	echo '<tr>';
+	
+	echo '<form method = "post" action = appMedicalRecords.php>';
+	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="60" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="60" ></td>';
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Enter</button></td>';
+				
+	echo '</tr>';
+	
+	echo '</table>';
+
 }
 ?>
 
@@ -183,7 +221,7 @@ if ($num == 0){
 	<div id = "Family History">
 	
 	<?php 
-		buildFHistoryList($rowsFHistory, $resultFHistory, $patient);
+		buildFHistoryList($rowsFHistory, $resultFHistory, $patient, $patientID);
 		//echo $queryFHistory;
 		?>	
 		
@@ -192,9 +230,17 @@ if ($num == 0){
 	<div id = "Patient History">
 		<?php
 	
-		buildPHistoryList($rowsPHistory, $resultPHistory, $patient);
-		e
+		buildPHistoryList($rowsPHistory, $resultPHistory, $patient, $patientID);
+		
 	?>
+	</div>
+	
+	<div id = "Entering New pHistory">
+	<?php 
+	if ($rowsMedRec >0)
+	enterNewHistory($patientID, $patient);
+	?>
+	
 	</div>
 	
 	
