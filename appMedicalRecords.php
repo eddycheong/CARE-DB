@@ -132,6 +132,31 @@ if ($num == 0){
 	echo '</table>';
 }
 }
+
+function buildPHistoryList($num, $arr, $patient){
+if ($num == 0){
+
+}else{
+	echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Patient History for ' . $patient . '</td>';
+	echo '</tr>';
+	echo '<tr>';
+        echo '<th>Condition</th>';
+        echo '<th>Medication</th>';
+        echo '<th>Date</th>';
+        echo '</tr>';
+	for($i = 0; $i < $num; $i++) {
+		echo '<tr>';
+		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
+		echo '<td>'. $arr[$i]['MEDICATION'] .'</td>';
+		echo '<td>'. $arr[$i]['PDATE'] .'</td>';
+		
+		echo '</tr>';
+	}
+	echo '</table>';
+}
+}
 ?>
 
 <!--Design the page below-->
@@ -163,6 +188,13 @@ if ($num == 0){
 		?>	
 		
 	
+	</div>
+	<div id = "Patient History">
+		<?php
+	
+		buildPHistoryList($rowsPHistory, $resultPHistory, $patient);
+		e
+	?>
 	</div>
 	
 	

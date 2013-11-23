@@ -10,7 +10,7 @@ session_start();
 
 // If no one is logged in, redirect them to the login page
 if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
-	header("Location: login.php");
+        header("Location: login.php");
 }
 
 //=======================
@@ -28,59 +28,70 @@ $search = $_GET['search'];
 // CONNECT TO ORACLE
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+		if(isset($_REQUEST['doc'])){
+	$query = 'select *
+				from patient
+				where not exists(
+						select eid
+						from doctor
+						where eid not in(
+							select eid
+							from appointment
+							where patient.pid = appointment.pid))';
+        // Template search query, replace table and attribute
+        } else {
+		if(isset($_GET['search']))
+                $query = searchPartialName($search, "patient", "pname");
+        else
+		
+                $query = "select *
+                          from patient";     
+}
+        $s = oci_parse($c, $query);
+        oci_execute($s);
 
-	// Template search query, replace table and attribute
-	if(isset($_GET['search']))
-		$query = searchPartialName($search, "patient", "pname");
-	else
-		$query = "select *
-			  from patient";	
-
-	$s = oci_parse($c, $query);
-	oci_execute($s);
-
-	//Oracle Fetches
-	$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-	oci_close($c);
+        //Oracle Fetches
+        $n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_close($c);
 } else {
-	$err = oci_error();
-	echo "Oracle Connect Error " . $err['message'];
+        $err = oci_error();
+        echo "Oracle Connect Error " . $err['message'];
 }
 
 function buildPatientList($num, $arr) {
 
-	if($num > 0) {
-		echo '<table class = "center">';
-		echo '<tr>';
-		echo '<th>Patient Name</th>';
-		echo '<th>Address</th>';
-		echo '<th>Phone Number</th>';
-		echo '</tr>';
-		for($i = 0; $i < $num; $i++) {
-			echo '<tr>';
-			echo '<td>'. $arr[$i]['PNAME'] .'</td>';
-			echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
-			echo '<td>'. $arr[$i]['PHONE'] .'</td>';
-			if(!(getUserType() == "doctor")) {
-				echo '<td>';
-				echo '<form method = "post" action = appAddPatient.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">Set Appointment</button>';
-				echo '</form>';
-				echo '</td>';
-			} else {
-				echo '<td>';
-				echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
-				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
-				echo '</form>';
-				echo '</td>';
-	
-			}
-			echo '</tr>';
-		}
-		echo '</table>';
-	} else {
-		echo '<h1 id = "noresult"> Search Resulted in No Matches </h1>';
-	}
+        if($num > 0) {
+                echo '<table class = "center">';
+                echo '<tr>';
+                echo '<th>Patient Name</th>';
+                echo '<th>Address</th>';
+                echo '<th>Phone Number</th>';
+                echo '</tr>';
+                for($i = 0; $i < $num; $i++) {
+                        echo '<tr>';
+                        echo '<td>'. $arr[$i]['PNAME'] .'</td>';
+                        echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
+                        echo '<td>'. $arr[$i]['PHONE'] .'</td>';
+                        if(!(getUserType() == "doctor")) {
+                                echo '<td>';
+                                echo '<form method = "post" action = appAddPatient.php>';
+                                echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">Set Appointment</button>';
+                                echo '</form>';
+                                echo '</td>';
+                        } else {
+                                echo '<td>';
+                                echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
+                                echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
+                                echo '</form>';
+                                echo '</td>';
+        
+                        }
+                        echo '</tr>';
+                }
+                echo '</table>';
+        } else {
+                echo 'Search Resulted in No Matches';
+        }
 }
 
 ?>
@@ -88,25 +99,29 @@ function buildPatientList($num, $arr) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Patient Search</title>
-	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
+        <title>Patient Search</title>
+        <link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header">
-		<?php attachHeader(); ?>
-	</div>
+        <div id = "header">
+                <?php attachHeader(); ?>
+        </div>
 
-	<div id = "menu-nav">
-		<?php buildMenuTab(); ?>	
-	</div>
+        <div id = "menu-nav">
+                <?php buildMenuTab(); ?>        
+        </div>
 
-	<div id = "content">
-		<form id = "search" method= "get">
-			Search: <input type = text name = "search">
-		</form>
+        <div id = "content">
+                <form id = "search" method= "get">
+                        Search: <input type = text name = "search">
+                </form>
+				<br>
+				<a href ="appPatientSearch.php?doc=all">Patients with appointments with all doctors</a>
+				<br>
+				<a href ="appPatientSearch.php">All Patients</a>
 
-		<?php buildPatientList($n_rows, $res); ?>
-	</div>
-	<div id = "footer"></div>
+                <?php buildPatientList($n_rows, $res); ?>
+        </div>
+        <div id = "footer"></div>
 </body>
 </html>
