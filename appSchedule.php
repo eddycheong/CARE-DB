@@ -38,8 +38,6 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 		$query .= " and s.deid = ". $_SESSION['doctor'];
 	$query .= " order by s.time";
 
-	echo $query;	
-
 	$s = oci_parse($c, $query);
 	oci_execute($s);
 
@@ -100,7 +98,7 @@ function buildSchedule($num, $arr) {
 	<div id = "content">
 		<?php
 		
-		echo $currentDate;
+		echo '<h1 id = "title">'.$currentDate.'</h1>';
 
 		if($n_rows > 0)	
 			buildSchedule($n_rows, $schedule);

@@ -79,7 +79,7 @@ function buildPatientList($num, $arr) {
 		}
 		echo '</table>';
 	} else {
-		echo 'Search Resulted in No Matches';
+		echo '<h1 id = "noresult"> Search Resulted in No Matches </h1>';
 	}
 }
 
@@ -105,7 +105,7 @@ function buildPatientList($num, $arr) {
 			Search: <input type = text name = "search">
 		</form>
 
-		<?php buildPatientList($rn_rows, $res); ?>
+		<?php buildPatientList($n_rows, $res); ?>
 	</div>
 	<div id = "footer"></div>
 </body>
