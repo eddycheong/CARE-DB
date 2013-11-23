@@ -21,27 +21,31 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // chmod 755 newpage.php
 
 
-if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-	$search = $_GET['search'];
+$search = $_GET['search'];
 
-	//===================
-	// CONNECT TO ORACLE
-	//===================
-	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+//===================
+// CONNECT TO ORACLE
+//===================
+if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		// Template search query, replace table and attribute
+	// Template search query, replace table and attribute
+	if(isset($_GET['search']))
 		$query = searchPartialName($search, "patient", "pname");
-		$s = oci_parse($c, $query);
-		oci_execute($s);
-
-		//Oracle Fetches
-		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		oci_close($c);
-	} else {
-		$err = oci_error();
-		echo "Oracle Connect Error " . $err['message'];
+	else {
+		$query = "select *
+			  from patient";	
 	}
+
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+
+	//Oracle Fetches
+	$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+	oci_close($c);
+} else {
+	$err = oci_error();
+	echo "Oracle Connect Error " . $err['message'];
 }
 
 function buildPatientList($num, $arr) {
@@ -67,6 +71,8 @@ function buildPatientList($num, $arr) {
 			echo '</tr>';
 		}
 		echo '</table>';
+	} else {
+		echo 'Search Resulted in No Matches';
 	}
 }
 
