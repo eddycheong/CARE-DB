@@ -56,10 +56,20 @@ table.center
 }
 
 #clinic_info{
+	float:left;
 	color:#FFCC66;
-	padding: 20px;	font-size: 20px;
+	padding: 20px;	
+	font-size: 14px;
 
 }
+#logout{
+	float: right;
+	color: #FFCC66;
+	background-color: #003366;
+	text-decoration: none;
+	padding: 20px;
+}
+
 #menu-nav
 {
 	margin-top: 10px;
@@ -75,7 +85,7 @@ table.center
 	border-left: 3px solid #003366;
 	height: 100%;
 	background-color: #FFCC66;
-	width: 10%;
+	width: 15%;
 	display: table;
 	font-size: 16px;
 	font-family: monospace;

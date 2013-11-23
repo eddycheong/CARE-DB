@@ -141,7 +141,9 @@ if ($num == 0){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>	
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>	
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>

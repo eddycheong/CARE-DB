@@ -76,8 +76,12 @@ function buildList($num, $arr) {
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
-	<div id = "menu-nav"></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
+	<div id = "menu-nav">
+		<?php buildMenuTab(); ?>
+	</div>
 	<div id = "content">
 
 		<?php buildList($n_rows, $res); ?>

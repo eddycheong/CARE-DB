@@ -75,17 +75,10 @@ function getRandomPid(){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-<<<<<<< HEAD
 	<div id = "header">
+		<?php attachHeader(); ?>
 		<h1 style = "margin-bottom: 10;"> New Patient </h1>
 	</div>
-	<div id = "menu-nav"></div>
-=======
-	<div id = "header"></div>
->>>>>>> 4d61ae62853a2fe6dcac8b3121325c571071b68e
-	<!--<div>
-	<a href="appConfirm.php"> <input type = "submit" name = "submit" value = "Submit"></a>
-	</div>-->
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>

@@ -88,11 +88,7 @@ function buildSchedule($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="clinic_info">
-			<span><b>Welcome to CARE Clinic System</b></span><br>
-			<span>7890 Apple St. Vancouver BC</span><br>
-			<span>604-123-4567</span>
-		</div>
+		<?php attachHeader(); ?>
 	</div>
 
 	<div id = "menu-nav">

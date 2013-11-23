@@ -109,10 +109,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body>
-	<div id = "header"></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
 
 	<div id = "menu-nav">
-                <?php buildMenuTab(); ?>
+         <?php buildMenuTab(); ?>
 	</div>
 
 	<div id = "content">

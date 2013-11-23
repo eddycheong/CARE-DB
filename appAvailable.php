@@ -73,12 +73,17 @@ for($i=0; $i<11;$i++){
 			$doctorID = $doctor[$j]['EID'];
 			$appDoctorID = $appointment[$k]['EID'];
 			$appTime = $appointment[$k]['TIME'];
-			$date = DateTime::createFromFormat('y-m-d g:i:s', $appTime);
+			$date = DateTime::createFromFormat('y-m-d H:i:s', $appTime);
 			$y = $date->format('y');
 			$m = $date->format('m');
 			$d = $date->format('d');
-			$hr = $date->format('g');
+			$hr = $date->format('H');
 			$min = $date->format('i');
+			// $y = 13;
+			// $m = 11;
+			// $d = 02;
+			// $hr = 09;
+			// $min = 00;
 			if(($doctorID==$appDoctorID) 
 				&& ($hr==$time) 
 				&& ($min=='00') 
@@ -113,7 +118,9 @@ $tableAvailable .= '</table>';
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>
