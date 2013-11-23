@@ -221,7 +221,7 @@ echo '<table class = "center">';
 	echo '<form method = "post" action = appMedicalRecords.php>';
 	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
 	echo '<td><INPUT TYPE="text" NAME="aFname" SIZE="55" ></td>';
-	echo '<td><INPUT TYPE="text" NAME="aRelation" SIZE="10" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="aRelation" SIZE="20" ></td>';
 	echo '<td><INPUT TYPE="text" NAME="aCond" SIZE="20" ></td>';
 	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
 				
