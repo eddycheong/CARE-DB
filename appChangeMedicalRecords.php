@@ -30,9 +30,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$delete =$_POST["delete"];
 	$cond =$_POST["cond"];
 	
-	$allergies = $_POST["allergies"];
-	$emercontact = $_POST["emercontact"];
-	
 	$patientID = $_POST["addpatient"];
 	//===================
 	// CONNECT TO ORACLE
@@ -53,15 +50,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 						where pid = '$patientID' and condition ='$cond' and pdate ='$delete'";
 		$sDelete = oci_parse($c, $queryDelete);
 		oci_execute($sDelete);
-		}
-		
-		//Handles Updates to Medical Record
-		if($allergies != null && $emercontact != null){
-			$queryUpdate = "update has_medicalrecords
-							set allergies ='$allergies', emercontacts='$emercontact'
-							where pid = $patientID";
-			$sUpdate = oci_parse($c, $queryUpdate);
-			oci_execute($sUpdate);
 		}
 		
 		
@@ -108,7 +96,7 @@ function buildMedRecList($num, $arr, $patient, $patientID) {
 if($num == 0){
 echo '<table class = "center">';
 echo '<tr>';
-echo '<td>Mecical Record is not Avaliable</td>';
+echo '<td>Change Mecical Record is not Avaliable</td>';
 echo '</tr>';
 echo '</table>';
 }else{
@@ -119,21 +107,21 @@ echo '</table>';
 	echo '</tr>';
 	echo '<tr>';
 	echo '<th>Allergies</th>';
-	echo '<th>Emergency Contact</th>';
+	echo '<th>Emergency Contacts</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
-		echo '<td>'. $arr[$i]['ALLERGIES'] .'</td>';
-		echo '<td>'. $arr[$i]['EMERCONTACTS'] .'</td>';
-		echo '</tr>';
-	}
-	echo '<tr>';
-	  echo '<td>';
-                 echo '<form method = "post" action = appChangeMedicalRecords.php>';
-                  echo '<button type = "submit" name = "addpatient" value ="'. $patientID .'">Change</button>';
-             echo '</form>';
-           echo '</td>';
+		echo '<form method = "post" action = appMedicalRecords.php>';
+	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+	echo '<td><INPUT TYPE="text" NAME="allergies" SIZE="60" VALUE = "'. $arr[$i]['ALLERGIES'] .'"></td>';
+	echo '<td><INPUT TYPE="text" NAME="emercontact" SIZE="60" VALUE = "'. $arr[$i]['EMERCONTACTS'] .'"></td>';
 	echo '</tr>';
+	echo '<tr>';
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Enter</button></td>';
+	echo '</form>';			
+
+	echo '</tr>';
+	}
 	echo '</table>';
 	}
 }
@@ -191,29 +179,6 @@ if ($num == 0){
 }
 }
 
-function enterNewHistory($patientID, $patient){
-	echo '<table class = "center">';
-	echo '<tr>';
-	echo '<td>Enter new patient history for ' . $patient . '</td>';
-	echo '</tr>';
-	echo '<tr>';
-	echo '<th>Enter Condition</th>';
-	echo '<th>Enter Medication</th>';
-	echo '<td></td>';
-	echo '</tr>';
-	echo '<tr>';
-	
-	echo '<form method = "post" action = appMedicalRecords.php>';
-	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
-	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="60" ></td>';
-	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="60" ></td>';
-	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Enter</button></td>';
-				
-	echo '</tr>';
-	
-	echo '</table>';
-
-}
 ?>
 
 <!--Design the page below-->
@@ -234,8 +199,7 @@ function enterNewHistory($patientID, $patient){
 	<div id = "Medical Record">
 		<?php 
 		buildMedRecList($rowsMedRec, $resultMedRec, $patient, $patientID);
-		?>
-		
+		?>	
 
 	</div>
 	<div id = "Family History">
@@ -255,13 +219,7 @@ function enterNewHistory($patientID, $patient){
 	?>
 	</div>
 	
-	<div id = "Entering New pHistory">
-	<?php 
-	if ($rowsMedRec >0)
-	enterNewHistory($patientID, $patient);
-	?>
 	
-	</div>
 	
 	
 </div>
