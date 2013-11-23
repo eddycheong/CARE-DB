@@ -33,6 +33,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$allergies = $_POST["allergies"];
 	$emercontact = $_POST["emercontact"];
 	
+	$addallergies = $_POST["addallergies"];
+	$addemercontact = $_POST["addemercontact"];
+	
 	$patientID = $_POST["addpatient"];
 	//===================
 	// CONNECT TO ORACLE
@@ -62,6 +65,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 							where pid = $patientID";
 			$sUpdate = oci_parse($c, $queryUpdate);
 			oci_execute($sUpdate);
+		}
+		
+		//Handles Addition to Medical Record
+		if($addallergies!= null && $addemercontact !=null && pname!= null){
+		$queryAdd = "insert into has_medicalrecords values
+					($patientID, '$pname', '$addallergies', '$addemercontact')";
+		$sAdd = oci_parse($c, $queryAdd);
+		oci_execute($sAdd);
 		}
 		
 		
@@ -110,6 +121,13 @@ echo '<table class = "center">';
 echo '<tr>';
 echo '<td>Mecical Record is not Avaliable</td>';
 echo '</tr>';
+echo '<tr>';
+	  echo '<td>';
+                 echo '<form method = "post" action = appAddMedicalRecords.php>';
+                  echo '<button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button>';
+             echo '</form>';
+           echo '</td>';
+	echo '</tr>';
 echo '</table>';
 }else{
 
@@ -241,6 +259,7 @@ function enterNewHistory($patientID, $patient){
 	<div id = "Family History">
 	
 	<?php 
+		if ($rowsMedRec >0)
 		buildFHistoryList($rowsFHistory, $resultFHistory, $patient, $patientID);
 		//echo $queryFHistory;
 		?>	
@@ -249,7 +268,7 @@ function enterNewHistory($patientID, $patient){
 	</div>
 	<div id = "Patient History">
 		<?php
-	
+		if ($rowsMedRec >0)
 		buildPHistoryList($rowsPHistory, $resultPHistory, $patient, $patientID);
 		
 	?>
