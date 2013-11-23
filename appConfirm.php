@@ -1,6 +1,7 @@
 <?php
 include "global.php";
 include "globalhelper.php";
+include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -25,38 +26,24 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 
 $eid = $_SESSION['AppDoctorID'];
 $time = $_SESSION['AppTime'];
-$date = $_SESSION['AppDate'];
-$pid = $_SESSION['AppPid'];
-$pname = $_SESSION['AppPname'];
-$doctor = 'n/a';
-
-if(isset($_GET['pid']) && isset($_GET['pname'])) {
-	$pid = $_GET['pid'];
-	$pname = $_GET['pname'];
-}
+$pid =$_REQUEST['pid'];
+$pname = $_REQUEST['pname'];
+$doctor = $_SESSION['dname'];
+$fee = rand(50,150);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-
-		// Template search query, replace table and attribute
-		$query = "insert into appointment values (".$eid.", '".$date."', '".$time."', null)";
+		//echo $pid;
+		$query = "insert into appointment values (".$eid.", '".$time."', ".$fee.",".$pid.")";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
-		//if($s) echo "appointment<br>";
+		//echo $eid;
+		if($s) echo "appointment<br>".$query."<br>";
 		
-		$query2 ="insert into schedule values (".$eid.", ".$pid.", '".$time."', '".$date."')"; 		
+		$query2 ="insert into schedule values (2, ".$eid.", ".$pid.", '".$time."')"; 		
 		$s2 = oci_parse($c, $query2);
 		oci_execute($s2);
-		//if($s2) echo "schedule<br>";
-		
-		$query3 = "select ename from doctor where eid = ".$eid;
-		$s3 = oci_parse($c, $query3);
-		oci_execute($s3);
-		if($s3) echo "find the doctor<br>";
-		
-		$n_rows = oci_fetch_all($s3, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		//$doctor = $res['ename'];
-		$doctor = $res[0]['ENAME'];
+		if($s2) echo "schedule<br>".$query2."<br>";
 		
 		oci_close($c);
 		//header("Location: dashboard.php");

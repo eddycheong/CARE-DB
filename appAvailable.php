@@ -101,6 +101,7 @@ for($i=0; $i<11;$i++){
 
 			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctorName. '</a></td>';
 		}
+		$_SESSION['dname'] = $doctorName;
 	}
 	$tableAvailable .= '</tr>';	
 	$tableAvailable .= '</table>';

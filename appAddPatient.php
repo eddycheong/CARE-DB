@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_close($c);
-			header("Location: appConfirm.php?pname=". $pname."&phone=".$phone);
+			header("Location: appConfirm.php?pid=".$pid."&pname=".$pname);
 		
 	} else {
 		$err = oci_error();
