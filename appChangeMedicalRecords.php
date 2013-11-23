@@ -36,21 +36,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//===================
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		//Handles Additions to contains_pHistory
-		if($condition != null && $medication != null && $pname != null){
-			$queryInsert = "insert into contains_pHistory values
-				($patientID, '$pname','$today','$condition','$medication')";
-			$sInsert = oci_parse($c, $queryInsert);
-			oci_execute($sInsert);
-		}
-		
-		//Handles Deletions to containt_pHistory
-		if($delete != null && $cond!=null){
-		$queryDelete = "delete from contains_pHistory 
-						where pid = '$patientID' and condition ='$cond' and pdate ='$delete'";
-		$sDelete = oci_parse($c, $queryDelete);
-		oci_execute($sDelete);
-		}
 		
 		
 		//Queries for has_medicalrecord, has_fHistory, contains_pHistory
