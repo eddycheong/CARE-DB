@@ -36,6 +36,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$addallergies = $_POST["addallergies"];
 	$addemercontact = $_POST["addemercontact"];
 	
+	$aFname = $_POST["aFname"];
+	$aRelation = $_POST["aRelation"];
+	$aCond = $_POST["aCond"];
+	
+	$dCond = $_POST["dCond"];
+	$dFname = $_POST["dFname"];
+	
 	$patientID = $_POST["addpatient"];
 	//===================
 	// CONNECT TO ORACLE
@@ -50,10 +57,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			oci_execute($sInsert);
 		}
 		
-		//Handles Deletions to containt_pHistory
+		//Handles Deletions to contains_pHistory
 		if($delete != null && $cond!=null){
 		$queryDelete = "delete from contains_pHistory 
 						where pid = '$patientID' and condition ='$cond' and pdate ='$delete'";
+		$sDelete = oci_parse($c, $queryDelete);
+		oci_execute($sDelete);
+		}
+		
+		//Handles Additions to Family History
+		if($aCond != null && $aFname != null && $aRelation != null && $pname != null){
+			$queryInsert = "insert into has_fHistory values
+				($patientID, '$pname','$aFname','$aRelation','$aCond')";
+			$sInsert = oci_parse($c, $queryInsert);
+			oci_execute($sInsert);
+		}
+		
+		//Handles Deletions to Family History
+		if ($dCond != null && $dFname != null){
+		$queryDelete = "delete from has_fHistory 
+						where pid = '$patientID' and condition ='$dCond' and fname ='$dFname'";
 		$sDelete = oci_parse($c, $queryDelete);
 		oci_execute($sDelete);
 		}
@@ -158,6 +181,15 @@ echo '</table>';
 
 function buildFHistoryList($num, $arr, $patient, $patientID){
 if ($num == 0){
+echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Add Family History for ' . $patient . '</td>';
+	echo '</tr>';
+		echo '<tr>';
+	echo '<th>Enter Family Member</th>';
+	echo '<th>Enter Relation to Patient</th>';
+	echo '<th>Enter Condition</th>';
+	echo '</tr>';
 }else{
 	echo '<table class = "center">';
 	echo '<tr>';
@@ -173,14 +205,34 @@ if ($num == 0){
 		echo '<td>'. $arr[$i]['FNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['RELATION'] .'</td>';
 		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
-		 
+		echo '<td>';
+		 echo '<form method = "post" action = appMedicalRecords.php>';
+		 echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "addpatient" VALUE ="'. $patientID .'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "dCond" VALUE = "' .$arr[$i]['CONDITION'] . '">';
+		 echo '<button type = "submit" name = "dFname" value = "'.$arr[$i]['FNAME'].'">Delete</button>';
+		 echo '</form>';
+		 echo '</td>';
 		echo '</tr>';
 	}
+	}
+	echo '<tr>';
+	
+	echo '<form method = "post" action = appMedicalRecords.php>';
+	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+	echo '<td><INPUT TYPE="text" NAME="aFname" SIZE="55" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="aRelation" SIZE="10" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="aCond" SIZE="20" ></td>';
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
+				
+	echo '</tr>';
+	
+	// For Additions to Family History
 	echo '</table>';
-}
+
 }
 
-function buildPHistoryList($num, $arr, $patient,$patientID){
+function buildPHistoryList($num, $arr, $patient,$patientID, $today){
 if ($num == 0){
 
 }else{
@@ -205,33 +257,21 @@ if ($num == 0){
 		 echo '</form>';
 		echo '</tr>';
 	}
-	echo '</table>';
-}
-}
-
-function enterNewHistory($patientID, $patient){
-	echo '<table class = "center">';
-	echo '<tr>';
-	echo '<td>Enter new patient history for ' . $patient . '</td>';
-	echo '</tr>';
-	echo '<tr>';
-	echo '<th>Enter Condition</th>';
-	echo '<th>Enter Medication</th>';
-	echo '<td></td>';
-	echo '</tr>';
+	// For additions to Patient History
 	echo '<tr>';
 	
 	echo '<form method = "post" action = appMedicalRecords.php>';
 	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
-	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="60" ></td>';
-	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="60" ></td>';
-	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Enter</button></td>';
+	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="50" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="50" ></td>';
+	echo "<td>$today</td>";
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
 				
 	echo '</tr>';
-	
 	echo '</table>';
-
 }
+}
+
 ?>
 
 <!--Design the page below-->
@@ -261,6 +301,7 @@ function enterNewHistory($patientID, $patient){
 	<?php 
 		if ($rowsMedRec >0)
 		buildFHistoryList($rowsFHistory, $resultFHistory, $patient, $patientID);
+		//echo "<br> $aFname , $aCond, $aRelation";
 		//echo $queryFHistory;
 		?>	
 		
@@ -269,18 +310,12 @@ function enterNewHistory($patientID, $patient){
 	<div id = "Patient History">
 		<?php
 		if ($rowsMedRec >0)
-		buildPHistoryList($rowsPHistory, $resultPHistory, $patient, $patientID);
-		
+		buildPHistoryList($rowsPHistory, $resultPHistory, $patient, $patientID, $today);
+	
 	?>
 	</div>
 	
-	<div id = "Entering New pHistory">
-	<?php 
-	if ($rowsMedRec >0)
-	enterNewHistory($patientID, $patient);
-	?>
 	
-	</div>
 	
 	
 </div>
