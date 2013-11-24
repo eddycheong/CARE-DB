@@ -57,6 +57,7 @@ table.center
 
 #clinic_info{
 	float:left;
+	text-align: left;
 	color:#FFCC66;
 	padding: 20px;	
 	font-size: 14px;

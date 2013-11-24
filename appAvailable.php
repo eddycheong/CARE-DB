@@ -77,13 +77,9 @@ for($i=0; $i<11;$i++){
 			$y = $date->format('y');
 			$m = $date->format('m');
 			$d = $date->format('d');
-			$hr = $date->format('H');
+			$hr = $date->format('h');
+			//$hr = ($h > 12)? $h
 			$min = $date->format('i');
-			// $y = 13;
-			// $m = 11;
-			// $d = 02;
-			// $hr = 09;
-			// $min = 00;
 			if(($doctorID==$appDoctorID) 
 				&& ($hr==$time) 
 				&& ($min=='00') 

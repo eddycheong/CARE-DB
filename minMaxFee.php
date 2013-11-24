@@ -24,7 +24,12 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	if(isset($_REQUEST['mm'])){
-		// Template search query, replace table and attribute
+		// view created beforhand
+		// create or replace view Temp(id, fee) as 
+		// 			SELECT P.pid, AVG (A.fee) AS fee
+		// 			FROM appointment A, schedule S, patient P
+		// 			WHERE A.eid=S.deid and A.time = S.time and S.pid=P.pid
+		// 			GROUP BY P.pid;
 		$query = "Select Temp.id, P.pname, Temp.fee
 				From Temp, patient P
 				WHERE Temp.fee in ( SELECT ". $_REQUEST['mm']. "(Temp.fee) FROM Temp) and Temp.id =P.pid";

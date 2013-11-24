@@ -61,11 +61,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	$calendar = '<table width="1000" style="padding:80px; margin-left:auto; margin-right:auto;">';
 	$calendar .='<tr align="center">';
-	$calendar .='<td bgcolor="#7DC3E3" style="color:#FFFFFF">';
+	$calendar .='<td bgcolor="#336699" style="color:#003366">';
 	$calendar .='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
 	$calendar .='<tr>';
-	$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF">Prev</a></td>';
-	$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF">Next</a></td>';
+	$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF; text-decoration: none;">Prev</a></td>';
+	$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF; text-decoration: none;">Next</a></td>';
 	$calendar .='</tr>';
 	$calendar .='</table>';
 	$calendar .='</td>';
@@ -74,12 +74,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$calendar .='<td align="center">';
 	$calendar .='<table width="100%"  border="1" cellpadding="2" cellspacing="2">';
 	$calendar .='<tr align="center">';
-	$calendar .='<td colspan="7" bgcolor="#7DC3E3" style="color:#FFFFFF"><div id="currentViewingMonth">'. $monthNames[$currentMonth-1].'</div> <div id="currentViewingYear">'.$currentYear.'</div></td>';
+	$calendar .='<td colspan="7" bgcolor="#336699" style="color:#FFFFFF"><div id="currentViewingMonth"><b>'. $monthNames[$currentMonth-1].'</b></div> <div id="currentViewingYear"><b>'.$currentYear.'</b></div></td>';
 	$calendar .='</tr>';
 	$calendar .='<tr >';
 
 	for($i=1;$i<=7;$i++){
-		$calendar .='<td align="center" height="100" bgcolor="#7DC3E3" style="color:#FFFFFF"><B>'. $days[$i]. '</B></td>';
+		$calendar .='<td align="center" height="100" bgcolor="#336699" style="color:#003366"><B>'. $days[$i]. '</B></td>';
 	}
 
 	$calendar .= '</tr>';
@@ -92,8 +92,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	    if(($i % 7) == 0 ) $calendar .= "<tr>";
 	    if($i < $startday) $calendar .= "<td ></td>";
 	    else if(($theDay == $currentDay) && (date("n") == $currentMonth) && (date("Y") == $currentYear))
-	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#E5AAAA' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
-	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#AED5E4' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
+	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#FFCC66' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
+	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#FFFFFF' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
 	    if(($i % 7) == 6 ) $calendar .= "</tr>";
 	}
 	$calendar .='</table>';
