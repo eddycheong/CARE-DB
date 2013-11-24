@@ -24,7 +24,12 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 	if(isset($_REQUEST['mm'])){
-		// Template search query, replace table and attribute
+		// view created beforhand
+		// create or replace view Temp(id, fee) as 
+		// 			SELECT P.pid, AVG (A.fee) AS fee
+		// 			FROM appointment A, schedule S, patient P
+		// 			WHERE A.eid=S.deid and A.time = S.time and S.pid=P.pid
+		// 			GROUP BY P.pid;
 		$query = "Select Temp.id, P.pname, Temp.fee
 				From Temp, patient P
 				WHERE Temp.fee in ( SELECT ". $_REQUEST['mm']. "(Temp.fee) FROM Temp) and Temp.id =P.pid";
@@ -49,20 +54,21 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 // Helper Functions
 function buildList($num, $arr) {
-	echo '<a href="minMaxFee.php?mm=min">MIN</a>';
-	echo '<a href="minMaxFee.php?mm=max">MAX</a>';
-	echo '<a href="minMaxFee.php">ALL</a>';
-	echo '<table class = "center">';
+	echo '<br>';
+	echo '<a class="minMaxTab"href="minMaxFee.php"><b>View All Patient</b></a>';
+	echo '<a class="minMaxTab" href="minMaxFee.php?mm=min"><b>View Patient with Least Payment</b></a>';
+	echo '<a class="minMaxTab"href="minMaxFee.php?mm=max"><b>View Patient with Most Payment</b></a>';
+	echo '<table id="minMaxTable" width="700">';
 	echo '<tr>';
-	echo '<th>PId</th>';
-	echo '<th>Patient Name</th>';
-	echo '<th>Avarage Paid Fee</th>';
+	echo '<th style="width: 15%;">PId</th>';
+	echo '<th style="width: 45%;">Patient Name</th>';
+	echo '<th style="width: 40%;">Avarage Paid Fee</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
 		echo '<td>'. $arr[$i]['ID'] .'</td>';
 		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
-		echo '<td>'. $arr[$i]['FEE'] .'</td>';
+		echo '<td>$'.number_format($arr[$i]['FEE'],2) .'</td>';
 		echo '</tr>';
 	}
 	echo '</table>';
@@ -77,6 +83,7 @@ function buildList($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
+		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">

@@ -93,26 +93,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
 <div id = "header">
-	<div id="clinic_info">
-	<span><b>Welcome to CARE Clinic System</b></span><br>
-	<span>7890 Apple St. Vancouver BC</span><br>
-	<span>604-123-4567</span>
-	</div>
-</div>
-<div id = "menu-nav"></div>
-<div id = "content">
-<center>
+	<div id="error_msg">
 	<?php
 		echo $errmsg, "<br>";
 	?>
+	</div>
+	<div id="clinic_info">
+		<span><b>Welcome to CARE Clinic System</b></span><br>
+		<span>7890 Apple St. Vancouver BC</span><br>
+		<span>604-123-4567</span>
+	</div>
+</div>
+<div id = "menu-nav"></div>
+<div id = "content" style="padding:20px">
+<center>
 	<form name = "" method = "post">
 		<span>UserName: </span>
 		<input type = "text" name ="usr" value"">
 		<br>
 		<span>Password: </span>
-		<input type = "password" name = "pwd" value "" maxlength="16">
+		<input type = "password" name = "pwd" value "" maxlength="16" style="margin-left:8px;">
 		<br>
-	<input type = "submit" name = "slogin" value = "Login">
+	<input type = "submit" name = "slogin" value = "Login" style="margin: 20px; font-size:" >
 	</form>
 </center>
 </div>

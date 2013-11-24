@@ -71,7 +71,7 @@ function buildPatientList($num, $arr) {
 		}
 		echo '</table>';
 	} else {
-		echo '<h1 id = "noresult">Search Resulted in No Matches</h1>';
+		echo 'Search Resulted in No Matches';
 	}
 }
 
@@ -84,7 +84,10 @@ function buildPatientList($num, $arr) {
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
+	<div id = "header">
+		<div id="error_msg"></div>
+		<?php attachHeader(); ?>
+	</div>
 
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>

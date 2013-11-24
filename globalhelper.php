@@ -19,7 +19,7 @@ function attachHeader(){
 	echo'<span>7890 Apple St. Vancouver BC</span><br>';
 	echo'<span>604-123-4567</span>';
 	echo'</div>';
-	echo'<a href="logout.php" id="logout">LogOut</a>';
+	echo'<a href="logout.php" id="logout">LOGOUT</a>';
 }
 function buildMenuTab() {
 
@@ -68,30 +68,5 @@ function searchPartialName($search, $table, $attr) {
 	$num = sizeof($search);
 
 	return searchByParts($num, $arr, $table,$attr);
-}
-
-function searchPartialName2($search,$table,$attr,$list){
-
-	$split = " ";
-	$arr = explode($split, $search);
-	$num = sizeof($search);
-
-	return searchByParts2($num, $arr, $table,$attr,$list);
-}
-
-function searchByParts2($num, $arr, $table, $attr, $list) {
-	$ret = "select $list
-		from ". $table ."
-		where ";
-		
-	for($i = 0; $i < $num; $i++) {
-		$ret .= "regexp_like(". $attr .",'" .$arr[$i] ."', 'i')";
-
-		// Prevent the last OR
-		if(($i != ($num-1)))
-			$ret .= " or ";
-	}
-
-	return $ret;
 }
 ?>

@@ -24,8 +24,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if(isset($_POST['pid']))
-		$pid = $_POST['pid'];
+	if(isset($_POST['pAppointment']))
+		$pid = $_POST['pAppointment'];
 
 	if(isset($_POST['CANCEL'])) {
 		$eid = $_POST['EID'];
@@ -52,7 +52,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid and s.pid =".$pid;
 	
-		echo $query;
+		//echo $query;
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -101,7 +101,6 @@ function buildSchedule($num, $arr) {
 	}
 }
 ?>
-
 <!--Design the page below-->
 <html>
 <head>
@@ -110,6 +109,7 @@ function buildSchedule($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
+		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 
