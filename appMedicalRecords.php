@@ -142,7 +142,7 @@ function buildMedRecList($num, $arr, $patient, $patientID) {
 if($num == 0){
 echo '<table class = "center">';
 echo '<tr>';
-echo '<td>Mecical Record is not Avaliable</td>';
+echo '<td>Medical Record is not Avaliable</td>';
 echo '</tr>';
 echo '<tr>';
 	  echo '<td>';
