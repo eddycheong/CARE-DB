@@ -153,11 +153,6 @@ if ($num == 0){
 		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
 		echo '<td>'. $arr[$i]['MEDICATION'] .'</td>';
 		echo '<td>'. $arr[$i]['PDATE'] .'</td>';
-		 echo '<form method = "post" action = appMedicalRecords.php>';
-		 echo '<INPUT TYPE = "hidden" NAME = "addpatient" VALUE ="'. $patientID .'">';
-		 echo '<INPUT TYPE = "hidden" NAME = "cond" VALUE = "' .$arr[$i]['CONDITION'] . '">';
-		 echo '<td><button type = "submit" name = "delete" value = "'.$arr[$i]['PDATE'].'">Delete</button></td>';
-		 echo '</form>';
 		echo '</tr>';
 	}
 	echo '</table>';
