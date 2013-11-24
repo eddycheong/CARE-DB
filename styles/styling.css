@@ -26,6 +26,7 @@ form
 
 table.pSearch
 {
+	text-align: center;
 	margin-top: 5%;
 	margin-left: auto;
 	margin-right: auto;
@@ -36,11 +37,13 @@ table.pSearch
 {
 	background-color: #336699;
 	color: white;
+	border: none;
 }
 
 .pSearch td
 {
 	border: 1px solid #003366;
+	color: #003366;
 }
 
 #pagetitle {
