@@ -74,8 +74,8 @@ function buildPatientList($num, $arr) {
                         echo '<td>'. $arr[$i]['PHONE'] .'</td>';
                         if(!(getUserType() == "doctor")) {
                                 echo '<td>';
-                                echo '<form method = "post" action = appAddPatient.php>';
-                                echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">Set Appointment</button>';
+                                echo '<form method = "post" action = viewPatientProfile.php?pid='.$arr[$i]['PID'].'>';
+                                echo '<button type = "submit" name = "viewpatient" value ="">View Profile</button>';
                                 echo '</form>';
                                 echo '</td>';
                         } else {
