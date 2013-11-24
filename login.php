@@ -94,13 +94,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div id = "header">
 	<div id="clinic_info">
-	<span><b>Welcome to CARE Clinic System</b></span><br>
-	<span>7890 Apple St. Vancouver BC</span><br>
-	<span>604-123-4567</span>
+		<span><b>Welcome to CARE Clinic System</b></span><br>
+		<span>7890 Apple St. Vancouver BC</span><br>
+		<span>604-123-4567</span>
 	</div>
 </div>
 <div id = "menu-nav"></div>
-<div id = "content">
+<div id = "content" style="padding:20px">
 <center>
 	<?php
 		echo $errmsg, "<br>";
