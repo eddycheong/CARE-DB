@@ -271,8 +271,8 @@ echo '<table class = "center">';
 	
 	echo '<form method = "post" action = appMedicalRecords.php>';
 	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
-	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="50" ></td>';
-	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="50" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="40" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="40" ></td>';
 	echo "<td>$today</td>";
 	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
 				
