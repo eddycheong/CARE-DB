@@ -19,8 +19,7 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-$pid = $_REQEUST['pid'];
-echo $pid;
+$pid = $_REQUEST['pid'];
 //$pid = 5793;
 	//===================
 	// CONNECT TO ORACLE
