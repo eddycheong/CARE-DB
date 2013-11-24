@@ -71,7 +71,7 @@ function buildPatientList($num, $arr) {
 		}
 		echo '</table>';
 	} else {
-		echo 'Search Resulted in No Matches';
+		echo '<h1 id = "noresult">Search Resulted in No Matches</h1>';
 	}
 }
 

@@ -4,9 +4,6 @@ html, body
 	margin: 0;
 	font-family: arial, helvetica, sans-serif;
 }
-	/*background-color: #E4EEE7;
-	text-align: center;*/
-}
 
 th, td
 {
@@ -106,6 +103,7 @@ table.center
 	margin-top: 5%;
 }
 
+
 #side-panel
 {
 	margin-top: 4.5%;
@@ -126,6 +124,7 @@ table.center
 	line-height: 30px;
 }
 
+
 #leftMargin
 {
 	position: absolute;
@@ -140,6 +139,17 @@ table.center
 	background-color: #0033FF;
 	height: 20px;
 	width: 100%;
+}
+
+#title 
+{
+	font-size: 20px;
+}
+
+#noresult
+{
+	margin-top: 7%;
+	font-size: 14px;
 }
 
 #content

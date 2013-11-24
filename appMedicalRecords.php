@@ -20,32 +20,87 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // chmod 755 newpage.php
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-	// Obtain the patient name
-	$patient = trim($_POST['addpatient']);
-
+	
+	// Obtaining Info
+	$condition = $_POST["condition"];
+	$medication = $_POST["medication"];
+	$pname = $_POST["pname"];
+	$today = date('y-m-d');
+	
+	$delete =$_POST["delete"];
+	$cond =$_POST["cond"];
+	
+	$allergies = $_POST["allergies"];
+	$emercontact = $_POST["emercontact"];
+	
+	$addallergies = $_POST["addallergies"];
+	$addemercontact = $_POST["addemercontact"];
+	
+	$aFname = $_POST["aFname"];
+	$aRelation = $_POST["aRelation"];
+	$aCond = $_POST["aCond"];
+	
+	$dCond = $_POST["dCond"];
+	$dFname = $_POST["dFname"];
+	
+	$patientID = $_POST["addpatient"];
 	//===================
 	// CONNECT TO ORACLE
 	//===================
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-		// Template search query, replace table and attribute
-		//$query = searchPartialName($search, "employee", "ename");
-		/*
-		$query = "select *
-				from has_medicalrecords
-				where pname = '". $patient ."'";
-		$s = oci_parse($c, $query);
-		oci_execute($s);
+		//Handles Additions to contains_pHistory
+		if($condition != null && $medication != null && $pname != null){
+			$queryInsert = "insert into contains_pHistory values
+				($patientID, '$pname','$today','$condition','$medication')";
+			$sInsert = oci_parse($c, $queryInsert);
+			oci_execute($sInsert);
+		}
+		
+		//Handles Deletions to contains_pHistory
+		if($delete != null && $cond!=null){
+		$queryDelete = "delete from contains_pHistory 
+						where pid = '$patientID' and condition ='$cond' and pdate ='$delete'";
+		$sDelete = oci_parse($c, $queryDelete);
+		oci_execute($sDelete);
+		}
+		
+		//Handles Additions to Family History
+		if($aCond != null && $aFname != null && $aRelation != null && $pname != null){
+			$queryInsert = "insert into has_fHistory values
+				($patientID, '$pname','$aFname','$aRelation','$aCond')";
+			$sInsert = oci_parse($c, $queryInsert);
+			oci_execute($sInsert);
+		}
+		
+		//Handles Deletions to Family History
+		if ($dCond != null && $dFname != null){
+		$queryDelete = "delete from has_fHistory 
+						where pid = '$patientID' and condition ='$dCond' and fname ='$dFname'";
+		$sDelete = oci_parse($c, $queryDelete);
+		oci_execute($sDelete);
+		}
+		
+		//Handles Updates to Medical Record
+		if($allergies != null && $emercontact != null){
+			$queryUpdate = "update has_medicalrecords
+							set allergies ='$allergies', emercontacts='$emercontact'
+							where pid = $patientID";
+			$sUpdate = oci_parse($c, $queryUpdate);
+			oci_execute($sUpdate);
+		}
+		
+		//Handles Addition to Medical Record
+		if($addallergies!= null && $addemercontact !=null && pname!= null){
+		$queryAdd = "insert into has_medicalrecords values
+					($patientID, '$pname', '$addallergies', '$addemercontact')";
+		$sAdd = oci_parse($c, $queryAdd);
+		oci_execute($sAdd);
+		}
 		
 		
-		//Oracle Fetches
-		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		*/
-		$patientID = $_POST["addpatient"];
 		//Queries for has_medicalrecord, has_fHistory, contains_pHistory
 		// based on pID
-		
 		$queryMedRec = "select *
 						from has_medicalrecords
 						where pid = $patientID";
@@ -83,12 +138,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildMedRecList($num, $arr, $patient) {
+function buildMedRecList($num, $arr, $patient, $patientID) {
 if($num == 0){
 echo '<table class = "center">';
 echo '<tr>';
-echo '<td>Mecical Record is not Avaliable</td>';
+echo '<td>Medical Record is not Avaliable</td>';
 echo '</tr>';
+echo '<tr>';
+	  echo '<td>';
+                 echo '<form method = "post" action = appAddMedicalRecords.php>';
+                  echo '<button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button>';
+             echo '</form>';
+           echo '</td>';
+	echo '</tr>';
 echo '</table>';
 }else{
 
@@ -98,7 +160,7 @@ echo '</table>';
 	echo '</tr>';
 	echo '<tr>';
 	echo '<th>Allergies</th>';
-	echo '<th>Emergency Contacts</th>';
+	echo '<th>Emergency Contact</th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
@@ -106,12 +168,28 @@ echo '</table>';
 		echo '<td>'. $arr[$i]['EMERCONTACTS'] .'</td>';
 		echo '</tr>';
 	}
+	echo '<tr>';
+	  echo '<td>';
+                 echo '<form method = "post" action = appChangeMedicalRecords.php>';
+                  echo '<button type = "submit" name = "addpatient" value ="'. $patientID .'">Change</button>';
+             echo '</form>';
+           echo '</td>';
+	echo '</tr>';
 	echo '</table>';
 	}
 }
 
-function buildFHistoryList($num, $arr, $patient){
+function buildFHistoryList($num, $arr, $patient, $patientID){
 if ($num == 0){
+echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Add Family History for ' . $patient . '</td>';
+	echo '</tr>';
+		echo '<tr>';
+	echo '<th>Enter Family Member</th>';
+	echo '<th>Enter Relation to Patient</th>';
+	echo '<th>Enter Condition</th>';
+	echo '</tr>';
 }else{
 	echo '<table class = "center">';
 	echo '<tr>';
@@ -127,11 +205,82 @@ if ($num == 0){
 		echo '<td>'. $arr[$i]['FNAME'] .'</td>';
 		echo '<td>'. $arr[$i]['RELATION'] .'</td>';
 		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
+		echo '<td>';
+		 echo '<form method = "post" action = appMedicalRecords.php>';
+		 echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "addpatient" VALUE ="'. $patientID .'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "dCond" VALUE = "' .$arr[$i]['CONDITION'] . '">';
+		 echo '<button type = "submit" name = "dFname" value = "'.$arr[$i]['FNAME'].'">Delete</button>';
+		 echo '</form>';
+		 echo '</td>';
 		echo '</tr>';
 	}
+	}
+	echo '<tr>';
+	
+	echo '<form method = "post" action = appMedicalRecords.php>';
+	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+	echo '<td><INPUT TYPE="text" NAME="aFname" SIZE="55" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="aRelation" SIZE="20" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="aCond" SIZE="20" ></td>';
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
+				
+	echo '</tr>';
+	
+	// For Additions to Family History
 	echo '</table>';
+
 }
+
+function buildPHistoryList($num, $arr, $patient,$patientID, $today){
+if ($num == 0){
+echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Add Patient History for ' . $patient . '</td>';
+	echo '</tr>';
+		echo '<tr>';
+	echo '<th>Enter Condition</th>';
+	echo '<th>Enter Medication</th>';
+	echo '<th>Date</th>';
+	echo '</tr>';
+}else{
+	echo '<table class = "center">';
+	echo '<tr>';
+	echo '<td>Patient History for ' . $patient . '</td>';
+	echo '</tr>';
+	echo '<tr>';
+        echo '<th>Condition</th>';
+        echo '<th>Medication</th>';
+        echo '<th>Date</th>';
+        echo '</tr>';
+	for($i = 0; $i < $num; $i++) {
+		echo '<tr>';
+		echo '<td>'. $arr[$i]['CONDITION'] .'</td>';
+		echo '<td>'. $arr[$i]['MEDICATION'] .'</td>';
+		echo '<td>'. $arr[$i]['PDATE'] .'</td>';
+		 echo '<form method = "post" action = appMedicalRecords.php>';
+		 echo '<INPUT TYPE = "hidden" NAME = "addpatient" VALUE ="'. $patientID .'">';
+		 echo '<INPUT TYPE = "hidden" NAME = "cond" VALUE = "' .$arr[$i]['CONDITION'] . '">';
+		 echo '<td><button type = "submit" name = "delete" value = "'.$arr[$i]['PDATE'].'">Delete</button></td>';
+		 echo '</form>';
+		echo '</tr>';
+	}
+	}
+	// For additions to Patient History
+	echo '<tr>';
+	
+	echo '<form method = "post" action = appMedicalRecords.php>';
+	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
+	echo '<td><INPUT TYPE="text" NAME="condition" SIZE="40" ></td>';
+	echo '<td><INPUT TYPE="text" NAME="medication" SIZE="40" ></td>';
+	echo "<td>$today</td>";
+	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Add</button></td>';
+				
+	echo '</tr>';
+	echo '</table>';
+
 }
+
 ?>
 
 <!--Design the page below-->
@@ -151,19 +300,31 @@ if ($num == 0){
 	<div id = "content">
 	<div id = "Medical Record">
 		<?php 
-		buildMedRecList($rowsMedRec, $resultMedRec, $patient);
-		?>	
+		buildMedRecList($rowsMedRec, $resultMedRec, $patient, $patientID);
+		?>
+		
 
 	</div>
 	<div id = "Family History">
 	
 	<?php 
-		buildFHistoryList($rowsFHistory, $resultFHistory, $patient);
+		if ($rowsMedRec >0)
+		buildFHistoryList($rowsFHistory, $resultFHistory, $patient, $patientID);
+		//echo "<br> $aFname , $aCond, $aRelation";
 		//echo $queryFHistory;
 		?>	
 		
 	
 	</div>
+	<div id = "Patient History">
+		<?php
+		if ($rowsMedRec >0)
+		buildPHistoryList($rowsPHistory, $resultPHistory, $patient, $patientID, $today);
+	
+	?>
+	</div>
+	
+	
 	
 	
 </div>

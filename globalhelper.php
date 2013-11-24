@@ -69,4 +69,29 @@ function searchPartialName($search, $table, $attr) {
 
 	return searchByParts($num, $arr, $table,$attr);
 }
+
+function searchPartialName2($search,$table,$attr,$list){
+
+	$split = " ";
+	$arr = explode($split, $search);
+	$num = sizeof($search);
+
+	return searchByParts2($num, $arr, $table,$attr,$list);
+}
+
+function searchByParts2($num, $arr, $table, $attr, $list) {
+	$ret = "select $list
+		from ". $table ."
+		where ";
+		
+	for($i = 0; $i < $num; $i++) {
+		$ret .= "regexp_like(". $attr .",'" .$arr[$i] ."', 'i')";
+
+		// Prevent the last OR
+		if(($i != ($num-1)))
+			$ret .= " or ";
+	}
+
+	return $ret;
+}
 ?>
