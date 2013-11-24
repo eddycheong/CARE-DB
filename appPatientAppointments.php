@@ -67,12 +67,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Helper Functions
 function buildSchedule($num, $arr) {
-	echo '<table class = "center">';
+	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Doctor Name</th>';
 	echo '<th>Schedule Date</th>';
 	echo '<th>Scheduled Time</th>';
 	echo '<th>Fee</th>';
+	echo '<th></th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
@@ -86,8 +87,8 @@ function buildSchedule($num, $arr) {
 		echo ' - '. date("G:i a", $endtimestamp);
 		echo '</td>';
 		echo '<td>'. $arr[$i]['FEE'] .'</td>';
-		echo '<td>';
-		echo '<form action method = "post">';
+		echo '<td style = "width: 1%;">';
+		echo '<form" method = "post">';
 		echo '<input type = "hidden" name = "CANCEL" value = true>';
 		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
 		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
