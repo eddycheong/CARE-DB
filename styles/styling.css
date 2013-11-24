@@ -24,6 +24,24 @@ form
 	margin-bottom: 0px;
 }
 
+table.pSearch
+{
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%
+}
+
+.pSearch th
+{
+	background-color: #336699;
+	color: white;
+}
+
+.pSearch td
+{
+	border: 1px solid #003366;
+}
 table.center
 {
 	margin-top: 5%;
@@ -146,7 +164,7 @@ table.center
 
 #footer {
 	bottom: 0;
-	background-color: #0033FF;
+	background-color: #003366;
 	height: 20px;
 	width: 100%;
 }

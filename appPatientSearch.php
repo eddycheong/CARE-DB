@@ -67,7 +67,7 @@ $list = 'pid, pname' . $phone . $address . '';
 function buildPatientList($num, $arr, $phone, $address) {
 
         if($num > 0) {
-                echo '<table class = "center">';
+                echo '<table class = "pSearch">';
                 echo '<tr>';
                 echo '<th>Patient Name</th>';
                                 if($address != null){
@@ -76,6 +76,7 @@ function buildPatientList($num, $arr, $phone, $address) {
                                 if ($phone !=null ){
                 echo '<th>Phone Number</th>';
                                 }
+		echo '<th></th>';
                 echo '</tr>';
                 for($i = 0; $i < $num; $i++) {
                         echo '<tr>';
@@ -88,7 +89,7 @@ function buildPatientList($num, $arr, $phone, $address) {
                                                 }
                         if(!(getUserType() == "doctor")) {
                                                 
-                                echo '<td>';
+                                echo '<td style ="width: 1%;text-align: center;">';
                                 echo '<form method = "post" action = viewPatientProfile.php>';
                                 echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Profile</button>';
                                 echo '</form>';
