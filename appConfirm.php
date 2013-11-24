@@ -20,42 +20,36 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-	// Obtain the search statement
-	$search = $_POST['search'];
-	//echo $search;
-
-	// Break down the string into pieces
-	$pieces = explode(" ", $search);
-	$n_pieces = sizeof($pieces);
-
 	//===================
 	// CONNECT TO ORACLE
 	//===================
+
 $eid = $_SESSION['AppDoctorID'];
 $time = $_SESSION['AppTime'];
-$date = $_SESSION['AppDate'];
-$pid = $_SESSION['AppPid'];
-$pname = $_SESSION['AppPname'];
-$doctor = 'n/a';
-
-if(isset($_GET['pid']) && isset($_GET['pname'])) {
-	$pid = $_GET['pid'];
-	$pname = $_GET['pname'];
-}
+$pid =$_REQUEST['pid'];
+$pname = $_REQUEST['pname'];
+$doctor = $_SESSION['dname'];
+$fee = rand(50,150);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-
-		// Template search query, replace table and attribute
-		$query = searchByParts($n_pieces, $pieces);
+		//echo $pid;
+		$query = "insert into appointment values (".$eid.", '".$time."', ".$fee.",".$pid.")";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
+		//if($s) echo "appointment<br>".$query."<br>";
 		
-		//Oracle Fetches
-		$n_rows = oci_fetch_all($s, $res, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+		$query2 ="insert into schedule values (2, ".$eid.", ".$pid.", '".$time."')"; 		
+		$s2 = oci_parse($c, $query2);
+		oci_execute($s2);
+		//if($s2) echo "schedule<br>".$query2."<br>";
+		
 		oci_close($c);
+		unset($_SESSION['AppDoctorID']);
+		unset($_SESSION['AppTime']);
+		unset($_SESSION['dname']);
+		header("Location: appSchedule.php");
+			
 	} else {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
@@ -67,42 +61,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>AppConfirm</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header">
-		<div id="error_msg"></div>
-		<?php attachHeader(); ?>
-	</div>
+	<div id = "header"></div>
 
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>
-	-->
 
 	<!--Make this a header of the file Cindy-->
 	Review The Appointment
 	<div id = "content">
-		Content appears here
-		<form id = "search" name "" method= "post">
-			<input type = text name = "search" value "">
-		</form>
-
 		<?php
 		// sample code to use result from search
 			echo '<center>';
 			echo '<table border="1">';
 			echo '<tr>';
-			echo '<th>EID</th>';
-			echo '<th>Employee Name</th>';
+			echo '<td>ID</th>';
+			echo '<td>'.$pid.'</td>';
 			echo '</tr>';
-			for($i = 0; $i < $n_rows; $i++) {
-				echo '<tr>';
-				echo '<th>'. $res[$i]['EID'] .'</th>';
-				echo '<th>'. $res[$i]['ENAME'] .'</th>';
-				echo '</tr>';
-			}
+			echo '<tr>';
+			echo '<td>Name</th>';
+			echo '<td>'.$pname.'</td>';
+			echo '</tr>';
+			echo '<tr>';
+			echo '<td>Date&Time</th>';
+			echo '<td>'.$time.'</td>';
+			echo '</tr>';
+			echo '<tr>';
+			echo '<td>Doctor</th>';
+			echo '<td>'.$doctor.'</td>';
+			echo '</tr>';
 			echo '</table>';
 			echo '</center>';
 		?>
