@@ -23,8 +23,7 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-$pid = $_REQUEST['pid'];
-//$pid = 3954;
+$pid = 3954;
 //GLOBAL
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -89,13 +88,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			oci_execute($s);
 			oci_close($c);
 			
-			header("Location: viewPatientProfile.php");
+			//header("Location: appConfirm.php");
 		
 	} else {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
 	}
 }
+/* WILL WORK ON THIS LATER
+function getRandomPid(){
+	$pid = rand(1000, 9999);
+	
+	for($i=0; $i<$n_rows; $i++){
+		if($pids[$i] == $pid)
+			getRandomPid();
+		}
+		echo "working";		
+		return $pid;
+	}
+}
+*/
 ?>
 
 <!--Design the page below-->
