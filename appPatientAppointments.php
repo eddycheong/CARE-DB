@@ -24,8 +24,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if(isset($_POST['pAppointment']))
-		$pid = $_POST['pAppointment'];
+	if(isset($_POST['pid']))
+		$pid = $_POST['pid'];
 
 	if(isset($_POST['CANCEL'])) {
 		$eid = $_POST['EID'];
