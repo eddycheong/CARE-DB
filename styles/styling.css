@@ -42,6 +42,14 @@ table.pSearch
 {
 	border: 1px solid #003366;
 }
+
+#pagetitle {
+	margin-bottom: 0;
+	padding-top: 40;
+	color: #003366;
+	font-weight: bold;
+}
+
 table.center
 {
 	margin-top: 5%;

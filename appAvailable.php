@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-//include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -108,7 +107,7 @@ $tableAvailable .= '</table>';
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Available</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
