@@ -32,8 +32,9 @@ function buildMenuTab() {
 		);
 	} elseif( getUserType() == "doctor") {
 		$array = array (
-			"Schedule" => "appSchedule.php",
-			"Patients" => "appPatientSearch.php"
+			"My Schedule" => "appSchedule.php",
+			"Patients" => "appPatientSearch.php",
+			"Patients Schedule" => "appSchedule.php"
 		);
 	}
 

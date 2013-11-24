@@ -46,13 +46,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			oci_fetch($s);
 		}
 
-		$query = "select d.ename, d.eid, p.pname, a.time, a.fee
+		$query = "select distinct d.ename, d.eid, p.pname, a.time, a.fee
 			  from appointment a, patient p
 			  inner join schedule s on p.pid = s.pid
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid and s.pid =".$pid;
 	
-		echo $query;
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -114,23 +113,13 @@ function buildSchedule($num, $arr) {
 	</div>
 
 	<div id = "menu-nav">
-		<div class = "menu-item">
-			<p>Schedule</p>
-			<a href = "appSchedule.php" class = "fill-link"></a>
-		</div>
-		<div class = "menu-item">
-			<p>Patient</p>
-			<a href = "appPatientSearch.php" class = "fill-link"></a>
-		</div></div>
+		<?php buildMenuTab(); ?>	
+	</div>
 	<div id = "content">
 
 		<?php buildSchedule($n_rows, $schedule); ?>
 
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
--->
 	<div id = "footer"></div>
 </body>
 </html>
