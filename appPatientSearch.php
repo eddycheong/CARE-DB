@@ -74,10 +74,13 @@ function buildPatientList($num, $arr) {
                         echo '<td>'. $arr[$i]['PHONE'] .'</td>';
                         if(!(getUserType() == "doctor")) {
                                 echo '<td>';
-                                echo '<form method = "post" action = viewPatientProfile.php?pid='.$arr[$i]['PID'].'>';
-                                echo '<button type = "submit" name = "viewpatient" value ="">View Profile</button>';
+                                echo '<form method = "post" action = viewPatientProfile.php>';
+                                echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Profile</button>';
                                 echo '</form>';
-                                echo '</td>';
+                               	echo '<form method = "post" action = appPatientAppointments.php>';
+                                echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Appointments</button>';
+                                echo '</form>';
+				echo '</td>';
                         } else {
                                 echo '<td>';
                                 echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
