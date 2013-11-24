@@ -34,22 +34,22 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 $list = 'pid, pname' . $phone . $address . '';
 
 
-	if(isset($_REQUEST['doc'])){
-	$query = 'select '.$list.'
-				from patient
-				where not exists(
-						select eid
-						from doctor
-						where eid not in(
-							select eid
-							from appointment
-							where patient.pid = appointment.pid))';
+        if(isset($_REQUEST['doc'])){
+        $query = 'select '.$list.'
+                                from patient
+                                where not exists(
+                                                select eid
+                                                from doctor
+                                                where eid not in(
+                                                        select eid
+                                                        from appointment
+                                                        where patient.pid = appointment.pid))';
         // Template search query, replace table and attribute
         } else {
-		if(isset($_GET['search'])&& $search != "")
+                if(isset($_GET['search'])&& $search != "")
                 $query = searchPartialName2($search, "patient", "pname", $list);
         else
-		
+                
                 $query = "select $list
                           from patient";     
 }
@@ -70,27 +70,30 @@ function buildPatientList($num, $arr, $phone, $address) {
                 echo '<table class = "center">';
                 echo '<tr>';
                 echo '<th>Patient Name</th>';
-				if($address != null){
+                                if($address != null){
                 echo '<th>Address</th>';
-				}
-				if ($phone !=null ){
+                                }
+                                if ($phone !=null ){
                 echo '<th>Phone Number</th>';
-				}
+                                }
                 echo '</tr>';
                 for($i = 0; $i < $num; $i++) {
                         echo '<tr>';
                         echo '<td>'. $arr[$i]['PNAME'] .'</td>';
-						if($address != null){
+                                                if($address != null){
                         echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
-						}
-						if ($phone !=null ){
+                                                }
+                                                if ($phone !=null ){
                         echo '<td>'. $arr[$i]['PHONE'] .'</td>';
-						}
+                                                }
                         if(!(getUserType() == "doctor")) {
-						
+                                                
                                 echo '<td>';
-                                echo '<form method = "post" action = appAddPatient.php>';
-                                echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">Set Appointment</button>';
+                                echo '<form method = "post" action = viewPatientProfile.php>';
+                                echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Profile</button>';
+                                echo '</form>';
+                                       echo '<form method = "post" action = appPatientAppointments.php>';
+                                echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Appointments</button>';
                                 echo '</form>';
                                 echo '</td>';
                         } else {
@@ -128,26 +131,26 @@ function buildPatientList($num, $arr, $phone, $address) {
 
         <div id = "content">
                 
-				<br>
-				<br>
-				<form method = "get">
-				Search: <input type = text name = "search">
-				<br> <input type="checkbox" name="address" value=", address">
-						View Address
-						<input type="checkbox" name="phone" value=", phone">
-						View Phone Number
-						<input type="submit" value="Submit">
-				<br>
-				<button type = "submit" name = "doc" value = "all">Patients with appointments with all doctors</button>
-			
-				<br>
-				<input type="submit" value="All Patients"><br>
-				</form>
-								
+                                <br>
+                                <br>
+                                <form method = "get">
+                                Search: <input type = text name = "search">
+                                <br> <input type="checkbox" name="address" value=", address">
+                                                View Address
+                                                <input type="checkbox" name="phone" value=", phone">
+                                                View Phone Number
+                                                <input type="submit" value="Submit">
+                                <br>
+                                <button type = "submit" name = "doc" value = "all">Patients with appointments with all doctors</button>
+                        
+                                <br>
+                                <input type="submit" value="All Patients"><br>
+                                </form>
+                                                                
 
                 <?php 
-			
-				buildPatientList($n_rows, $res, $phone, $address); ?>
+                        
+                                buildPatientList($n_rows, $res, $phone, $address); ?>
         </div>
         <div id = "footer"></div>
 </body>
