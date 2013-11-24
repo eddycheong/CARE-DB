@@ -98,7 +98,7 @@ function buildPatientList($num, $arr, $phone, $address) {
                                 echo '</form>';
                                 echo '</td>';
                         } else {
-                                echo '<td>';
+                                echo '<td style = "width: 150px">';
                                 echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
                                 echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
                                 echo '</form>';

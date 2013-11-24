@@ -83,7 +83,8 @@ function getRandomPid(){
         <?php buildMenuTab(); ?>
 	</div>
 	<div id = "content">
-		<h2> New Patient </h2>
+		<h3 id = "pagetitle"> New Patient </h3>
+		<br><br><br>
 		<form id = "insert" method= "post">
 			<table style="margin-right: auto; margin-left: auto;">
 				<tr>
