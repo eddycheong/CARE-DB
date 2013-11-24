@@ -23,13 +23,19 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 
 
 $search = $_GET['search'];
+$phone = $_GET['phone'];
+$address = $_GET['address'];
 
 //===================
 // CONNECT TO ORACLE
 //===================
 if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
-		if(isset($_REQUEST['doc'])){
-	$query = 'select *
+
+$list = 'pid, pname' . $phone . $address . '';
+
+
+	if(isset($_REQUEST['doc'])){
+	$query = 'select '.$list.'
 				from patient
 				where not exists(
 						select eid
@@ -40,11 +46,11 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 							where patient.pid = appointment.pid))';
         // Template search query, replace table and attribute
         } else {
-		if(isset($_GET['search']))
-                $query = searchPartialName($search, "patient", "pname");
+		if(isset($_GET['search'])&& $search != "")
+                $query = searchPartialName2($search, "patient", "pname", $list);
         else
 		
-                $query = "select *
+                $query = "select $list
                           from patient";     
 }
         $s = oci_parse($c, $query);
@@ -58,21 +64,30 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
         echo "Oracle Connect Error " . $err['message'];
 }
 
-function buildPatientList($num, $arr) {
+function buildPatientList($num, $arr, $phone, $address) {
 
         if($num > 0) {
                 echo '<table class = "center">';
                 echo '<tr>';
                 echo '<th>Patient Name</th>';
+				if($address != null){
                 echo '<th>Address</th>';
+				}
+				if ($phone !=null ){
                 echo '<th>Phone Number</th>';
+				}
                 echo '</tr>';
                 for($i = 0; $i < $num; $i++) {
                         echo '<tr>';
                         echo '<td>'. $arr[$i]['PNAME'] .'</td>';
+						if($address != null){
                         echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
+						}
+						if ($phone !=null ){
                         echo '<td>'. $arr[$i]['PHONE'] .'</td>';
+						}
                         if(!(getUserType() == "doctor")) {
+						
                                 echo '<td>';
                                 echo '<form method = "post" action = appAddPatient.php>';
                                 echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PNAME'] .'">Set Appointment</button>';
@@ -112,15 +127,27 @@ function buildPatientList($num, $arr) {
         </div>
 
         <div id = "content">
-                <form id = "search" method= "get">
-                        Search: <input type = text name = "search">
-                </form>
+                
 				<br>
-				<a href ="appPatientSearch.php?doc=all">Patients with appointments with all doctors</a>
 				<br>
-				<a href ="appPatientSearch.php">All Patients</a>
+				<form method = "get">
+				Search: <input type = text name = "search">
+				<br> <input type="checkbox" name="address" value=", address">
+						View Address
+						<input type="checkbox" name="phone" value=", phone">
+						View Phone Number
+						<input type="submit" value="Submit">
+				<br>
+				<button type = "submit" name = "doc" value = "all">Patients with appointments with all doctors</button>
+			
+				<br>
+				<input type="submit" value="All Patients"><br>
+				</form>
+								
 
-                <?php buildPatientList($n_rows, $res); ?>
+                <?php 
+			
+				buildPatientList($n_rows, $res, $phone, $address); ?>
         </div>
         <div id = "footer"></div>
 </body>
