@@ -4,6 +4,9 @@ html, body
 	margin: 0;
 	font-family: arial, helvetica, sans-serif;
 }
+	/*background-color: #E4EEE7;
+	text-align: center;*/
+}
 
 th, td
 {
@@ -51,7 +54,13 @@ table.center
 	background-color: #003366;
 	width: 100%;
 }
-
+#error_msg{
+	height:20px;
+	background-color: white;
+	width: 100%;
+	color: red;
+	text-align: center;
+}
 #clinic_info{
 	float:left;
 	text-align: left;
@@ -66,6 +75,7 @@ table.center
 	background-color: #003366;
 	text-decoration: none;
 	padding: 20px;
+	font-size: smaller;
 }
 
 #menu-nav
@@ -81,9 +91,11 @@ table.center
 	position: relative;
 	float: left;
 	border-left: 3px solid #003366;
-	height: 100%;
+	height: 93%;
 	background-color: #FFCC66;
-	width: 15%;
+	width: 24%;
+	margin-left: 6px;
+	margin-top: 2px;
 	display: table;
 	font-size: 16px;
 	font-family: monospace;
@@ -102,7 +114,6 @@ table.center
 {
 	margin-top: 5%;
 }
-
 
 #side-panel
 {
@@ -124,7 +135,6 @@ table.center
 	line-height: 30px;
 }
 
-
 #leftMargin
 {
 	position: absolute;
@@ -139,17 +149,6 @@ table.center
 	background-color: #0033FF;
 	height: 20px;
 	width: 100%;
-}
-
-#title 
-{
-	font-size: 20px;
-}
-
-#noresult
-{
-	margin-top: 7%;
-	font-size: 14px;
 }
 
 #content
@@ -188,7 +187,69 @@ a.calendar_days
 	text-decoration: none;
 }
 
-#currentViewingMonth
-{	display:inline-block;
+a.doctorTable
+{
+	color: #003366;
+	text-decoration: none;
 }
 
+#availableTable
+{
+	text-align:center; 
+	margin-top:50px;
+	margin-left:auto; 
+	margin-right:auto; 
+	border: 0;
+	color: #003366;
+}
+
+#availableTable th
+{
+	background-color: #336699;
+	color: white;
+}
+#availableTable td
+{
+	border: 1px solid #003366;
+}
+
+td.doctorAvailable.notAvailable
+{
+	border-top: none !important;
+	border-bottom: none !important;
+	background-color: #003366;
+	color: #FFCC66;
+}
+
+td.doctorAvailable.available
+{
+	border-top: none !important;
+	border-bottom: none !important;
+	background-color: #FFCC66;
+}
+
+#minMaxTable {
+	text-align: center;
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#minMaxTable th
+{
+	background-color: #336699;
+	color: white;
+	border: none;
+}
+#minMaxTable td
+{
+	border: 1px solid #003366;
+	background-color: white;
+	color: #003366;
+}
+a.minMaxTab
+{
+	padding: 20px;
+	color: #003366;
+	text-decoration: none;
+
+}

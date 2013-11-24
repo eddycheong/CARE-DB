@@ -59,13 +59,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	$days=array('1'=>"S",'2'=>"M",'3'=>"T",'4'=>"W",'5'=>"T",'6'=>"F",'7'=>"S");
 
-	$calendar = '<table width="1000" style="padding:80px; margin-left:auto; margin-right:auto;">';
+	$calendar = '<table width="700" style="margin-top:50px; margin-left:auto; margin-right:auto;">';
 	$calendar .='<tr align="center">';
 	$calendar .='<td bgcolor="#336699" style="color:#003366">';
 	$calendar .='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
 	$calendar .='<tr>';
-	$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF; text-decoration: none;">Prev</a></td>';
-	$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF; text-decoration: none;">Next</a></td>';
+	$calendar .='<td width="50%" align="left">  <a href="'. $_SERVER["PHP_SELF"] . "?m=". $p_month . "&y=" . $p_year. '" style="color:#FFFFFF; text-decoration: none; padding-left: 20px;">Prev</a></td>';
+	$calendar .='<td width="50%" align="right"><a href="'. $_SERVER["PHP_SELF"] . "?m=". $n_month . "&y=" . $n_year. '" style="color:#FFFFFF; text-decoration: none; padding-right: 20px;">Next</a></td>';
 	$calendar .='</tr>';
 	$calendar .='</table>';
 	$calendar .='</td>';
@@ -79,7 +79,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$calendar .='<tr >';
 
 	for($i=1;$i<=7;$i++){
-		$calendar .='<td align="center" height="100" bgcolor="#336699" style="color:#003366"><B>'. $days[$i]. '</B></td>';
+		$calendar .='<td align="center" height="70" bgcolor="#336699" style="color:#003366"><B>'. $days[$i]. '</B></td>';
 	}
 
 	$calendar .= '</tr>';
@@ -92,8 +92,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	    if(($i % 7) == 0 ) $calendar .= "<tr>";
 	    if($i < $startday) $calendar .= "<td ></td>";
 	    else if(($theDay == $currentDay) && (date("n") == $currentMonth) && (date("Y") == $currentYear))
-	    	$calendar .= "<td align='center' height='80' valign='middle' bgcolor='#FFCC66' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
-	    else $calendar .= "<td align='center' height='80' valign='middle' bgcolor='#FFFFFF' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
+	    	$calendar .= "<td align='center' height='60' valign='middle' bgcolor='#FFCC66' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";
+	    else $calendar .= "<td align='center' height='60' valign='middle' bgcolor='#FFFFFF' height='20px'><a href='appAvailable.php?y=" . $currentYear . "&m=" . $currentMonth . "&d=" . $theDay . "' class='calendar_days'>". $theDay ."</a></td>";	    
 	    if(($i % 7) == 6 ) $calendar .= "</tr>";
 	}
 	$calendar .='</table>';
@@ -110,6 +110,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 	<div id = "header">
+		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 

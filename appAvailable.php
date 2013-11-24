@@ -53,24 +53,26 @@ $new_viewingYear = date('y', $old_year_timestamp);
 $viewingMonth = $_REQUEST['m'];
 $viewingDay = $_REQUEST['d'];
 
-$tableAvailable = '<table width="800" style="text-align:center; padding:80px; margin-left:185px; border="0" cellspacing="0" cellpadding="0">';
+$tableAvailable = '<table width="700" id="availableTable">';
 $tableAvailable .= '<tr align="center">';
-$tableAvailable .= '<th width="50%" align="center">Time</th>';
-$tableAvailable .= '<th width="50%" align="center">Select Available Time</th>';
+$tableAvailable .= '<th width="25%" align="center">Time</th>';
+$tableAvailable .= '<th width="75%" align="center">Select Available Time</th>';
 $tableAvailable .= '</tr>';
 
 for($i=0; $i<11;$i++){
-	$time = ($i<4)? 9+$i: $i-3;
+	$t = DateTime::createFromFormat('G', 9+$i);
+	$timeLabel = $t->format('g');
+	$time = $t->format('H');
 	$tableAvailable .= '<tr align="center">';
-	$tableAvailable .= '<td width="20%" align="center">'. $time. ':00</td>';
+	$tableAvailable .= '<td align="center"><b>'. $timeLabel. ':00</b></td>';
 	$tableAvailable .= '<td align="center">';
-	$tableAvailable .= '<table border="1" width="100%">';
+	$tableAvailable .= '<table border="0" width="100%">';
 	$tableAvailable .= '<tr align="center">';
 	for($j=0; $j<$d_rows;$j++){
 		$tableCreated = false;
 		$doctorName = $doctor[$j]['ENAME'];
+		$doctorID = $doctor[$j]['EID'];
 		for($k=0; $k<$a_rows;$k++){	
-			$doctorID = $doctor[$j]['EID'];
 			$appDoctorID = $appointment[$k]['EID'];
 			$appTime = $appointment[$k]['TIME'];
 			$date = DateTime::createFromFormat('y-m-d H:i:s', $appTime);
@@ -78,7 +80,6 @@ for($i=0; $i<11;$i++){
 			$m = $date->format('m');
 			$d = $date->format('d');
 			$hr = $date->format('h');
-			//$hr = ($h > 12)? $h
 			$min = $date->format('i');
 			if(($doctorID==$appDoctorID) 
 				&& ($hr==$time) 
@@ -88,16 +89,12 @@ for($i=0; $i<11;$i++){
 				&& ($d == $viewingDay)
 				&& ($tableCreated == false)){
 				$tableCreated = true;
-				$tableAvailable .= '<td width="50" bgcolor="#7DC3E3">'. $doctorName. '</td>';
+				$tableAvailable .= '<td width="50%" class="doctorAvailable notAvailable"><b>Booked</b></td>';
 			}
 		}
 		if($tableCreated == false){
-			$_SESSION['AppDoctorID']=$doctorID;
-			$_SESSION['AppTime']= $new_viewingYear. '-'. $viewingMonth. '-'. $viewingDay. ' '.$hr. ':00:00';
-
-			$tableAvailable .= '<td width="50" bgcolor="#7DC3E3"><a href="appAddPatientSearch.php">'. $doctorName. '</a></td>';
+			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appPatientSearch.php?i='.$doctorID.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$time.'"><b>'. $doctorName. '</b></a></td>';
 		}
-		$_SESSION['dname'] = $doctorName;
 	}
 	$tableAvailable .= '</tr>';	
 	$tableAvailable .= '</table>';
@@ -116,15 +113,16 @@ $tableAvailable .= '</table>';
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
+		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>
 	<div id = "content">
-		<h3 style = "margin-bottom: 0; padding-top: 40;"> 	
+		<h3 style = "margin-bottom: 0; padding-top: 40; color: #003366; font-weight: bold;"> 	
 			<?php 
-				echo $monthNames[$viewingMonth-1]. ' '. $viewingDay. ' '. $viewingYear;
+				echo '&#60'.$monthNames[$viewingMonth-1]. ' '. $viewingDay. ', '. $viewingYear.'&#62';
 			?>
 		</h3>
 		<?php 

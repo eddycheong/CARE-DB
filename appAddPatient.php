@@ -30,17 +30,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pid = rand(1000, 9999);
 	//$pid = getRandomPid();
 	
-	if($pname == null)	echo "Please enter the name.<br>";
-	if($addres == null) echo "Please enter the address.<br>";
-	if($phone == null) echo "Please enter the phone number.<br>";
-	else{	if(strlen($phone) != 10) echo "Please enter the proper number.<br>";}
-	if($email == null)	echo "Please enter the email.<br>";
-	else{	if(strpos($email, '@') == false) echo "Please enter the proper email.<br>";}
-	if($carecard == null) echo "Please enter the carecard number.<br>";
-	else{	if(strlen($carecard) !=9)	echo "Please enter <b>9 digits</b> of the carecard number.<br>";}
-	
 	$compare = $pname != null && $address != null && $phone != null && $email != null;
-	if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==9) {
+	if($compare && $carecard != null) {
 
 	//===================
 	// CONNECT TO ORACLE
@@ -49,11 +40,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		// Template search query, replace table and attribute
 		
+			
 			$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_close($c);
-			header("Location: appConfirm.php?pid=".$pid."&pname=".$pname);
+			header("Location: appConfirm.php?pname=". $pname."&phone=".$phone);
 		
 	} else {
 		$err = oci_error();
@@ -84,23 +76,34 @@ function getRandomPid(){
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
+		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
-		<h1 style = "margin-bottom: 10;"> New Patient </h1>
 	</div>
 	<div id = "menu-nav">
-                <?php buildMenuTab(); ?>
+        <?php buildMenuTab(); ?>
 	</div>
-
-	New Patient
 	<div id = "content">
+		<h2> New Patient </h2>
 		<form id = "insert" method= "post">
-			<label for="name">Name:</label>   <input type="text" name="pname" value "" placeholder="Your name here" /><br/>
-			<label for="address">Address:</label>   <input type="text" name="address" value "" size = "30" placeholder="eg. 1234 Your St."/><br/>
-			<label for="phone">Phone#:</label>   <input type="text" name="phone" value "" placeholder="eg. 7781234567"/><br/>
-			<label for="email">Email:</label>   <input type="text" name="email" value "" placeholder="sample@gmail.com"/><br/>
-			<label for="carecard">Carecard#:</label>   <input type="text" name="carecard" value "" placeholder="eg. 012345678"/><br/>
-			
-			<input type = "submit" name = "submit" value = "Submit">
+			<table style="margin-right: auto; margin-left: auto;">
+				<tr>
+					<td><label for="name">Name:</label></td>
+					<td><input type="text" name="pname" value "" /></td>
+				</tr>
+				<tr>
+					<td><label for="address">Address:</label></td>   
+					<td><input type="text" name="address" value "" size = "30"/></td>
+				<tr>
+					<td><label for="phone">Phone#:</label></td>   
+					<td><input type="text" name="phone" value "" /></td>
+				<tr>
+					<td><label for="email">Email:</label></td>   
+					<td><input type="text" name="email" value "" /></td>
+				<tr>
+					<td><label for="carecard">Carecard#:</label></td>   
+					<td><input type="text" name="carecard" value "" /></td>
+			</table>
+			<input type = "submit" name = "submit" value = "Submit" style="margin-top:20px;">
 		</form>
 		
 	</div>
