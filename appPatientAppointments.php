@@ -88,7 +88,7 @@ function buildSchedule($num, $arr) {
 		echo '</td>';
 		echo '<td>'. $arr[$i]['FEE'] .'</td>';
 		echo '<td style = "width: 1%;">';
-		echo '<form" method = "post">';
+		echo '<form method = "post">';
 		echo '<input type = "hidden" name = "CANCEL" value = true>';
 		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
 		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
