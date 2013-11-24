@@ -53,7 +53,7 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 // Helper Functions
 function buildSchedule($num, $arr) {
-	echo '<table class = "center">';
+	echo '<table class = "pSearch">';
 	echo '<tr>';
 	if(!(getUserType() == "doctor"))
 		echo '<th>Doctor Name</th>';
@@ -98,7 +98,7 @@ function buildSchedule($num, $arr) {
 	<div id = "content">
 		<?php
 		
-		echo '<h1 id = "title">'.$currentDate.'</h1>';
+		echo '<h3 id = "pagetitle">'.$currentDate.'</h3>';
 
 		if($n_rows > 0)	
 			buildSchedule($n_rows, $schedule);
