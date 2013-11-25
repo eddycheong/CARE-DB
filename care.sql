@@ -58,16 +58,16 @@ pname char(50),
 fname char(50),
 relation char(20),
 condition char(20),
-PRIMARY KEY (pid, pname, fname, condition),
+PRIMARY KEY (pid, fname, relation, condition),
 FOREIGN KEY (pid) REFERENCES hasMedicalRecords);
 
 CREATE TABLE containspHistory(
 pid int,
 pname char(50),
-pDate char(20),
+pDate date,
 condition char(20),
 medication char(70),
-PRIMARY KEY (pid, pname, pDate, condition),
+PRIMARY KEY (pid, pDate, condition),
 FOREIGN KEY (pid) REFERENCES hasMedicalRecords);
 
 
@@ -123,7 +123,7 @@ INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Alfred Difalco','Uncle','Co
 INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Tom Difalco','Brother','Color Blindness');
 INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Sally Difalco','Sister','Haemophilia');
 
-INSERT INTO containsphistory VALUES (5113,'Olene Kay','Mar. 3, 2011','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
-INSERT INTO containsphistory VALUES (5113,'Olene Kay','Sep. 20, 2012','Flu','Acetaminophin 150mg x 10 tablets');
-INSERT INTO containsphistory VALUES (1239,'Hans Difalco','Feb. 13, 2013','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
-INSERT INTO containsphistory VALUES (1239,'Hans Difalco','Mar. 24, 2013','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO containsphistory VALUES (5113,'Olene Kay','13-03-30','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
+INSERT INTO containsphistory VALUES (5113,'Olene Kay','13-09-20','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO containsphistory VALUES (1239,'Hans Difalco','13-02-13','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
+INSERT INTO containsphistory VALUES (1239,'Hans Difalco','13-11-25','Flu','Acetaminophin 150mg x 10 tablets');
