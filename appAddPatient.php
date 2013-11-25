@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     if($email == null)  $err_msg.="Please enter the email.<br>";
     else{  if(strpos($email, '@') == false) $err_msg.="Please enter the proper email.<br>";}
     if($carecard == null) $err_msg.="Please enter the carecard number.<br>";
-    else{  if(strlen($carecard) !=9) $err_msg.= "Please enter <b>9 digits</b> of the carecard number.<br>";}
+    else{  if(strlen($carecard) !=10) $err_msg.= "Please enter <b>10 digits</b> of the carecard number.<br>";}
 
     $compare = $pname != null && $address != null && $phone != null && $email != null;
     if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==9) {
