@@ -4,9 +4,6 @@ html, body
 	margin: 0;
 	font-family: arial, helvetica, sans-serif;
 }
-	/*background-color: #E4EEE7;
-	text-align: center;*/
-}
 
 th, td
 {
@@ -28,9 +25,11 @@ table.pSearch
 {
 	text-align: center;
 	margin-top: 5%;
+	margin-bottom: 5%;
 	margin-left: auto;
 	margin-right: auto;
 	width: 60%
+	
 }
 
 .pSearch th
@@ -168,7 +167,7 @@ table.center
 	border-left: 3px solid #003366;
 	height: 93%;
 	background-color: #FFCC66;
-	width: 24%;
+	width: 19%;
 	margin-left: 6px;
 	margin-top: 2px;
 	display: table;
@@ -220,11 +219,11 @@ table.center
 }
 
 #footer {
-	margin-top: 5%;
+	/*margin-top: 5%;
 	bottom: 0;
 	background-color: #003366;
 	height: 20px;
-	width: 100%;
+	width: 100%;*/
 }
 
 #content
@@ -232,7 +231,7 @@ table.center
 	/*margin-top: 4.5%;
 	margin-left: 9.5%;*/
 	background-color: white;
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 }
 
