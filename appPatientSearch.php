@@ -79,6 +79,7 @@ function buildPatientList($num, $arr, $phone, $address) {
 		echo '<th></th>';
                 echo '</tr>';
                 for($i = 0; $i < $num; $i++) {
+                        if($arr[$i]['PID'] != 0) {
                         echo '<tr>';
                         echo '<td>'. $arr[$i]['PNAME'] .'</td>';
                                                 if($address != null){
@@ -107,6 +108,7 @@ function buildPatientList($num, $arr, $phone, $address) {
         
                         }
                         echo '</tr>';
+                    }
                 }
                 echo '</table>';
         } else {
