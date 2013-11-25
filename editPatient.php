@@ -24,22 +24,7 @@ $pid = $_POST['pid'];
 //===================
 // CONNECT TO ORACLE
 //===================
-if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	// Template search query, replace table and attribute	
-	$query = "select *
-		  from patient
-		  where pid = ".$pid;
-
-	$s = oci_parse($c, $query);
-	oci_execute($s);
-	$res = oci_fetch_array($s, OCI_BOTH);
-	
-	oci_close($c);		
-} else {
-	$err = oci_error();
-	echo "Oracle Connect Error " . $err['message'];
-}
 
 if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
 	$pname = trim($_POST["pname"]);
@@ -110,6 +95,23 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
 	}
+}
+
+if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+	// Template search query, replace table and attribute	
+	$query = "select *
+		  from patient
+		  where pid = ".$pid;
+
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+	$res = oci_fetch_array($s, OCI_BOTH);
+	
+	oci_close($c);		
+} else {
+	$err = oci_error();
+	echo "Oracle Connect Error " . $err['message'];
 }
 /* WILL WORK ON THIS LATER
 function getRandomPid(){
