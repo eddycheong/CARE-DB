@@ -81,7 +81,7 @@ fName char(50),
 relation char(20),
 condition char(20),
 PRIMARY KEY (pid, pName, fName, condition),
-FORIEGN KEY (pid, pName) REFERENCES has_MedicalRecords)
+FOREIGN KEY (pid, pName) REFERENCES has_MedicalRecords)
 
 CREATE TABLE contains_pHistory(
 pid int,
@@ -90,7 +90,7 @@ pDate date,
 condition char(20),
 medication char(50),
 PRIMARY KEY (pid, pname, pDate, condition),
-FORIEGN KEY (pid, pname) REFERENCES has_MedicalRecords)
+FOREIGN KEY (pid, pname) REFERENCES has_MedicalRecords)
 
 CREATE TABLE has_MedicalRecords(
 pid int,
