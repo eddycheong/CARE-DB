@@ -61,7 +61,7 @@ $tableAvailable .= '</tr>';
 for($i=0; $i<11;$i++){
 	$t = DateTime::createFromFormat('G', 9+$i);
 	$timeLabel = $t->format('g');
-	$time = $t->format('H');
+	$time = $t->format('h');
 	$tableAvailable .= '<tr align="center">';
 	$tableAvailable .= '<td align="center"><b>'. $timeLabel. ':00</b></td>';
 	$tableAvailable .= '<td align="center">';
@@ -80,6 +80,7 @@ for($i=0; $i<11;$i++){
 			$d = $date->format('d');
 			$hr = $date->format('h');
 			$min = $date->format('i');
+			echo $hr. ' '.$time;
 			if(($doctorID==$appDoctorID) 
 				&& ($hr==$time) 
 				&& ($min=='00') 

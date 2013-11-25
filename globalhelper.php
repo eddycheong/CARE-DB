@@ -25,7 +25,7 @@ function buildMenuTab() {
 
 	if(getUserType() == "receptionist") {
 		$array = array (
-			"Schedule" => "appSchedule.php",
+			"Home" => "appSchedule.php",
 			"Patients" => "appPatientSearch.php",
 			"Appointments" => "appCalendar.php",
 			"Payment Stats" => "minMaxFee.php"	
