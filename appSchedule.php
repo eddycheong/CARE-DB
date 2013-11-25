@@ -98,6 +98,8 @@ function buildSchedule($num, $arr) {
 	<div id = "content">
 
 		<?php
+		echo '<br>';
+		echo "Today's Schedule";
 		if($n_rows > 0)	
 			buildSchedule($n_rows, $schedule);
 		else
