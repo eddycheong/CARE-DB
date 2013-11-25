@@ -65,40 +65,41 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
 
 	<div id = "menu-nav">
                 <?php buildMenuTab(); ?>
 	</div>
 
 	<!--Make this a header of the file Cindy-->
-	Review The Appointment
+	
+	<h3 id = "pagetitle">Review The Appointment</h3>
 	<div id = "content">
 		<?php
 		// sample code to use result from search
-			echo '<center>';
-			echo '<table border="1">';
+			echo '<table class = "pSearch">';
 			echo '<tr>';
-			echo '<td>ID</th>';
+			echo '<th>ID</th>';
 			echo '<td>'.$pid.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Name</th>';
+			echo '<th>Name</th>';
 			echo '<td>'.$pname.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Date&Time</th>';
+			echo '<th>Date & Time</th>';
 			echo '<td>'.$time.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Doctor</th>';
+			echo '<th>Doctor</th>';
 			echo '<td>'.$doctor.'</td>';
 			echo '</tr>';
 			echo '</table>';
-			echo '</center>';
 		?>
 		<form id = "confirm" method= "post">
-			<input type = "submit" name = "confirm" value = "Confirm">
+			<input id = "search" type = "submit" name = "confirm" value = "Confirm">
 		</form>
 	</div>
 	<div id = "footer"></div>
