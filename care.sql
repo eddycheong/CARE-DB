@@ -57,8 +57,7 @@ FOREIGN KEY (pid) REFERENCES Patient);
 
 CREATE TABLE Payment (
 eid int, 
-time timestamp, 
-adate date, 
+time timestamp(0), 
 pid int, 
 type char(10),
 PRIMARY KEY (eid, time, aDate, pid),
@@ -100,3 +99,81 @@ allergies char(30),
 emerContacts char(50),
 PRIMARY KEY (pid, pname),
 FOREIGN KEY (pid) REFERENCES Patient)
+
+INSERT INTO employee VALUES (2, 'John', '111111111', 'jsmith', 'password');
+INSERT INTO employee VALUES (20, 'Jesse Pinkmen', '123123123', 'jpinkmen', 'password');
+
+INSERT INTO doctor VALUES (10, 'Ralph Dovonee', '102829992', 'rdovonee', 'password', 'qualified', '123123');
+INSERT INTO doctor VALUES (20, 'Sam', '112112112', 'sfisher', 'password', 'not', '110110');
+
+INSERT INTO employee VALUES (2283, 'Sam Simon', '212998768', 'jsmith','5f4dcc3b5aa765d61d8327deb882cf99');
+INSERT INTO employee VALUES (6122, 'Julie Kavner', '151280582', 'jkavner', '25a1669723f671c8254ca1760313b2b5');
+INSERT INTO employee VALUES (1121, 'Hank Azaria', '110238914','hazaria','b5884fb8c8785eae504f2816f0451e42');
+INSERT INTO employee VALUES (8862,'Nancy Cartwright', '976229178','ncartwright','5b13b76226599ce87037f9b4ca32be22');
+INSERT INTO employee VALUES (4605,'Danny Elfman','197287889','delfman','5d907853a9617cfd55fb62eae803595b');
+
+INSERT INTO doctor VALUES (8923,'Bryan Cranston','186719990','bcranston','fed1f37d40a3e8a0103bf5e95875a82f','Doctor of Medicine','228192');
+INSERT INTO doctor VALUES (1345,'Aaron Paul','972163229','apaul','316928e0d260556eaccb6627f2ed657b','Doctor of Osteopathic Medicine','550971');
+INSERT INTO doctor VALUES (7074,'RJ Mitte','585228090','rmitte','0fd73b3614ede6a8536f1a3fb191abf2','Bachelor of Medicine','518762');
+INSERT INTO doctor VALUES (5515,'Dean Norris','558859100','dnorris','99754106633f94d350db34d548d6091a','Bachelor of Surgery','119271');
+INSERT INTO doctor VALUES (4528,'Vince Gilligan','111097889','vgilligan','90434ae19345b6fd7a2e96b25186bd28','Bachelor of Neurology','529663');
+
+INSERT INTO patient VALUES (5113, 'Olene Kay','34251 Abbott St.','6044354565','okay@gmail.com','6748086656');
+INSERT INTO patient VALUES (1239,'Hans Difalco','5122 McRae Ave.','6049593048','hans33@hotmail.com','6087456254');
+INSERT INTO patient VALUES (5543,'Terrie Pittsley','8221 Oak St.','7780345943','tpittsley@live.ca','2913393323');
+INSERT INTO patient VALUES (6357,'Inez Hollis','1677 Park Dr.','7784952031','inezhollis@hotmail.com','4101243637');
+INSERT INTO patient VALUES (3543,'Wilfred Iorio','1264 Dunbar St.','7781924825','willioro@gmail.com','8365 926 321');
+
+INSERT INTO appointment VALUES (8923,'13-09-30 3:00:00',135, 5113);
+INSERT INTO appointment VALUES (1345,'13-10-14 11:00:00',150,1239);
+INSERT INTO appointment VALUES (7074,'13-10-25 9:00:00',85, 5543);
+INSERT INTO appointment VALUES (5515,'13-11-07 4:00:00',60, 6357);
+INSERT INTO appointment VALUES (1345,'13-11-23 2:00:00',150, 3543);
+
+INSERT INTO schedule VALUES (2283, 8923, 5113,'13-09-30 3:00:00');
+INSERT INTO schedule VALUES (6122,1345,1239,'13-10-14 11:00:00');
+INSERT INTO schedule VALUES (1121,7074,5543,'13-10-25 9:00:00');
+INSERT INTO schedule VALUES (8862,5515,6357,'13-11-07 4:00:00');
+INSERT INTO schedule VALUES (4605,1345,3543,'13-11-23 2:00:00');
+
+INSERT INTO insurance VALUES ('full','Manulife');
+INSERT INTO insurance VALUES ('half','Manulife');
+INSERT INTO insurance VALUES ('full','Blue Cross');
+INSERT INTO insurance VALUES ('full','Standard Life');
+INSERT INTO insurance VALUES ('half','Standard Life');
+
+INSERT INTO covered_by VALUES ('full','Manulife',5113,135);
+INSERT INTO covered_by VALUES ('half','Manulife',1239,75);
+INSERT INTO covered_by VALUES ('full','Blue Cross', 5543,85);
+INSERT INTO covered_by VALUES ('full','Standard Life',6357,60);
+INSERT INTO covered_by VALUES ('half','Standard Life',3543,75);
+
+INSERT INTO diagnose VALUES (8923,5113,'Amoxicillin 250mg x 7 tablets');
+INSERT INTO diagnose VALUES (1345,1239,'Acetaminophin 300mg  x 30 tablets');
+INSERT INTO diagnose VALUES (7074,5543,'Vitamin D 500mg x 30 tablets');
+INSERT INTO diagnose VALUES (5515,6357,'Iron 10mg x 30 tablets');
+INSERT INTO diagnose VALUES (1345,3543,'Vicodin 25mg x 10 tablets');
+
+INSERT INTO payment VALUES (8923,'13-09-30 3:00:00',5113,'Credit');
+INSERT INTO payment VALUES (1345,'13-10-14 11:00:00',1239,1239, 'Debit');
+INSERT INTO payment VALUES (7074,'13-10-25 9:00:00',5543,'Debit');
+INSERT INTO payment VALUES (5515,'13-11-07 4:00:00',6357,'Cash');
+INSERT INTO payment VALUES (1345,'13-11-23 2:00:00',3543,'Credit');
+
+INSERT INTO have_fhistory VALUES (1239,'Hans Difalco','Joseph Difalco','Father','Color Blindness');
+INSERT INTO have_fhistory VALUES (1239,'Hans Difalco','Mary Difalco','Mother','Cystic Fibrosis');
+INSERT INTO have_fhistory VALUES (1239,'Hans Difalco','Alfred Difalco','Uncle','Color Blindness');
+INSERT INTO have_fhistory VALUES (1239,'Hans Difalco','Tom Difalco','Brother','Color Blindness');
+INSERT INTO have_fhistory VALUES (1239,'Hans Difalco','Sally Difalco','Sister','Haemophilia');
+
+INSERT INTO contains_phistory VALUES (5133,'Olene Kay','Mar. 3, 2011','Mono	Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
+INSERT INTO contains_phistory VALUES (5133,'Olene Kay','Sep. 20, 2012','Flu	Acetaminophin 150mg x 10 tablets');
+INSERT INTO contains_phistory VALUES (1239,'Hans Difalco','Feb. 13, 2013	Carpal Tunnel	Ibuprofen 300mg x 30 tablets');
+INSERT INTO contains_phistory VALUES (1239,'Hans Difalco','Mar. 24, 2013	Flu	Acetaminophin 150mg x 10 tablets');
+INSERT INTO contains_phistory VALUES (3543,'Wilfred Iorio','Dec 11, 2010	Ankle Sprain	Acetaminophin 300mg x 30 tablets');
+
+INSERT INTO has_medicalrecords VALUES (5113,'Olene Kay','penicillin','Maggie Kay : 604-333-1234');
+INSERT INTO has_medicalrecords VALUES (1239,'Hans Difalco','N/A','Ben Difalco : 604-123-5678');
+INSERT INTO has_medicalrecords VALUES (5543,'Terrie Pittsley','avocado,mango','Jess Diagonal : 778-555-4312');
+INSERT INTO has_medicalrecords VALUES (6357,'Inez Hollis','penicillin','Mario Hollis : 604-676-8899');
+INSERT INTO has_medicalrecords VALUES (3543,'Wilfred Iorio','bee venom','Daisy Iorio : 778-321-4565');
