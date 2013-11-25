@@ -89,11 +89,11 @@ for($i=0; $i<11;$i++){
 				&& ($d == $viewingDay)
 				&& ($tableCreated == false)){
 				$tableCreated = true;
-				$tableAvailable .= '<td width="50%" class="doctorAvailable notAvailable"><b>Booked</b></td>';
+				$tableAvailable .= '<td width="auto" class="doctorAvailable notAvailable"><b>Booked</b></td>';
 			}
 		}
 		if($tableCreated == false){
-			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAppointmentType.php?i='.$doctorID.'&dn='.$doctorName.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$bigTime.'"><b>'. $doctorName. '</b></a></td>';
+			$tableAvailable .= '<td width="auto" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAppointmentType.php?i='.$doctorID.'&dn='.$doctorName.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$bigTime.'"><b>'. $doctorName. '</b></a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	

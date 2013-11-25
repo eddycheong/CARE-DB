@@ -155,7 +155,7 @@ function getRandomPid(){
 				</tr>
 				<tr>
 					<th><label for="address">Address:</label></th>
-					<td><input type="text" name="address" value = "<?php echo $res['ADDRESS'];?>" size = "30"/></td>
+					<td><input type="text" name="address" value = "<?php echo $res['ADDRESS'];?>"/></td>
 				</tr>
 				<tr>
 					<th><label for="phone">Phone#:</label></th>		
