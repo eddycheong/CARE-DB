@@ -27,14 +27,15 @@ function buildMenuTab() {
 		$array = array (
 			"Home" => "appSchedule.php",
 			"Patients" => "appPatientSearch.php",
+			"Doctors" => "appDoctorSearch.php",
 			"Appointments" => "appCalendar.php",
 			"Payment Stats" => "minMaxFee.php"	
 		);
 	} elseif( getUserType() == "doctor") {
 		$array = array (
-			"My Schedule" => "appSchedule.php",
+			"Home" => "appSchedule.php",
 			"Patients" => "appPatientSearch.php",
-			"Patients Schedule" => "appSchedule.php"
+			"Doctors" => "appDoctorSearch.php"
 		);
 	}
 
