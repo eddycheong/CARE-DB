@@ -19,7 +19,10 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+$err_msg = '';
+
+//Only when submit button is clicked
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 	$pname = $_POST["pname"];
 	$address = $_POST["address"];
 	$phone = $_POST["phone"];
@@ -29,25 +32,36 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$pid = rand(1000, 9999);
 	//$pid = getRandomPid();
 	
-	$compare = $pname != null && $address != null && $phone != null && $email != null;
-	if($compare && $carecard != null) {
+	//Typechecking
+	$err_msg = '';
+	if($pname == null)  $err_msg.= "Please enter the name.<br>";
+	if($addres == null) $err_msg.="Please enter the address.<br>";
+    if($phone == null) $err_msg.="Please enter the phone number.<br>";
+    else{  if(strlen($phone) != 10) $err_msg.="Please enter the proper number.<br>";}
+    if($email == null)  $err_msg.="Please enter the email.<br>";
+    else{  if(strpos($email, '@') == false) $err_msg.="Please enter the proper email.<br>";}
+    if($carecard == null) $err_msg.="Please enter the carecard number.<br>";
+    else{  if(strlen($carecard) !=9) $err_msg.= "Please enter <b>9 digits</b> of the carecard number.<br>";}
 
-	//===================
-	// CONNECT TO ORACLE
-	//===================
-	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+    $compare = $pname != null && $address != null && $phone != null && $email != null;
+    if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==9) {
 
-		// Template search query, replace table and attribute
-			$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
-			$s = oci_parse($c, $query);
-			oci_execute($s);
-			oci_close($c);
-			header("Location: appConfirm.php?pid=".$pid."&pname=". $pname."&phone=".$phone);
-		
-	} else {
-		$err = oci_error();
-		echo "Oracle Connect Error " . $err['message'];
-	}
+		//===================
+		// CONNECT TO ORACLE
+		//===================
+		if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+			// Template search query, replace table and attribute
+				$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
+				$s = oci_parse($c, $query);
+				oci_execute($s);
+				oci_close($c);
+				header("Location: appConfirm.php?pid=".$pid."&pname=". $pname."&phone=".$phone);
+			
+		} else {
+			$err = oci_error();
+			echo "Oracle Connect Error " . $err['message'];
+		}
 	}
 }
 /* WILL WORK ON THIS LATER
@@ -73,7 +87,6 @@ function getRandomPid(){
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<!-- <div id="error_msg"></div> -->
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">
@@ -82,6 +95,9 @@ function getRandomPid(){
 	<div id = "content">
 		<h3 id = "pagetitle"> New Patient </h3>
 		<br><br><br>
+		<div id="error_msg" style="height:auto;">
+			<?php echo $err_msg; ?>
+		</div>
 		<form method= "post">
 			<table class = "addedit">
 				<tr>
