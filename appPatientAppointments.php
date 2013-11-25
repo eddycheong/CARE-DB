@@ -112,7 +112,7 @@ function buildSchedule($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
+		<!-- <div id="error_msg"></div> -->
 		<?php attachHeader(); ?>
 	</div>
 

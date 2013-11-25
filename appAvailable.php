@@ -62,6 +62,7 @@ for($i=0; $i<11;$i++){
 	$t = DateTime::createFromFormat('G', 9+$i);
 	$timeLabel = $t->format('g');
 	$time = $t->format('h');
+	$bigTime = $t->format('H');
 	$tableAvailable .= '<tr align="center">';
 	$tableAvailable .= '<td align="center"><b>'. $timeLabel. ':00</b></td>';
 	$tableAvailable .= '<td align="center">';
@@ -80,7 +81,6 @@ for($i=0; $i<11;$i++){
 			$d = $date->format('d');
 			$hr = $date->format('h');
 			$min = $date->format('i');
-			echo $hr. ' '.$time;
 			if(($doctorID==$appDoctorID) 
 				&& ($hr==$time) 
 				&& ($min=='00') 
@@ -93,7 +93,7 @@ for($i=0; $i<11;$i++){
 			}
 		}
 		if($tableCreated == false){
-			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAddPatientSearch.php?i='.$doctorID.'&dn='.$doctorName.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$time.'"><b>'. $doctorName. '</b></a></td>';
+			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAppointmentType.php?i='.$doctorID.'&dn='.$doctorName.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$bigTime.'"><b>'. $doctorName. '</b></a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	
@@ -113,7 +113,7 @@ $tableAvailable .= '</table>';
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
+		<!-- <div id="error_msg"></div> -->
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">
@@ -130,5 +130,6 @@ $tableAvailable .= '</table>';
 		?>
 		<a></a>
 	</div>
+	<div id = "footer"></div>
 </body>
 </html>

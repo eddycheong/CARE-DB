@@ -23,32 +23,17 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	// CONNECT TO ORACLE
 	//===================
 
-
-
-if(!isset($_GET['y']) || !isset($_GET['m']) || !isset($_GET['d']) || !isset($_GET['h'])){
-	$time = $_SESSION['y'] . '-' . $_SESSION['m'] . '-'. $_SESSION['d'] . ' ' . $_SESSION['h'] .':00:00';
-}else{
-	$time = $_GET['y'] . '-' . $_GET['m'] . '-'. $_GET['d'] . ' ' . $_GET['h'] .':00:00';
-}
-
-$eid = isset($_GET['i'])? $_GET['i']: $_SESSION['i'];
-$doctor = isset($_GET['dn'])? $_GET['dn']: $_SESSION['dn'];
-$pid = $_REQUEST['pid'];
-$pname = $_REQUEST['pname'];
-$fee = rand(50,150);
+$eid = $_GET['i'];
+$time = $_GET['y'] . '-' . $_GET['m'] . '-'. $_GET['d'] . ' ' . $_GET['h'] .':00:00';
+$doctor = $_GET['dn'];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 		//echo $pid;
-		$query = "insert into appointment values (".$eid.", '".$time."', ".$fee.",".$pid.")";
+		$query = "insert into appointment values (".$eid.", '".$time."', 0, null)";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
-		//if($s) echo "appointment<br>".$query."<br>";
-		
-		$query2 ="insert into schedule values (2, ".$eid.", ".$pid.", '".$time."')"; 		
-		$s2 = oci_parse($c, $query2);
-		oci_execute($s2);
-		//if($s2) echo "schedule<br>".$query2."<br>";
+		if($s) echo "appointment<br>".$query."<br>";
 		
 		oci_close($c);
 		header("Location: appSchedule.php");
@@ -79,26 +64,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 	<!--Make this a header of the file Cindy-->
 	
-	<h3 id = "pagetitle">Review The Appointment</h3>
+	<h3 id = "pagetitle">Review the Appointment</h3>
 	<div id = "content">
 		<?php
 		// sample code to use result from search
 			echo '<table class = "pSearch">';
 			echo '<tr>';
-			echo '<th>ID</th>';
-			echo '<td>'.$pid.'</td>';
+			echo '<th>Doctor ID</th>';
+			echo '<td>'.$eid.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<th>Name</th>';
-			echo '<td>'.$pname.'</td>';
+			echo '<th>Doctor Name</th>';
+			echo '<td>'.$doctor.'</td>';
 			echo '</tr>';
 			echo '<tr>';
 			echo '<th>Date & Time</th>';
 			echo '<td>'.$time.'</td>';
-			echo '</tr>';
-			echo '<tr>';
-			echo '<th>Doctor</th>';
-			echo '<td>'.$doctor.'</td>';
 			echo '</tr>';
 			echo '</table>';
 		?>

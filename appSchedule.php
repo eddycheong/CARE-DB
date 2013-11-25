@@ -69,11 +69,11 @@ function buildSchedule($num, $arr) {
 		echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 		
 		$timestamp = strtotime($arr[$i]['TIME']);
-		echo '<td>'. date("G:i a", $timestamp);
+		echo '<td>'. date("g:i a", $timestamp);
 
-		$endtimestamp = mktime(date("G", $timestamp)+1, date("i", $timestamp), 0);
+		$endtimestamp = mktime(date("g", $timestamp)+1, date("i", $timestamp), 0);
 		
-		echo ' - '. date("G:i a", $endtimestamp);
+		echo ' - '. date("g:i a", $endtimestamp);
 		echo '</td>';	
 		echo '</tr>';
 	}
