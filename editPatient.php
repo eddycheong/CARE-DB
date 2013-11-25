@@ -83,8 +83,7 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute	
-			echo $query."<br>";
-			
+				
 			$s = oci_parse($c, $query);
 			$r = oci_execute($s);
 			
