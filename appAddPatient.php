@@ -83,27 +83,28 @@ function getRandomPid(){
         <?php buildMenuTab(); ?>
 	</div>
 	<div id = "content">
-		<h2> New Patient </h2>
-		<form id = "insert" method= "post">
-			<table style="margin-right: auto; margin-left: auto;">
+		<h3 id = "pagetitle"> New Patient </h3>
+		<br><br><br>
+		<form method= "post">
+			<table class = "addedit">
 				<tr>
-					<td><label for="name">Name:</label></td>
+					<th><label for="name">Name:</label></th>
 					<td><input type="text" name="pname" value "" /></td>
 				</tr>
 				<tr>
-					<td><label for="address">Address:</label></td>   
+					<th><label for="address">Address:</label></th>   
 					<td><input type="text" name="address" value "" size = "30"/></td>
 				<tr>
-					<td><label for="phone">Phone#:</label></td>   
+					<th><label for="phone">Phone#:</label></th>   
 					<td><input type="text" name="phone" value "" /></td>
 				<tr>
-					<td><label for="email">Email:</label></td>   
+					<th><label for="email">Email:</label></th>   
 					<td><input type="text" name="email" value "" /></td>
 				<tr>
-					<td><label for="carecard">Carecard#:</label></td>   
+					<th><label for="carecard">Carecard#:</label></th>   
 					<td><input type="text" name="carecard" value "" /></td>
 			</table>
-			<input type = "submit" name = "submit" value = "Submit" style="margin-top:20px;">
+			<input id = "search" type = "submit" name = "submit" value = "Submit">
 		</form>
 		
 	</div>

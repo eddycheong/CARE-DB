@@ -65,52 +65,55 @@ $pid = $_REQUEST['pid'];
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
-	<div id = "header"><br></div>
+	<div id = "header">
+		<?php attachHeader(); ?>
+	</div>
+
+	<div id = "menu-nav">
+		<?php buildMenuTab(); ?>
+	</div>
 
 	<div id = "content">
 		<?php
-		// sample code to use result from search
-			echo '<center>';
-			echo '<table border="1">';
+			echo '<table class = "pSearch">';
 			echo '<tr>';
-			echo '<td>ID</th>';
+			echo '<th>ID</th>';
 			echo '<td>'.$pid.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Name</th>';
+			echo '<th>Name</th>';
 			echo '<td>'.$pname.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Address</th>';
+			echo '<th>Address</th>';
 			echo '<td>'.$address.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Phone</th>';
+			echo '<th>Phone</th>';
 			echo '<td>'.$phone.'</td>';
 			echo '</tr>';			
 			echo '<tr>';
-			echo '<td>Email</th>';
+			echo '<th>Email</th>';
 			echo '<td>'.$email.'</td>';
 			echo '</tr>';
 			echo '<tr>';
-			echo '<td>Carecard</th>';
+			echo '<th>Carecard</th>';
 			echo '<td>'.$carecard.'</td>';
 			echo '</tr>';
 			
 			echo '<tr>';
-			echo '<td># of Appointments</th>';
+			echo '<th># of Appointments</th>';
 			echo '<td>'.$appNum.'</td>';
 			echo '</tr>';
 			
 			echo '<tr>';
-			echo '<td>Average Payment</th>';
+			echo '<th>Average Payment</th>';
 			echo '<td>$'.$fee.'.00</td>';
 			echo '</tr>';
 			echo '</table>';
-			echo '</center>';
 		
-		echo '<form  method = "post" action = "editPatient.php?pid='.$pid.'">';
-		echo	'<button type = "submit">Add Patient</button>';
+		echo '<form id = "search" method = "post" action = "editPatient.php?pid='.$pid.'">';
+		echo	'<button type = "submit">Edit Patient</button>';
 		echo	'</form>';
 		?>
 	</div>

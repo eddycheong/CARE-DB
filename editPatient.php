@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -13,9 +12,6 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] != '')) {
 	header("Location: login.php");
 }
 
-// usertype test
-$utype = getUserType();
-echo $utype;
 //=======================
 //       READ ME
 //=======================
@@ -23,7 +19,7 @@ echo $utype;
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-$pid = 3954;
+$pid = $_REQUEST['pid'];
 //GLOBAL
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -118,30 +114,47 @@ function getRandomPid(){
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<h1 style = "margin-bottom: 10;"> Change Patient Info</h1>
+		<?php attachHeader(); ?>
 	</div>
+
+	<div id = "menu-nav">
+		<?php buildMenuTab(); ?>
+	</div>
+	<h3 id = "pagetitle">Edit Patient's Profile</h3>
+	<br><br><br>
+
 	<!--<div>
 	<a href="appConfirm.php"> <input type = "submit" name = "submit" value = "Submit"></a>
 	</div>-->
 	<div id = "content">
 		<form id = "insert" method= "post">
-			<label for="name">Name:</label>   <input type="text" name="pname" value "" /><br/>
-			<label for="address">Address:</label>   <input type="text" name="address" value "" size = "30"/><br/>
-			<label for="phone">Phone#:</label>   <input type="text" name="phone" value "" /><br/>
-			<label for="email">Email:</label>   <input type="text" name="email" value "" /><br/>
-			<label for="carecard">Carecard#:</label>   <input type="text" name="carecard" value "" /><br/>
-			
-			<input type = "submit" name = "submit" value = "Submit">
+			<table class = "addedit">
+				<tr>
+					<th><label for="name">Name:</label></th>  
+					<td><input type="text" name="pname" value "" /></td>
+				</tr>
+				<tr>
+					<th><label for="address">Address:</label></th>
+					<td><input type="text" name="address" value "" size = "30"/></td>
+				</tr>
+				<tr>
+					<th><label for="phone">Phone#:</label></th>		
+					<td> <input type="text" name="phone" value "" /></td>
+				</tr>
+				<tr>
+					<th><label for="email">Email:</label></th>  
+					<td><input type="text" name="email" value "" /></td>
+				</tr>
+				<tr>
+					<th><label for="carecard">Carecard#:</label></th>   
+					<td><input type="text" name="carecard" value "" /></td>
+				</tr>
+	</table>
+				<input id = "search" type = "submit" name = "submit" value = "Submit">
 		</form>
 		
 	</div>
-	
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
 
-	<div id = "footer">
-	</div>
--->
+	<div id = "footer"></div>
 </body>
 </html>

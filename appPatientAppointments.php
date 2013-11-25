@@ -24,8 +24,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 //===================
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if(isset($_POST['pAppointment']))
-		$pid = $_POST['pAppointment'];
+	if(isset($_POST['pid']))
+		$pid = $_POST['pid'];
 
 	if(isset($_POST['CANCEL'])) {
 		$eid = $_POST['EID'];
@@ -46,13 +46,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			oci_fetch($s);
 		}
 
-		$query = "select d.ename, d.eid, p.pname, a.time, a.fee
+		$query = "select distinct d.ename, d.eid, p.pname, a.time, a.fee
 			  from appointment a, patient p
 			  inner join schedule s on p.pid = s.pid
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid and s.pid =".$pid;
 	
-		//echo $query;
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -68,12 +67,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Helper Functions
 function buildSchedule($num, $arr) {
-	echo '<table class = "center">';
+	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Doctor Name</th>';
 	echo '<th>Schedule Date</th>';
 	echo '<th>Scheduled Time</th>';
 	echo '<th>Fee</th>';
+	echo '<th></th>';
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
@@ -87,8 +87,8 @@ function buildSchedule($num, $arr) {
 		echo ' - '. date("G:i a", $endtimestamp);
 		echo '</td>';
 		echo '<td>'. $arr[$i]['FEE'] .'</td>';
-		echo '<td>';
-		echo '<form action method = "post">';
+		echo '<td style = "width: 1%;">';
+		echo '<form method = "post">';
 		echo '<input type = "hidden" name = "CANCEL" value = true>';
 		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
 		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
@@ -114,23 +114,13 @@ function buildSchedule($num, $arr) {
 	</div>
 
 	<div id = "menu-nav">
-		<div class = "menu-item">
-			<p>Schedule</p>
-			<a href = "appSchedule.php" class = "fill-link"></a>
-		</div>
-		<div class = "menu-item">
-			<p>Patient</p>
-			<a href = "appPatientSearch.php" class = "fill-link"></a>
-		</div></div>
+		<?php buildMenuTab(); ?>	
+	</div>
 	<div id = "content">
 
 		<?php buildSchedule($n_rows, $schedule); ?>
 
 	</div>
-<!-- Need to learn divs, work on UI later-->
-<!--	<div id = "leftMargin">
-	</div>
--->
 	<div id = "footer"></div>
 </body>
 </html>

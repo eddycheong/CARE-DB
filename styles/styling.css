@@ -24,12 +24,61 @@ form
 	margin-bottom: 0px;
 }
 
+table.pSearch
+{
+	text-align: center;
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%
+}
+
+.pSearch th
+{
+	background-color: #336699;
+	color: white;
+	border: none;
+}
+
+.pSearch td
+{
+	border: 1px solid #003366;
+	color: #003366;
+}
+
+#pagetitle {
+	margin-bottom: 0;
+	padding-top: 40;
+	color: #003366;
+	font-weight: bold;
+}
+
+table.addedit
+{
+	margin-top: 3%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
+}
+
+.addedit th
+{
+	border: 1px solid #003366;
+	background-color: #003366;
+	color: white;
+}
+
+.addedit td
+{
+	width: 1%;
+}
+
 table.center
 {
 	margin-top: 5%;
 	margin-left: auto;
 	margin-right: auto;
-	width: 55%;
+	width: 60%;
 }
 
 .center th
@@ -145,8 +194,9 @@ table.center
 }
 
 #footer {
+	margin-top: 5%;
 	bottom: 0;
-	background-color: #0033FF;
+	background-color: #003366;
 	height: 20px;
 	width: 100%;
 }

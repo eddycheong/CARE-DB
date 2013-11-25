@@ -19,6 +19,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
+$currentDate = date("F j, Y");
+
 //===================
 // CONNECT TO ORACLE
 //===================
@@ -28,15 +30,14 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 	// Schedule Query
 	$query = "select d.ename, p.pname, p.phone, s.time
-		  from doctor d, patient p, schedule s
-		  where p.pid = s.pid";
+		  from doctor d, patient p
+		  inner join schedule s
+		  on p.pid = s.pid
+		  where trunc(s.time) = '".date("y-m-d")."' and d.eid = s.deid";
 	if(getUserType() == "doctor")	
-		$query .= " and d.eid = s.a_eid
-			    and s.a_eid = ". $_SESSION['doctor'];
-	else
-		$query .= " and d.eid = s.a_eid";
-	$query .= " order by s.time";	
-	
+		$query .= " and s.deid = ". $_SESSION['doctor'];
+	$query .= " order by s.time";
+
 	$s = oci_parse($c, $query);
 	oci_execute($s);
 
@@ -52,7 +53,7 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 // Helper Functions
 function buildSchedule($num, $arr) {
-	echo '<table class = "center">';
+	echo '<table class = "pSearch">';
 	echo '<tr>';
 	if(!(getUserType() == "doctor"))
 		echo '<th>Doctor Name</th>';
@@ -88,7 +89,6 @@ function buildSchedule($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 
@@ -96,14 +96,13 @@ function buildSchedule($num, $arr) {
 		<?php buildMenuTab(); ?>
 	</div>
 	<div id = "content">
-
 		<?php
-		echo '<br>';
-		echo "Today's Schedule";
+		
+		echo '<h3 id = "pagetitle">'.$currentDate.'</h3>';
+
 		if($n_rows > 0)	
 			buildSchedule($n_rows, $schedule);
 		else
-			echo '<br>';
 			echo 'Currently No Schedule';
 		?>
 
