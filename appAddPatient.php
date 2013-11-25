@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -39,13 +38,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute
-		
-			
 			$query = "insert into patient values (".$pid.", '".$pname."', '".$address."', '".$phone."', '".$email."', '".$carecard."')";
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_close($c);
-			header("Location: appConfirm.php?pname=". $pname."&phone=".$phone);
+			header("Location: appConfirm.php?pid=".$pid."&pname=". $pname."&phone=".$phone);
 		
 	} else {
 		$err = oci_error();
@@ -76,7 +73,7 @@ function getRandomPid(){
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
+		<!-- <div id="error_msg"></div> -->
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">

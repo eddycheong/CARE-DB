@@ -72,6 +72,13 @@ function buildPatientList($num, $arr) {
 		echo 'Search Resulted in No Matches';
 	}
 }
+//Hacky way for passing values to appAddPatient.php
+$_SESSION['i'] = $_GET['i'];
+$_SESSION['dn'] = $_GET['dn'];
+$_SESSION['y'] = $_GET['y'];
+$_SESSION['m'] = $_GET['m'];
+$_SESSION['d'] = $_GET['d'];
+$_SESSION['h'] = $_GET['h'];
 
 ?>
 
@@ -83,7 +90,7 @@ function buildPatientList($num, $arr) {
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
+		<!-- <div id="error_msg"></div> -->
 		<?php attachHeader(); ?>
 	</div>
 
