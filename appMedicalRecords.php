@@ -140,7 +140,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Helper Functions
 function buildMedRecList($num, $arr, $patient, $patientID) {
 if($num == 0){
-echo '<table class = "center">';
+echo '<table class = "med">';
 echo '<tr>';
 echo '<td>Medical Record is not Avaliable</td>';
 echo '</tr>';
@@ -154,7 +154,7 @@ echo '<tr>';
 echo '</table>';
 }else{
 
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Medical Record for ' . $patient . '</td>';
 	echo '</tr>';
@@ -181,7 +181,7 @@ echo '</table>';
 
 function buildFHistoryList($num, $arr, $patient, $patientID){
 if ($num == 0){
-echo '<table class = "center">';
+echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Add Family History for ' . $patient . '</td>';
 	echo '</tr>';
@@ -191,7 +191,7 @@ echo '<table class = "center">';
 	echo '<th>Enter Condition</th>';
 	echo '</tr>';
 }else{
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Family History for ' . $patient . '</td>';
 	echo '</tr>';
@@ -234,7 +234,7 @@ echo '<table class = "center">';
 
 function buildPHistoryList($num, $arr, $patient,$patientID, $today){
 if ($num == 0){
-echo '<table class = "center">';
+echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Add Patient History for ' . $patient . '</td>';
 	echo '</tr>';
@@ -244,7 +244,7 @@ echo '<table class = "center">';
 	echo '<th>Date</th>';
 	echo '</tr>';
 }else{
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Patient History for ' . $patient . '</td>';
 	echo '</tr>';
@@ -286,7 +286,7 @@ echo '<table class = "center">';
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Medical Records</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">

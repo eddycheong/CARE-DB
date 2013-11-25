@@ -73,6 +73,31 @@ table.addedit
 	width: 1%;
 }
 
+table.med
+{
+	margin-top: 7%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 70%;
+}
+
+.med th
+{
+	background-color: #336699;
+	color: white;
+	border: none;
+}
+
+.med td
+{
+	border: 1px solid #003366;
+	color: #003366;
+}
+
+.med input
+{
+	width: 100%;
+}
 table.center
 {
 	margin-top: 5%;
@@ -103,6 +128,7 @@ table.center
 	background-color: #003366;
 	width: 100%;
 }
+
 #error_msg{
 	height:20px;
 	background-color: white;

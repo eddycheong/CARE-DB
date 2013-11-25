@@ -23,6 +23,8 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // CONNECT TO ORACLE
 //===================
 
+$pname = $_POST['pname'];
+
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(isset($_POST['pid']))
 		$pid = $_POST['pid'];
@@ -50,7 +52,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  from appointment a, patient p
 			  inner join schedule s on p.pid = s.pid
 			  inner join doctor d on d.eid = s.deid
-			  where a.eid = s.deid and s.pid =".$pid;
+			  where a.eid = s.deid
+				and a.time = s.time and s.pid =".$pid;
 	
 		$s = oci_parse($c, $query);
 		oci_execute($s);
@@ -117,7 +120,7 @@ function buildSchedule($num, $arr) {
 		<?php buildMenuTab(); ?>	
 	</div>
 	<div id = "content">
-
+		<h3 id = "pagetitle"><?php echo $_POST['pname'];?></h3>
 		<?php buildSchedule($n_rows, $schedule); ?>
 
 	</div>
