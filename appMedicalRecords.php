@@ -22,23 +22,23 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
 	// Obtaining Info
-	$condition = $_POST["condition"];
-	$medication = $_POST["medication"];
+	$condition = trim($_POST["condition"]);
+	$medication = trim($_POST["medication"]);
 	$pname = $_POST["pname"];
 	$today = date('y-m-d');
 	
 	$delete =$_POST["delete"];
 	$cond =$_POST["cond"];
 	
-	$allergies = $_POST["allergies"];
-	$emercontact = $_POST["emercontact"];
+	$allergies = trim($_POST["allergies"]);
+	$emercontact = trim($_POST["emercontact"]);
 	
-	$addallergies = $_POST["addallergies"];
-	$addemercontact = $_POST["addemercontact"];
+	$addallergies = trim($_POST["addallergies"]);
+	$addemercontact = trim($_POST["addemercontact"]);
 	
-	$aFname = $_POST["aFname"];
-	$aRelation = $_POST["aRelation"];
-	$aCond = $_POST["aCond"];
+	$aFname = trim($_POST["aFname"]);
+	$aRelation = trim($_POST["aRelation"]);
+	$aCond = trim($_POST["aCond"]);
 	
 	$dCond = $_POST["dCond"];
 	$dFname = $_POST["dFname"];

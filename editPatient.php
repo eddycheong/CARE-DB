@@ -19,34 +19,19 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-$pid = $_REQUEST['pid'];
+$pid = $_POST['pid'];
 
 //===================
 // CONNECT TO ORACLE
 //===================
-if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
-	// Template search query, replace table and attribute	
-	$query = "select *
-		  from patient
-		  where pid = ".$pid;
-
-	$s = oci_parse($c, $query);
-	oci_execute($s);
-	$res = oci_fetch_array($s, OCI_BOTH);
-	
-	oci_close($c);		
-} else {
-	$err = oci_error();
-	echo "Oracle Connect Error " . $err['message'];
-}
 
 if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
-	$pname = $_POST["pname"];
-	$address = $_POST["address"];
-	$phone = $_POST["phone"];
-	$email = $_POST["email"];
-	$carecard = $_POST["carecard"];
+	$pname = trim($_POST["pname"]);
+	$address = trim($_POST["address"]);
+	$phone = trim($_POST["phone"]);
+	$email = trim($_POST["email"]);
+	$carecard = trim($_POST["carecard"]);
 
 	$query = "update patient";
 	$i = 0;
@@ -98,8 +83,7 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 
 		// Template search query, replace table and attribute	
-			echo $query."<br>";
-			
+				
 			$s = oci_parse($c, $query);
 			$r = oci_execute($s);
 			
@@ -110,6 +94,23 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
 		$err = oci_error();
 		echo "Oracle Connect Error " . $err['message'];
 	}
+}
+
+if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
+
+	// Template search query, replace table and attribute	
+	$query = "select *
+		  from patient
+		  where pid = ".$pid;
+
+	$s = oci_parse($c, $query);
+	oci_execute($s);
+	$res = oci_fetch_array($s, OCI_BOTH);
+	
+	oci_close($c);		
+} else {
+	$err = oci_error();
+	echo "Oracle Connect Error " . $err['message'];
 }
 /* WILL WORK ON THIS LATER
 function getRandomPid(){
