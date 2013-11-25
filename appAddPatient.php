@@ -90,7 +90,7 @@ function getRandomPid(){
 				</tr>
 				<tr>
 					<th><label for="address">Address:</label></th>   
-					<td><input type="text" name="address" value "" size = "30"/></td>
+					<td><input type="text" name="address" value ""/></td>
 				<tr>
 					<th><label for="phone">Phone#:</label></th>   
 					<td><input type="text" name="phone" value "" /></td>
