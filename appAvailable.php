@@ -92,7 +92,7 @@ for($i=0; $i<11;$i++){
 			}
 		}
 		if($tableCreated == false){
-			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAddPatientSearch.php?i='.$doctorID.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$time.'"><b>'. $doctorName. '</b></a></td>';
+			$tableAvailable .= '<td width="50%" class="doctorAvailable available"><a id="appSlot" class="doctorTable" href="appAddPatientSearch.php?i='.$doctorID.'&dn='.$doctorName.'&y='. $new_viewingYear . '&m=' . $viewingMonth . '&d=' . $viewingDay . '&h='.$time.'"><b>'. $doctorName. '</b></a></td>';
 		}
 	}
 	$tableAvailable .= '</tr>';	

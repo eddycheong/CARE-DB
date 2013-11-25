@@ -20,8 +20,6 @@ if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-
-
 $search = $_GET['search'];
 
 //===================
@@ -60,7 +58,7 @@ function buildPatientList($num, $arr) {
 		for($i = 0; $i < $num; $i++) {
 			echo '<tr>';
 			echo '<td>'; 
-			echo '<a style = "text-decoration: none; color: #003366; font-weight: bold;" href = "appConfirm.php?pid='.$arr[$i]['PID'].'&pname='.$arr[$i]['PNAME'].'">';
+			echo '<a style = "text-decoration: none; color: #003366; font-weight: bold;" href = "appConfirm.php?i='.$_GET['i'].'&dn='.$_GET['dn'].'&y='.$_GET['y'].'&m='.$_GET['m'].'&d='.$_GET['d'].'&h='.$_GET['h'].'&pid='.$arr[$i]['PID'].'&pname='.$arr[$i]['PNAME'].'">';
 			echo $arr[$i]['PNAME'];
 			
 			echo '</a>';

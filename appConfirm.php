@@ -1,7 +1,6 @@
 <?php
 include "global.php";
 include "globalhelper.php";
-include "links.php";
 
 // Do not remove these few lines of code unless for good reasons
 // These sessions keep users remain logged in as themselves
@@ -24,11 +23,11 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] == '')) {
 	// CONNECT TO ORACLE
 	//===================
 
-$eid = $_SESSION['AppDoctorID'];
-$time = $_SESSION['AppTime'];
+$eid = $_GET['i'];
+$time = $_GET['y'] . '-' . $_GET['m'] . '-'. $_GET['d'] . ' ' . $_GET['h'] .':00:00';
 $pid =$_REQUEST['pid'];
 $pname = $_REQUEST['pname'];
-$doctor = $_SESSION['dname'];
+$doctor = $_GET['dn'];
 $fee = rand(50,150);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
