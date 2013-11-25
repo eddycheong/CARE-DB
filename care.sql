@@ -95,10 +95,16 @@ INSERT INTO patient VALUES (5543,'Terrie Pittsley','8221 Oak St.','7780345943','
 INSERT INTO patient VALUES (6357,'Inez Hollis','1677 Park Dr.','7784952031','inezhollis@hotmail.com','4101243637');
 INSERT INTO patient VALUES (3543,'Wilfred Iorio','1264 Dunbar St.','7781924825','willioro@gmail.com','8365926321');
 
+INSERT INTO patient VALUES (0, null, null, null, null, null);
+-- for delete w/o cascade
+
 INSERT INTO appointment VALUES (8923,'13-09-30 3:00:00',135, 5113);
 INSERT INTO appointment VALUES (1345,'13-10-14 11:00:00',150,1239);
 INSERT INTO appointment VALUES (7074,'13-10-25 9:00:00',85, 5543);
 INSERT INTO appointment VALUES (5515,'13-11-07 4:00:00',60, 6357);
+
+INSERT INTO appointment VALUES (20,'13-11-25 4:00:00',0, 0);
+-- for doctor's own schedule
 
 INSERT INTO schedule VALUES (2283, 8923, 5113,'13-09-30 3:00:00');
 INSERT INTO schedule VALUES (6122,1345,1239,'13-10-14 11:00:00');
