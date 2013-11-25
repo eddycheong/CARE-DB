@@ -130,5 +130,6 @@ $tableAvailable .= '</table>';
 		?>
 		<a></a>
 	</div>
+	<div id = "footer"></div>
 </body>
 </html>
