@@ -19,7 +19,7 @@ if(!(isset($_SESSION['login']) || $_SESSION['login'] != '')) {
 // For new files, (eg. newpage.php) run this command in console:
 // chmod 755 newpage.php
 
-$pid = $_REQUEST['pid'];
+$pid = $_POST['pid'];
 
 //===================
 // CONNECT TO ORACLE
@@ -42,11 +42,11 @@ if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 }
 
 if(($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['update'])) {
-	$pname = $_POST["pname"];
-	$address = $_POST["address"];
-	$phone = $_POST["phone"];
-	$email = $_POST["email"];
-	$carecard = $_POST["carecard"];
+	$pname = trim($_POST["pname"]);
+	$address = trim($_POST["address"]);
+	$phone = trim($_POST["phone"]);
+	$email = trim($_POST["email"]);
+	$carecard = trim($_POST["carecard"]);
 
 	$query = "update patient";
 	$i = 0;
