@@ -102,21 +102,22 @@ function getRandomPid(){
 			<table class = "addedit">
 				<tr>
 					<th><label for="name">Name:</label></th>
-					<td><input type="text" name="pname" value "" /></td>
+					<td><input type="text" name="pname" value "" placeholder="Your name here"/></td>
 				</tr>
 				<tr>
 					<th><label for="address">Address:</label></th>   
-					<td><input type="text" name="address" value ""/></td>
+					<td><input type="text" name="address" value "" placeholder="eg. 1234 Your St."/></td>
 				<tr>
 					<th><label for="phone">Phone#:</label></th>   
-					<td><input type="text" name="phone" value "" /></td>
+					<td><input type="text" name="phone" value "" placeholder="eg. 7781234567"/></td>
 				<tr>
 					<th><label for="email">Email:</label></th>   
-					<td><input type="text" name="email" value "" /></td>
+					<td><input type="text" name="email" value ""  placeholder="sample@gmail.com"/></td>
 				<tr>
 					<th><label for="carecard">Carecard#:</label></th>   
-					<td><input type="text" name="carecard" value "" /></td>
+					<td><input type="text" name="carecard" value "" placeholder="eg. 012345678"/></td>
 			</table>
+			
 			<input id = "search" type = "submit" name = "submit" value = "Submit">
 		</form>
 		
