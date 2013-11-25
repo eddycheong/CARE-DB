@@ -39,12 +39,12 @@ reid int,
 deid int,
 pid int,
 time timestamp(0),
-primary key(deid, time),
+primary key(reid, deid, time),
 foreign key (reid) references employee,
 foreign key (pid) references patient,
 foreign key (deid, time) references appointment on delete cascade);
 
-CREATE TABLE hasMedicalRecords(
+CREATE TABLE HAS_MEDICALRECORDS(
 pid int,
 pname char(50),
 allergies char(30),
@@ -52,23 +52,23 @@ emerContacts char(50),
 PRIMARY KEY (pid),
 FOREIGN KEY (pid) REFERENCES Patient);
 
-CREATE TABLE hasfhistory(
+CREATE TABLE HAS_FHISTORY(
 pid int,
 pname char(50),
 fname char(50),
 relation char(20),
 condition char(20),
-PRIMARY KEY (pid, fname, relation, condition),
-FOREIGN KEY (pid) REFERENCES hasMedicalRecords);
+PRIMARY KEY (pid, pname, fname, condition),
+FOREIGN KEY (pid) REFERENCES HAS_MEDICALRECORDS);
 
-CREATE TABLE containspHistory(
+CREATE TABLE CONTAINS_PHISTORY(
 pid int,
 pname char(50),
-pDate date,
+pDate char(20),
 condition char(20),
 medication char(70),
-PRIMARY KEY (pid, pDate, condition),
-FOREIGN KEY (pid) REFERENCES hasMedicalRecords);
+PRIMARY KEY (pid, pname, pDate, condition),
+FOREIGN KEY (pid) REFERENCES HAS_MEDICALRECORDS);
 
 
 INSERT INTO employee VALUES (2, 'John', '111111111', 'jsmith', 'password');
@@ -111,19 +111,19 @@ INSERT INTO schedule VALUES (6122,1345,1239,'13-10-14 11:00:00');
 INSERT INTO schedule VALUES (1121,7074,5543,'13-10-25 9:00:00');
 INSERT INTO schedule VALUES (8862,5515,6357,'13-11-07 4:00:00');
 
-INSERT INTO hasmedicalrecords VALUES (5113,'Olene Kay','penicillin','Maggie Kay : 604-333-1234');
-INSERT INTO hasmedicalrecords VALUES (1239,'Hans Difalco','N/A','Ben Difalco : 604-123-5678');
-INSERT INTO hasmedicalrecords VALUES (5543,'Terrie Pittsley','avocado,mango','Jess Diagonal : 778-555-4312');
-INSERT INTO hasmedicalrecords VALUES (6357,'Inez Hollis','penicillin','Mario Hollis : 604-676-8899');
-INSERT INTO hasmedicalrecords VALUES (3543,'Wilfred Iorio','bee venom','Daisy Iorio : 778-321-4565');
+INSERT INTO HAS_MEDICALRECORDS VALUES (5113,'Olene Kay','penicillin','Maggie Kay : 604-333-1234');
+INSERT INTO HAS_MEDICALRECORDS VALUES (1239,'Hans Difalco','N/A','Ben Difalco : 604-123-5678');
+INSERT INTO HAS_MEDICALRECORDS VALUES (5543,'Terrie Pittsley','avocado,mango','Jess Diagonal : 778-555-4312');
+INSERT INTO HAS_MEDICALRECORDS VALUES (6357,'Inez Hollis','penicillin','Mario Hollis : 604-676-8899');
+INSERT INTO HAS_MEDICALRECORDS VALUES (3543,'Wilfred Iorio','bee venom','Daisy Iorio : 778-321-4565');
 
-INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Joseph Difalco','Father','Color Blindness');
-INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Mary Difalco','Mother','Cystic Fibrosis');
-INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Alfred Difalco','Uncle','Color Blindness');
-INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Tom Difalco','Brother','Color Blindness');
-INSERT INTO hasfhistory VALUES (1239,'Hans Difalco','Sally Difalco','Sister','Haemophilia');
+INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Joseph Difalco','Father','Color Blindness');
+INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Mary Difalco','Mother','Cystic Fibrosis');
+INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Alfred Difalco','Uncle','Color Blindness');
+INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Tom Difalco','Brother','Color Blindness');
+INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Sally Difalco','Sister','Haemophilia');
 
-INSERT INTO containsphistory VALUES (5113,'Olene Kay','13-03-30','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
-INSERT INTO containsphistory VALUES (5113,'Olene Kay','13-09-20','Flu','Acetaminophin 150mg x 10 tablets');
-INSERT INTO containsphistory VALUES (1239,'Hans Difalco','13-02-13','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
-INSERT INTO containsphistory VALUES (1239,'Hans Difalco','13-11-25','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','Mar. 3, 2011','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','Sep. 20, 2012','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','Feb. 13, 2013','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','Mar. 24, 2013','Flu','Acetaminophin 150mg x 10 tablets');
