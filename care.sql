@@ -39,7 +39,7 @@ reid int,
 deid int,
 pid int,
 time timestamp(0),
-primary key(reid, deid, time),
+primary key(deid, time),
 foreign key (reid) references employee,
 foreign key (pid) references patient,
 foreign key (deid, time) references appointment on delete cascade);
