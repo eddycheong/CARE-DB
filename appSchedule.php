@@ -105,7 +105,6 @@ function buildSchedule($num, $arr) {
 		else
 			echo 'Currently No Schedule';
 		?>
-
 	</div>
 	<div id = "footer"></div>
 </body>
