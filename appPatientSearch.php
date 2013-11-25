@@ -153,7 +153,8 @@ function buildPatientList($num, $arr, $phone, $address) {
                 <?php 
                         
                                 buildPatientList($n_rows, $res, $phone, $address); ?>
-        </div>
+        
         <div id = "footer"></div>
+	</div>
 </body>
 </html>
