@@ -79,14 +79,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Helper Functions
 function buildMedRecList($num, $arr, $patient, $patientID) {
 if($num == 0){
-echo '<table class = "center">';
+echo '<table class = "med">';
 echo '<tr>';
 echo '<td>Change Mecical Record is not Avaliable</td>';
 echo '</tr>';
 echo '</table>';
 }else{
 
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Medical Record for ' . $patient . '</td>';
 	echo '</tr>';
@@ -98,8 +98,8 @@ echo '</table>';
 		echo '<tr>';
 		echo '<form method = "post" action = appMedicalRecords.php>';
 	echo '<INPUT TYPE ="hidden" NAME ="pname" value ="'.$patient.'">';
-	echo '<td><INPUT TYPE="text" NAME="allergies" SIZE="60" VALUE = "'. $arr[$i]['ALLERGIES'] .'"></td>';
-	echo '<td><INPUT TYPE="text" NAME="emercontact" SIZE="60" VALUE = "'. $arr[$i]['EMERCONTACTS'] .'"></td>';
+	echo '<td><INPUT TYPE="text" NAME="allergies" VALUE = "'. $arr[$i]['ALLERGIES'] .'"></td>';
+	echo '<td><INPUT TYPE="text" NAME="emercontact" VALUE = "'. $arr[$i]['EMERCONTACTS'] .'"></td>';
 	echo '</tr>';
 	echo '<tr>';
 	echo '<td><button type = "submit" name = "addpatient" value ="'. $patientID .'">Enter</button></td>';
@@ -114,7 +114,7 @@ echo '</table>';
 function buildFHistoryList($num, $arr, $patient, $patientID){
 if ($num == 0){
 }else{
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Family History for ' . $patient . '</td>';
 	echo '</tr>';
@@ -139,7 +139,7 @@ function buildPHistoryList($num, $arr, $patient,$patientID){
 if ($num == 0){
 
 }else{
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Patient History for ' . $patient . '</td>';
 	echo '</tr>';
