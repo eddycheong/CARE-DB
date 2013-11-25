@@ -112,9 +112,10 @@ $pid = $_REQUEST['pid'];
 			echo '</tr>';
 			echo '</table>';
 		
-		echo '<form id = "search" method = "post" action = "editPatient.php?pid='.$pid.'">';
-		echo	'<button type = "submit">Edit Patient</button>';
-		echo	'</form>';
+		echo '<form id = "search" method = "post" action = "editPatient.php">';
+		echo '<input type = "hidden" name = "pid" value= "'.$pid.'">';
+		echo '<button type = "submit">Edit Patient</button>';
+		echo '</form>';
 		?>
 	</div>
 

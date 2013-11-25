@@ -94,13 +94,14 @@ function buildPatientList($num, $arr, $phone, $address) {
                                 echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Profile</button>';
                                 echo '</form>';
                                        echo '<form method = "post" action = appPatientAppointments.php>';
-                                echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Appointments</button>';
+                                echo '<input type = "hidden" name = "pname" value = "'.$arr[$i]['PNAME'].'">';
+				echo '<button type = "submit" name = "pid" value ="'.$arr[$i]['PID'].'">View Appointments</button>';
                                 echo '</form>';
                                 echo '</td>';
                         } else {
                                 echo '<td style = "width: 150px">';
                                 echo '<form style = "text-align: center;" method = "post" action = appMedicalRecords.php>';
-                                echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
+				echo '<button type = "submit" name = "addpatient" value ="'. $arr[$i]['PID'] .'">View Medical Record</button>';
                                 echo '</form>';
                                 echo '</td>';
         
