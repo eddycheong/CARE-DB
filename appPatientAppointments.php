@@ -41,7 +41,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$query = "delete from appointment
 				  where eid = ".$eid."
 				  and time = '".$time."'";
-			echo $query;
 
 			$s = oci_parse($c, $query);
 			oci_execute($s);
@@ -54,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  inner join doctor d on d.eid = s.deid
 			  where a.eid = s.deid
 				and a.time = s.time and s.pid =".$pid;
-	
+
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
@@ -69,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildSchedule($num, $arr) {
+function buildSchedule($num, $arr, $pid, $pname) {
 	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Doctor Name</th>';
@@ -95,6 +94,8 @@ function buildSchedule($num, $arr) {
 		echo '<input type = "hidden" name = "CANCEL" value = true>';
 		echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
 		echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
+		echo '<input type = "hidden" name = "pid" value = "'.$pid.'">';
+		echo '<input type = "hidden" name = "pname" value = "'.$pname.'">';
 		echo '<button type = "submit">Cancel</button>';
 		echo '</form>';
 		echo '</td>';	
@@ -121,7 +122,7 @@ function buildSchedule($num, $arr) {
 	</div>
 	<div id = "content">
 		<h3 id = "pagetitle"><?php echo $_POST['pname'];?></h3>
-		<?php buildSchedule($n_rows, $schedule); ?>
+		<?php buildSchedule($n_rows, $schedule, $pid, $pname); ?>
 
 	</div>
 	<div id = "footer"></div>

@@ -27,7 +27,7 @@ if(isset($_SESSION['doctor']))
 	$eid = $_SESSION['doctor'];
 
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if(($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['doctor'])) {
 	if(isset($_POST['eid']))
 		$eid = $_POST['eid'];
 
@@ -59,13 +59,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$query = "select distinct p.pname, a.time
 			  from appointment a, patient p
 			  where a.pid = p.pid and a.eid =".$eid ;
-		//$query = "select * from schedule";		
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 
 		//Oracle Fetches
 		$n_rows = oci_fetch_all($s, $schedule, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-		echo $n_rows;
 
 	oci_close($c);
 
@@ -75,7 +73,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Helper Functions
-function buildSchedule($num, $arr) {
+function buildSchedule($num, $arr, $eid) {
 	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Schedule Appointment</th>';
@@ -100,8 +98,9 @@ function buildSchedule($num, $arr) {
 			echo '<td style = "width: 1%;">';
 			echo '<form method = "post">';
 			echo '<input type = "hidden" name = "CANCEL" value = true>';
-			echo '<input type = "hidden" name = "EID" value = "'.$arr[$i]['EID'].'">';
+			echo '<input type = "hidden" name = "EID" value = "'.$eid.'">';
 			echo '<input type = "hidden" name = "TIME" value = "'.$arr[$i]['TIME'].'">';
+		
 			echo '<button type = "submit">Cancel</button>';
 			echo '</form>';
 			echo '</td>';	
@@ -129,7 +128,7 @@ function buildSchedule($num, $arr) {
 	</div>
 	<div id = "content">
 		<h3 id = "pagetitle">Schedule</h3>
-		<?php buildSchedule($n_rows, $schedule); ?>
+		<?php buildSchedule($n_rows, $schedule, $eid); ?>
 
 	</div>
 	<div id = "footer"></div>
