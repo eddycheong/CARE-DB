@@ -93,11 +93,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
 <div id = "header">
-	<div id="error_msg">
-	<?php
-		echo $errmsg, "<br>";
-	?>
-	</div>
+
 	<div id="clinic_info">
 		<span><b>Welcome to CARE Clinic System</b></span><br>
 		<span>7890 Apple St. Vancouver BC</span><br>
@@ -106,6 +102,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 <div id = "menu-nav"></div>
 <div id = "content" style="padding:20px">
+<div id="error_msg">
+	<?php
+		echo $errmsg, "<br>";
+	?>
+</div>
 <center>
 	<form name = "" method = "post">
 		<span>UserName: </span>
