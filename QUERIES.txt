@@ -45,7 +45,7 @@ delete from appointment
 where eid = $eid
 and time = '$time';
 
-select distinct p.pname, a.time
+select distinct p.pname, p.pid, a.time
 from appointment a, patient p
 where a.pid = p.pid and a.eid = $eid;
 
