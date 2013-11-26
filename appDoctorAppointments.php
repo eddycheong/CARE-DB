@@ -43,19 +43,12 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['doctor'])) {
 			$query = "delete from appointment
 				  where eid = ".$eid."
 				  and time = '".$time."'";
-			echo $query;
 
 			$s = oci_parse($c, $query);
 			oci_execute($s);
 			oci_fetch($s);
 		}
 
-		/*$query = "select distinct d.ename, d.eid, p.pname, a.time
-			  from appointment a, patient p
-			  inner join schedule s on p.pid = s.pid
-			  inner join doctor d on d.eid = s.deid
-			  where a.eid = s.deid
-				and a.time = s.time and s.deid =".$eid;*/
 		$query = "select distinct p.pname, a.time
 			  from appointment a, patient p
 			  where a.pid = p.pid and a.eid =".$eid ;
@@ -74,6 +67,7 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['doctor'])) {
 
 // Helper Functions
 function buildSchedule($num, $arr, $eid) {
+	if($num > 0) {
 	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Schedule Appointment</th>';
@@ -84,7 +78,12 @@ function buildSchedule($num, $arr, $eid) {
 	echo '</tr>';
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
-		echo '<td>'. $arr[$i]['PNAME'] .'</td>';
+		echo '<td>';
+		if($arr[$i]['PID'] == 0)
+			echo 'Board Meeting';
+		else 
+			echo $arr[$i]['PNAME'];
+		echo '</td>';		
 		$timestamp = strtotime($arr[$i]['TIME']);
 		echo '<td>'. date("F j, Y", $timestamp);
 		echo '<td>'. date("G:i a", $timestamp);
@@ -108,6 +107,10 @@ function buildSchedule($num, $arr, $eid) {
 		}
 		}
 	echo '</table>';
+
+	} else {
+		echo 'Currently No Schedule';
+	}
 	}
 }
 ?>

@@ -69,6 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Helper Functions
 function buildSchedule($num, $arr, $pid, $pname) {
+	if($num > 0) {
 	echo '<table class = "pSearch">';
 	echo '<tr>';
 	echo '<th>Doctor Name</th>';
@@ -102,6 +103,9 @@ function buildSchedule($num, $arr, $pid, $pname) {
 		echo '</tr>';
 		}
 	echo '</table>';
+	} else {
+		echo 'Currently No Schedule';
+	}
 	}
 }
 ?>
