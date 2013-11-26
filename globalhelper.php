@@ -35,7 +35,7 @@ function buildMenuTab() {
 		$array = array (
 			"Home" => "appSchedule.php",
 			"Patients" => "appPatientSearch.php",
-			"Doctors" => "appDoctorSearch.php"
+			"Doctors" => "appDoctorAppointments.php"
 		);
 	}
 

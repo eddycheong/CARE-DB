@@ -30,7 +30,7 @@ $doctor = $_GET['dn'];
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if ($c = oci_connect ($ora_usr, $ora_pwd, "ug")) {
 		//echo $pid;
-		$query = "insert into appointment values (".$eid.", '".$time."', 0, null)";
+		$query = "insert into appointment values (".$eid.", '".$time."', 0, 0)";
 		$s = oci_parse($c, $query);
 		oci_execute($s);
 		if($s) echo "appointment<br>".$query."<br>";

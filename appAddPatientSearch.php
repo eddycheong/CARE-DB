@@ -56,6 +56,7 @@ function buildPatientList($num, $arr) {
 		echo '<th>Phone Number</th>';
 		echo '</tr>';
 		for($i = 0; $i < $num; $i++) {
+			if($arr[$i]['PID'] != 0) {
 			echo '<tr>';
 			echo '<td>'; 
 			echo '<a style = "text-decoration: none; color: #003366; font-weight: bold;" href = "appConfirm.php?i='.$_GET['i'].'&dn='.$_GET['dn'].'&y='.$_GET['y'].'&m='.$_GET['m'].'&d='.$_GET['d'].'&h='.$_GET['h'].'&pid='.$arr[$i]['PID'].'&pname='.$arr[$i]['PNAME'].'">';
@@ -66,6 +67,7 @@ function buildPatientList($num, $arr) {
 			echo '<td>'. $arr[$i]['ADDRESS'] .'</dh>';
 			echo '<td>'. $arr[$i]['PHONE'] .'</td>';
 			echo '</tr>';
+			}
 		}
 		echo '</table>';
 	} else {

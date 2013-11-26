@@ -35,16 +35,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 	//Typechecking
 	$err_msg = '';
 	if($pname == null)  $err_msg.= "Please enter the name.<br>";
-	if($addres == null) $err_msg.="Please enter the address.<br>";
+	if($address == null) $err_msg.="Please enter the address.<br>";
     if($phone == null) $err_msg.="Please enter the phone number.<br>";
     else{  if(strlen($phone) != 10) $err_msg.="Please enter the proper number.<br>";}
     if($email == null)  $err_msg.="Please enter the email.<br>";
     else{  if(strpos($email, '@') == false) $err_msg.="Please enter the proper email.<br>";}
     if($carecard == null) $err_msg.="Please enter the carecard number.<br>";
-    else{  if(strlen($carecard) !=9) $err_msg.= "Please enter <b>9 digits</b> of the carecard number.<br>";}
+    else{  if(strlen($carecard) !=10) $err_msg.= "Please enter <b>10 digits</b> of the carecard number.<br>";}
 
     $compare = $pname != null && $address != null && $phone != null && $email != null;
-    if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==9) {
+    if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==10) {
 
 		//===================
 		// CONNECT TO ORACLE
@@ -64,19 +64,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 		}
 	}
 }
-/* WILL WORK ON THIS LATER
-function getRandomPid(){
-	$pid = rand(1000, 9999);
-	
-	for($i=0; $i<$n_rows; $i++){
-		if($pids[$i] == $pid)
-			getRandomPid();
-		}
-		echo "working";		
-		return $pid;
-	}
-}
-*/
 ?>
 
 <!--Design the page below-->
