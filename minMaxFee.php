@@ -78,12 +78,11 @@ function buildList($num, $arr) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Payment Stats</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
 	<div id = "header">
-		<div id="error_msg"></div>
 		<?php attachHeader(); ?>
 	</div>
 	<div id = "menu-nav">

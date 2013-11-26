@@ -49,7 +49,7 @@ if(($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['doctor'])) {
 			oci_fetch($s);
 		}
 
-		$query = "select distinct p.pname, a.time
+		$query = "select distinct p.pname, p.pid, a.time
 			  from appointment a, patient p
 			  where a.pid = p.pid and a.eid =".$eid ;
 		$s = oci_parse($c, $query);

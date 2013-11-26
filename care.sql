@@ -70,6 +70,12 @@ medication char(70),
 PRIMARY KEY (pid, pname, pDate, condition),
 FOREIGN KEY (pid) REFERENCES HAS_MEDICALRECORDS);
 
+--For Nested Aggregation Query--
+CREATE VIEW Temp(id, fee) as 
+		SELECT P.pid, AVG (A.fee) AS fee
+		FROM appointment A, schedule S, patient P
+		WHERE A.eid=S.deid and A.time = S.time AND S.pid=P.pid
+		GROUP BY P.pid;
 
 INSERT INTO employee VALUES (2, 'John', '111111111', 'jsmith', 'password');
 INSERT INTO employee VALUES (20, 'Jesse Pinkmen', '123123123', 'jpinkmen', 'password');
