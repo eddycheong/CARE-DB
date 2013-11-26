@@ -79,11 +79,11 @@ function buildSchedule($num, $arr, $eid) {
 	for($i = 0; $i < $num; $i++) {
 		echo '<tr>';
 		echo '<td>';
-		if($arr[$i]['PID'] == 0)
+		if($arr[$i]['PID'] == 0){
 			echo 'Board Meeting';
-		else 
+		}else{ 
 			echo $arr[$i]['PNAME'];
-		echo '</td>';		
+		}echo '</td>';		
 		$timestamp = strtotime($arr[$i]['TIME']);
 		echo '<td>'. date("F j, Y", $timestamp);
 		echo '<td>'. date("G:i a", $timestamp);
