@@ -37,7 +37,7 @@ function createButton(){
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Appointment Type</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">

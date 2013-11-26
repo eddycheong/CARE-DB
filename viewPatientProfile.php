@@ -108,7 +108,10 @@ $pid = $_REQUEST['pid'];
 			
 			echo '<tr>';
 			echo '<th>Average Payment</th>';
-			echo '<td>$'.$fee.'.00</td>';
+			if(isset($fee))
+				echo '<td>$'.$fee.'.00</td>';
+			else
+				echo '<td>$0.00</td>';
 			echo '</tr>';
 			echo '</table>';
 		
