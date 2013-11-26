@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     else{  if(strlen($carecard) !=10) $err_msg.= "Please enter <b>10 digits</b> of the carecard number.<br>";}
 
     $compare = $pname != null && $address != null && $phone != null && $email != null;
-    if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==9) {
+    if($compare && $carecard != null && strlen($phone) == 10 && strpos($email, '@') == true && strlen($carecard) ==10) {
 
 		//===================
 		// CONNECT TO ORACLE
@@ -64,19 +64,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 		}
 	}
 }
-/* WILL WORK ON THIS LATER
-function getRandomPid(){
-	$pid = rand(1000, 9999);
-	
-	for($i=0; $i<$n_rows; $i++){
-		if($pids[$i] == $pid)
-			getRandomPid();
-		}
-		echo "working";		
-		return $pid;
-	}
-}
-*/
 ?>
 
 <!--Design the page below-->
