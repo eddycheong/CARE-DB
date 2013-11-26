@@ -129,7 +129,7 @@ INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Alfred Difalco','Uncle','C
 INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Tom Difalco','Brother','Color Blindness');
 INSERT INTO HAS_FHISTORY VALUES (1239,'Hans Difalco','Sally Difalco','Sister','Haemophilia');
 
-INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','Mar. 3, 2011','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
-INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','Sep. 20, 2012','Flu','Acetaminophin 150mg x 10 tablets');
-INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','Feb. 13, 2013','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
-INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','Mar. 24, 2013','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','11-03-03','Mono','Ibuprofen 200mg x 10 tablets, Prednisone 40mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (5113,'Olene Kay','12-09-20','Flu','Acetaminophin 150mg x 10 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','13-02-13','Carpal Tunnel','Ibuprofen 300mg x 30 tablets');
+INSERT INTO CONTAINS_PHISTORY VALUES (1239,'Hans Difalco','13-03-24','Flu','Acetaminophin 150mg x 10 tablets');
