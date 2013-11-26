@@ -52,7 +52,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Helper Functions
 function buildMedRecList($patient, $patientID) {
 
-	echo '<table class = "center">';
+	echo '<table class = "med">';
 	echo '<tr>';
 	echo '<td>Add Medical Record for ' . $patient . '</td>';
 	echo '</tr>';
@@ -82,7 +82,7 @@ function buildMedRecList($patient, $patientID) {
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Add Medical Records</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">

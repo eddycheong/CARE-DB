@@ -164,7 +164,7 @@ if ($num == 0){
 <!--Design the page below-->
 <html>
 <head>
-	<title>Template</title>
+	<title>Change Medical Records</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">

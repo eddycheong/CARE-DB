@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 	//Typechecking
 	$err_msg = '';
 	if($pname == null)  $err_msg.= "Please enter the name.<br>";
-	if($addres == null) $err_msg.="Please enter the address.<br>";
+	if($address == null) $err_msg.="Please enter the address.<br>";
     if($phone == null) $err_msg.="Please enter the phone number.<br>";
     else{  if(strlen($phone) != 10) $err_msg.="Please enter the proper number.<br>";}
     if($email == null)  $err_msg.="Please enter the email.<br>";

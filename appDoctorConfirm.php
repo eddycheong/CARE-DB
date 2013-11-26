@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <!--Design the page below-->
 <html>
 <head>
-	<title>AppConfirm</title>
+	<title>AppDoctorConfirm</title>
 	<link rel = "stylesheet" type = "text/css" href= "./styles/styling.css">
 </head>
 <body style = "text-align: center;">
