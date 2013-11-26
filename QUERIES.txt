@@ -1,0 +1,230 @@
+QUERIES
+________________________
+appAddMedicalRecords.php
+________________________
+
+select *
+from patient
+where pid = $patientID;
+
+
+_________________
+appAddPatient.php
+_________________
+
+insert into patient values
+($pid, '$pname', '$address', '$phone', '$email', '$carecard');
+
+________________
+appAvailable.php
+________________
+
+select *
+from doctor;
+
+select *
+from appointment;
+
+______________
+appConfirm.php
+______________
+
+insert into appointment values
+($eid, '$time', .$fee,$pid);
+
+insert into schedule values
+(2, $eid, $pid, '$time');
+
+_________________________
+appDoctorAppointments.php
+_________________________
+
+//// Delete Query
+
+delete from appointment
+where eid = $eid
+and time = '$time';
+
+select distinct p.pname, a.time
+from appointment a, patient p
+where a.pid = p.pid and a.eid = $eid;
+
+
+____________________
+appDoctorConfirm.php
+____________________
+
+insert into appointment values
+($eid, '$time', 0, 0);
+
+
+_____________________
+appMedicalRecords.php
+_____________________
+
+insert into contains_pHistory values
+($patientID, '$pname','$today','$condition','$medication');
+
+delete from contains_pHistory 
+where pid = '$patientID' and condition ='$cond' and pdate ='$delete';
+
+insert into has_fHistory values
+($patientID, '$pname','$aFname','$aRelation','$aCond');
+
+delete from contains_pHistory
+where pid = '$patientID' and condition ='$cond' and pdate ='$delete';
+
+insert into has_fHistory values
+($patientID, '$pname','$aFname','$aRelation','$aCond');
+
+delete from has_fHistory
+where pid = '$patientID' and condition ='$dCond' and fname ='$dFname';
+
+insert into has_medicalrecords values
+($patientID, '$pname', '$addallergies', '$addemercontact');
+
+select *
+from has_medicalrecords
+where pid = $patientID;
+
+select *
+from has_fhistory
+where pid = $patientID;
+
+select *
+from contains_phistory
+where pid = $patientID;
+
+
+__________________________
+appPatientAppointments.php
+__________________________
+
+select distinct d.ename, d.eid, p.pname, a.time, a.fee
+from appointment a, patient p
+inner join schedule s on p.pid = s.pid
+inner join doctor d on d.eid = s.deid
+where a.eid = s.deid
+and a.time = s.time and s.pid = .$pid;
+
+____________________
+appPatientSearch.php
+____________________
+
+//// Division Query
+
+select $list 
+from patient
+where not exists (
+	select eid
+	from doctor
+	where eid not in (
+		select eid
+		from appointment
+		where patient.pid = appointment.pid));
+
+select $list 
+from patient;
+
+_______________
+appSchedule.php
+_______________
+
+select d.ename, p.pname, p.phone, s.time
+from doctor d, patient p
+inner join schedule s
+on p.pid = s.pid
+where trunc(s.time) = '".date("y-m-d")."' and d.eid = s.deid and s.deid = ". $_SESSION['doctor']
+order by s.time;
+
+//// Join Query
+
+select d.ename, p.pname, p.phone, s.time
+from doctor d, patient p
+inner join schedule s
+on p.pid = s.pid
+where trunc(s.time) = '".date("y-m-d")."' and d.eid = s.deid
+order by s.time;
+
+_______________
+editPatient.php
+_______________
+
+
+//// Update Query
+
+update patient set pname = '$pname', address = '$address', phone = '.$phone', email = '$email', carecard = '$carecard' 
+where pid = $pid;
+
+________________
+globalhelper.php
+________________
+
+//// Selection & Projection Query
+
+select $list
+from $table
+where regexp_like($attr, $arr[$i], 'i');
+
+_________
+login.php
+_________
+
+select loginid
+from employee
+where loginid = '$uname' and
+password = '$pword'
+union
+select loginid
+from doctor
+where loginid = '$uname'  and
+password = '$pword';
+
+_____________
+minMaxFee.php
+_____________
+
+
+//// Nested Aggregation Query
+
+// Inside SQL
+create view Temp(id, fee) as 
+SELECT P.pid, AVG (A.fee) AS fee
+FROM appointment A, schedule S, patient P
+WHERE A.eid=S.deid and A.time = S.time and S.pid=P.pid
+GROUP BY P.pid;
+
+
+Select Temp.id, P.pname, Temp.fee
+From Temp, patient P
+WHERE Temp.fee in ( SELECT $_REQUEST['mm'] (Temp.fee)
+ 			FROM Temp) and Temp.id =P.pid;
+
+////
+
+Select Temp.id, P.pname, Temp.fee 
+From Temp, patient P 
+Where Temp.id =P.pid;
+
+______________________
+viewPatientProfile.php
+______________________
+
+select * 
+from patient 
+where pid = $pid;
+
+
+//// Aggregation Query
+
+select count(distinct time) as num 
+from appointment a, patient p 
+where a.pid = p.pid AND p.pid = $pid;
+
+select avg(fee) as avgfee 
+from appointment a, patient p 
+where a.pid=p.pid AND p.pid= $pid;
+
+
+
+
